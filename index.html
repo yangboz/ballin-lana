@@ -1,119 +1,107 @@
 <!DOCTYPE html>
-<title>PeopelCounting-BarChart</title>
+<title>People Counting Web Demo</title>
 <meta charset="utf-8">
 <style>
-	body {
-		font: 10px sans-serif;
-	}
-
-	.axis path, .axis line {
-		fill: none;
-		stroke: #000;
-		shape-rendering: crispEdges;
-	}
-
-	.bar {
-		fill: orange;
-	}
-
-	.bar:hover {
-		fill: orangered;
-	}
-
-	.x.axis path {
-		display: none;
-	}
-
-	.d3-tip {
-		line-height: 1;
-		font-weight: bold;
-		padding: 12px;
-		background: rgba(0, 0, 0, 0.8);
-		color: #fff;
-		border-radius: 2px;
-	}
-
-	/* Creates a small triangle extender for the tooltip */
-	.d3-tip:after {
-		box-sizing: border-box;
-		display: inline;
-		font-size: 10px;
-		width: 100%;
-		line-height: 1;
-		color: rgba(0, 0, 0, 0.8);
-		content: "\25BC";
-		position: absolute;
-		text-align: center;
-	}
-
-	/* Style northward tooltips differently */
-	.d3-tip.n:after {
-		margin: -1px 0 0 0;
-		top: 100%;
-		left: 0;
-	}
 </style>
 <body>
-	<script src="js/environment.js"></script>
-	<script src="js/utils.js"></script>
-	<script src="js/d3.v3.js"></script>
-	<script src="js/d3.tip.min.js"></script>
-	<script src="js/jquery-1.7.1.min.js"></script>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+	
+	<script type="text/javascript" src="js/environment.js"></script>
+	<script type="text/javascript" src="js/utils.js"></script>
+	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery.video-ui.js"></script>
+	
 	<script type="text/javascript">
-	//D3JS examples: http://techslides.com/over-1000-d3-js-examples-and-demos/
-	//Code ref: http://bl.ocks.org/Caged/6476579
-	//Code ref: http://bl.ocks.org/mbostock/3887051
-		var margin = {
-			top : 40,
-			right : 20,
-			bottom : 30,
-			left : 40
-		}, width = 960 - margin.left - margin.right, height = 500 - margin.top - margin.bottom;
-
-		var formatPercent = d3.format("s");
-
-		var x = d3.scale.ordinal().rangeRoundBands([0, width], .1);
-
-		var y = d3.scale.linear().range([height, 0]);
-
-		var xAxis = d3.svg.axis().scale(x).orient("bottom");
-
-		var yAxis = d3.svg.axis().scale(y).orient("left").tickFormat(formatPercent);
-
-		var tip = d3.tip().attr('class', 'd3-tip').offset([-10, 0]).html(function(d) {
-			return "<strong>PersonID:</strong> <span style='color:red'>" + d.personID + "</span>";
-		})
-		var svg = d3.select("body").append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-		svg.call(tip);
-		var dataCenterURL = VICA.ConfigHandler.getValue('static')+VICA.ConfigHandler.getValue('relativeUrl');
-		console.log("dataCenterURL:",dataCenterURL);
-		d3.xhr(dataCenterURL, 'application/json', function(error, data) {
-			var jsonObj = $.parseJSON(data.response);
-			console.log("d3.json callback:",jsonObj);
-			x.domain(jsonObj.map(function(d) {
-				return d.personID;
-			}));
-			y.domain([0, d3.max(jsonObj, function(d) {
-				return d.duration;''
-			})]);
-			svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")").call(xAxis);
-
-			svg.append("g").attr("class", "y axis").call(yAxis).append("text").attr("transform", "rotate(-90)").attr("y", 6).attr("dy", ".71em").style("text-anchor", "end").text("Duration");
-
-			svg.selectAll(".bar").data(jsonObj).enter().append("rect").attr("class", "bar").attr("x", function(d) {
-				return x(d.personID);
-			}).attr("width", x.rangeBand()).attr("y", function(d) {
-				return y(d.duration);
-			}).attr("height", function(d) {
-				return height - y(d.duration);
-			}).on('mouseover', tip.show).on('mouseout', tip.hide)
-
-		});
-		
-		function type(d) {
-			d.duration = +d.duration;
-			return d;
-		}
 
 	</script>
+	
+<ol class="breadcrumb">
+  <li><a href="#">Main Page</a></li>
+</ol>
+
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#">People Monitor</a></li>
+  <li><a href="#">Software Download</a></li>
+</ul>
+
+<p></p>
+
+<div class="panel panel-default">
+  <div class="panel-heading">Face Counting: Descriptions: text text text</div>
+  <div class="panel-body">
+    <div class="media">
+	  <a class="pull-left" href="#">
+	    <div class="videoUiWrapper thumbnail">
+		  <video width="370" height="214" id="demo1">
+		    <source src="pathtovideo/video.ogv" type="video/ogg"> 
+		    Your browser does not support the video tag.
+		  </video>
+		</div>
+	  </a>
+	  <div class="media-body">
+	    <nav>
+		  <ul class="nav nav-pills nav-stacked span2">
+			<li><a href="#">Analysis data</a></li>
+			<li><a href="#">Flow chart</a></li>
+			<li><a href="#">Extracted faces</a></li>
+		  </ul>
+		</nav>
+	  </div>
+	</div>
+  </div>
+  <div class="panel-footer">Subway video</div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">Head Counting: Descriptions: text text text</div>
+  <div class="panel-body">
+    <div class="media">
+	  <a class="pull-left" href="#">
+	    <div class="videoUiWrapper thumbnail">
+		  <video width="370" height="214" id="demo2">
+		    <source src="pathtovideo/video.mp4" type="video/mp4">
+		    Your browser does not support the video tag.
+		  </video>
+		</div>
+	  </a>
+	  <div class="media-body">
+	    <nav>
+		  <ul class="nav nav-pills nav-stacked span2">
+			<li><a href="#">Analysis data</a></li>
+		  </ul>
+		</nav>
+	  </div>
+	</div>
+  </div>
+  <div class="panel-footer">Bank video</div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">Face Recognition: Descriptions: text text text</div>
+  <div class="panel-body">
+    <div class="media">
+	  <a class="pull-left" href="#">
+	    <div class="videoUiWrapper thumbnail">
+		  <video width="370" height="214" id="demo3">
+		    <source src="pathtovideo/video.mp4" type="video/mp4">
+		    Your browser does not support the video tag.
+		  </video>
+		</div>
+	  </a>
+	  <div class="media-body">
+	    <nav>
+		  <ul class="nav nav-pills nav-stacked span2">
+			<li><a href="#">Analysis data</a></li>
+			<li><a href="#">Extracted faces</a></li>
+		  </ul>
+		</nav>
+	  </div>
+	</div>
+  </div>
+  <div class="panel-footer">News video</div>
+</div>
