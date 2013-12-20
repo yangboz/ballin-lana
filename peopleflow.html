@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" lang="de" content="Zeitleiste, Zeitlinie, Zeitkarte, Geschichte, Chronologie">
+    <meta name="keywords" lang="en" content="Timeline, Timemap, History, Chronology">
+    <title>TimelineChart-PeopelFlow-Counting</title>
+	
+	<script src="js/environment.js"></script>
+	<script src="js/utils.js"></script>
+    <!-- That's my local d3 path. When working locally, use your local path. -->
+    <!--<script src="../../../lib/d3/d3.v3.js"></script>-->
+
+    <!-- That's the 'official' path. Comment out, when working locally. -->
+    <script src="js/d3.v3.js"></script>
+    <script src="js/jquery-1.7.1.min.js"></script>
+
+    <!-- Store these two files in your application directory or on your path. -->
+    <script src="js/timeline.js"></script>
+    <script src="js/cubism.v1.js"></script>
+    <link href="css/timeline.css" rel="stylesheet" type="text/css" />
+	<style>
+		div#selection_line
+		{
+		    position: absolute;
+		    z-index: 10;
+		    top: 30px;
+		
+		    width: 1px;
+		    height: 380px;
+		
+		    background-color: rgba(0, 0, 0, 0.6);
+		}
+		/*
+		 * HTML5 progress bar style.
+		 * @See:http://html5doctor.com/demos/progress/progress-element.html
+		 */
+		.determinate {
+			color:#0063a6;
+			font-size:.6em;
+			line-height:1.5em;
+			text-indent:.5em;
+			width:15em;
+			height:1.8em;
+			border:1px solid #0063a6;
+			background:#fff;
+		}
+		.determinate::-webkit-progress-bar { background:#fff; }		
+		.determinate::-webkit-progress-value, progress::-moz-progress-bar { background:#0063a6; }
+	</style>
+</head>
+
+<body>
+<div id="selection_line"/></div>
+<span>PeopleCounting:</span>
+<progress id='pBar_cur_people_num' class='determinate' value='0' max='1000'><span>0</span></progress>
+<span id="span_cur_people_num">0</span>/<span id="span_total_people_num">000</span>
+<div id="timeline" style="width:920px;"></div>
+<script>
+	//Get inspired: http://square.github.io/cubism/
+    /*  You need a domElement, a sourceFile and a timeline.
+
+        The domElement will contain your timeline.
+        Use the CSS convention for identifying elements,
+        i.e. "div", "p", ".className", or "#id".
+
+        The sourceFile will contain your data.
+        If you prefer, you can also use tsv, xml, or json files
+        and the corresponding d3 functions for your data.
+
+
+        A timeline can have the following components:
+
+        .band(bandName, sizeFactor
+            bandName - string; the name of the band for references
+            sizeFactor - percentage; height of the band relation to the total height
+            Defines an area for timeline items.
+            A timeline must have at least one band.
+            Two bands are necessary, to change the selected time interval.
+            Three and Bands are allowed.
+
+        .xAxis(bandName)
+            bandName - string; the name of the band the xAxis will be attached to
+            Defines an xAxis for a band to show the range of the band.
+            This is optional, but highly recommended.
+
+        .labels(bandName)
+            bandName - string; the name of the band the labels will be attached to
+            Shows the start, length and end of the range of the band.
+            This is optional.
+
+        .tooltips(bandName)
+            bandName - string; the name of the band the labels will be attached to
+            Shows current start, length, and end of the selected interval of the band.
+            This is optional.
+
+        .brush(parentBand, targetBands]
+            parentBand - string; the band that the brush will be attached to
+            targetBands - array; the bands that are controlled by the brush
+            Controls the time interval of the targetBand.
+            Required, if you want to control/change the selected time interval
+            of one of the other bands.
+
+        .redraw()
+            Shows the initial view of the timeline.
+            This is required.
+
+        To make yourself familiar with these components try to
+        - comment out components and see what happens.
+        - change the size factors (second arguments) of the bands.
+        - rearrange the definitions of the components.
+    */
+
+    // Define domElement and sourceFile
+    var domElement = "#timeline";
+    var sourceFile = "data/philosophers.csv";
+    //Constants
+	var dataCenterURL = VICA.ConfigHandler.getValue('static')+VICA.ConfigHandler.getValue('relativeUrl');
+	console.log("dataCenterURL:",dataCenterURL);
+	// Utility
+	var parseDate = d3.time.format("%d/%m/%Y-%H:%M:%S").parse;
+    // Read in the data and construct the time line
+    d3.xhr(dataCenterURL, 'application/json', function(error, data) {
+    //d3.csv(sourceFile, function(dataset) {
+		jsonObj = $.parseJSON(data.response);
+		//Update the total number of people counting results.
+		$("#span_total_people_num").text(jsonObj.length);
+		$("#pBar_cur_people_num").attr("max",jsonObj.length);
+		//JSON data assemble for time line components.
+		jsonObj.forEach(function(d) {
+				//console.log(d.start_time,parseDate(d.start_time));
+				// d.start = parseDate(d.start_time);
+				d.start = d.start_time;
+				// d.end = parseDate(d.end_time);
+				d.end = d.end_time;
+				d.label = d.personID;
+		});
+		// console.log("jsonObj:",jsonObj);
+        timeline(domElement)
+            .data(jsonObj)
+            .band("mainBand", 0.82)
+            .band("naviBand", 0.08)
+            .xAxis("mainBand")
+            .tooltips("mainBand")
+            .xAxis("naviBand")
+            .labels("mainBand")
+            .labels("naviBand")
+            .brush("naviBand", ["mainBand"],dataCenterURL)
+            .metricLine(false)
+            .redraw();
+
+    });
+
+</script>
+
+</body>
+
+</html>
