@@ -5,7 +5,7 @@ The solution minute detailed in detail by the side of PHP server as following:
 #2. getStartTimeMin();// Query DB, get the minimum start time of any personID;
 #3. getEndTimeMax();//  Query DB, get the maximum end time of any personID;
 #4. getGapPoints($time_gap_get,$min_start_time,$max_end_time,$resultsArr_personIDs);// Get the gap points dataset, take the startTimeMin,endTimeMax,personIDs as parameters to computation;
-#4.1. calculate the date period aka time interval, which comes from user’s URL input.
+#4.1. calculate the date period aka time interval, which comes from userï¿½s URL input.
 $interval = new DateInterval('PT' . $interval . 'M');
 $period = new DatePeriod($startTime, $interval, $endTime);
 #4.2. for each of time interval.
@@ -22,12 +22,13 @@ Backlog:
 @see:http://15.185.109.31/vica_web/groupedBarChart.html
 @author:zhou.yangbo@hp.com
 */
-//TimeZone setting.
-date_default_timezone_set('UTC');
-// Connect to an ODBC database using driver invocation
-define('DSN', 'sqlite:Uploads/vica_dev.db');
-define('USER_NAME', NULL);
-define('PASS_WORD', NULL);
+// //TimeZone setting.
+// date_default_timezone_set('UTC');
+// // Connect to an ODBC database using driver invocation
+// define('DSN', 'sqlite:Uploads/vica_dev.db');
+// define('USER_NAME', NULL);
+// define('PASS_WORD', NULL);
+include("settings.php");
 // $dsn = 'sqlite:Uploads/vica_dev.db';
 // $user = null;
 // $password = null;
