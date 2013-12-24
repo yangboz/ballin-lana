@@ -1,14 +1,15 @@
 <?php
-//TimeZone setting.
-date_default_timezone_set('UTC');
-// Connect to an ODBC database using driver invocation
-$dsn = 'sqlite:Uploads/vica_dev.db';
-$user = null;
-$password = null;
+// //TimeZone setting.
+// date_default_timezone_set('UTC');
+// // Connect to an ODBC database using driver invocation
+// $dsn = 'sqlite:Uploads/vica_dev.db';
+// $user = null;
+// $password = null;
+include("settings.php");
 //
 try {
 	//
-	$dbh = new PDO($dsn, $user, $password);
+	$dbh = new PDO(DSN, USER_NAME, PASS_WORD);
  	$dbh ->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	//echo 'PDO Connection  OK!','';
 	$dbh -> beginTransaction();
