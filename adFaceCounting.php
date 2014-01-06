@@ -6,6 +6,7 @@
 // $user = null;
 // $password = null;
 include("settings.php");
+ header("Access-Control-Allow-Origin: *");
 //
 try {
 	//
@@ -13,7 +14,7 @@ try {
  	$dbh ->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	//echo 'PDO Connection  OK!','';
 	$dbh -> beginTransaction();
-	$sth = $dbh -> prepare('SELECT idvica_facetracking,x,y,personID,width,height,appear_time FROM vica_facetracking');
+	$sth = $dbh -> prepare('SELECT idvica_facetracking,personID,start_frame,end_frame FROM vica_facetracking');
 	$sth -> execute();
 	//for JSON output
 	$resultsArr = array();
@@ -23,13 +24,10 @@ try {
 	//customize results assembling.
 	for ($i = 0; $i < $count; $i++) {
 		// print_r($result[$i]);
-		$resultsArr[$i]["appear_time"] = $result[$i]["appear_time"];
-		$resultsArr[$i]["height"] = $result[$i]["height"];
 		$resultsArr[$i]["idvica_facetracking"] = $result[$i]["idvica_facetracking"];
 		$resultsArr[$i]["personID"] = $result[$i]["personID"];
-		$resultsArr[$i]["width"] = $result[$i]["width"];
-		$resultsArr[$i]["x"] = $result[$i]["x"];
-		$resultsArr[$i]["y"] = $result[$i]["y"];
+		$resultsArr[$i]["start_frame"] = $result[$i]["start_frame"];
+		$resultsArr[$i]["end_frame"] = $result[$i]["end_frame"];
 	}
 	//Return vica_facetracking results.
 	echo json_encode($resultsArr);
