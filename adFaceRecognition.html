@@ -1,80 +1,116 @@
 <!DOCTYPE html>
-<title>People Counting Web Demo</title>
-<meta charset="utf-8">
-<style>
-</style>
-<body>
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
-	<!-- Optional theme -->
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
-	<!-- Latest compiled and minified JavaScript -->
-	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<html>
+	<head>
+		<title>People Counting Web Demo</title>
+		<meta charset="utf-8">
+	</head>
+	<body>
+		<!-- Latest compiled and minified CSS -->
+		<script type="text/javascript" src="js/environment.js"></script>
+		<script type="text/javascript" src="js/utils.js"></script>
+		<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="js/jquery.video-ui.js"></script>
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="bootstrap/bootstrap-theme.min.css">
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="bootstrap/bootstrap.min.js"></script>
+		
+		<link rel="stylesheet" href="css/layout.css"/>
+		
+		<script type="text/javascript">
+			$(document).ready(function(){
+				//in minutes
+				var dataCenterURL = VICA.ConfigHandler.getValue('static') + "/vica_web/adFaceRecognition.php";
+				// and remember the jqXHR object for this request
+				var jqxhr = $.ajax( dataCenterURL )
+				  .done(function(data) {
+				    //alert( "success" );
+				    var data = $.parseJSON(data);
+				    console.log("Face Recognition data:",data);
+				    $.each(data, function(i,item){
+				    	// console.log(i,item);
+	                	$('#tabel_adFaceRecognition > tbody:last').append('<tr  data-row-key='+item['idvica_facerecognition']+' id='+ item['idvica_facerecognition'] +'>'
+	                	+'<td>'+item['idvica_facerecognition']+'</td>'
+	                	+'<td>'+item['faceID']+'</td>'
+	                	+'<td>'+item['person_name']+'</td>'
+	                	+'<td>'+item['start_frame']+'</td>'
+	                	+'<td>'+item['end_frame']+'</td>'
+	                	+'<td onclick="demo('+ item['idvica_facerecognition'] +')">'+"<button>View</button>"+'</td>'
+	                	+'</tr>');
+	        		});
+				  })
+				  .fail(function() {
+				    //alert( "error" );
+				  })
+				  .always(function() {
+				    //alert( "complete" );
+				  });
+			});
+		</script>
+		
+	<ol class="breadcrumb">
+	  <li><a href="index.html">Main Page</a></li>
+	  <li><a href="#">Head Counting</a></li>
+	  <li class="active">Analysis Data</li>
+	</ol>
 	
-	<script type="text/javascript" src="js/environment.js"></script>
-	<script type="text/javascript" src="js/utils.js"></script>
-	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
-	<script type="text/javascript" src="js/jquery.video-ui.js"></script>
-	
-	<script type="text/javascript">
-	</script>
-	
-<ol class="breadcrumb">
-  <li><a href="index.html">Main Page</a></li>
-  <li><a href="#">Face Recognition</a></li>
-  <li class="active">Analysis Data</li>
-</ol>
-
-<div class="panel panel-primary">
-  <div class="panel-heading">Head Counting: Descriptions: text text text</div>
-  <div class="panel-body">
-    <div class="media">
-	  <a class="pull-left" href="#">
-	    <div class="videoUiWrapper thumbnail">
-		  <video width="370" height="214" id="demo3">
-		    <source src="http://ia700305.us.archive.org/18/items/CopyingIsNotTheft/CINT_Nik_H264_720_512kb.mp4" type="video/mp4">
-		    Your browser does not support the video tag.
-		  </video>
+	<div class="panel panel-primary">
+	  <div class="panel-heading">Head Counting: Descriptions: text text text</div>
+	  <div class="panel-body">
+	  	<div id="wrap" class="media">
+			<div id="left_a">
+				<a class="pull-left" href="#">
+			    <div class="videoUiWrapper thumbnail" style="position:fixed; left:0; width:320;">
+				  <video width="370" height="214" id="demo3">
+				    <source src="http://ia700305.us.archive.org/18/items/CopyingIsNotTheft/CINT_Nik_H264_720_512kb.mp4" type="video/mp4">
+				    Your browser does not support the video tag.
+				  </video>
+				</div>
+			  </a>
+			</div>
+			<div id="right_a" class="media-body">
+			    <!-- Table -->
+				<table  id="tabel_adFaceRecognition" class="table table-striped table-condensed">
+		          <thead>
+		            <tr>
+		              <th>#</th>
+		              <th>Face id</th>
+		              <th>Person name</th>
+		              <th>Start frmae</th>
+		              <th>End frame</th>
+		              <th>View</th>
+		            </tr>
+		          </thead>
+		          <tbody>
+		          </tbody>
+		        </table>
+			</div>
+			 <div class="clear">
+			 	
+			 </div>   
 		</div>
-	  </a>
-	  <div class="media-body">
-	    <!-- Table -->
-		 <table class="table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Face id</th>
-              <th>Name</th>
-              <th>Start frame</th>
-              <th>End frame</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Mark</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Jacob</td>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Larry</td>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-            </tr>
-          </tbody>
-        </table>
-	  </div>
-	</div>
-  </div>
-  <div class="panel-footer">News video</div>
-</div>
+			  
+		</div>
+  	</div>
+		    
+	  <div class="panel-footer">News video</div>
+		<script type="text/javascript">
+		  	 function demo(tr_id)
+		  	 {
+		         // var count=0;
+		         var elem=document.getElementById(tr_id);
+		         // alert(elem);
+		         var s=elem.cells;
+		         // for (j=0; j < elem.cells.length; j++) { 
+// 		         	
+		                // alert(s[j].innerText);
+		            // count++;
+		        // }
+		        alert(s[2].innerText+"_"+s[3].innerText);
+		  	 }
+		  	
+		</script>
+	</body>
+</html>

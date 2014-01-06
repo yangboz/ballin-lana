@@ -1,81 +1,97 @@
 <!DOCTYPE html>
-<title>People Counting Web Demo</title>
-<meta charset="utf-8">
-<style>
-</style>
-<body>
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
-	<!-- Optional theme -->
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
-	<!-- Latest compiled and minified JavaScript -->
-	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<html>
+	<head>
+		<title>People Counting Web Demo</title>
+		<meta charset="utf-8">
+	</head>
+	<body>
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+		
+		<script type="text/javascript" src="js/environment.js"></script>
+		<script type="text/javascript" src="js/utils.js"></script>
+		<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="js/jquery.video-ui.js"></script>
+		<link rel="stylesheet" href="css/layout.css"/>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				//in minutes
+				var dataCenterURL = VICA.ConfigHandler.getValue('static') + "/vica_web/extractedFaceCounting.php";
+				// and remember the jqXHR object for this request
+				var jqxhr = $.ajax( dataCenterURL )
+				  .done(function(data) {
+				    // alert( "success" );
+				    var data = $.parseJSON(data);
+				    console.log("Extracted Face Counting data:",data);
+				    $.each(data, function(i,item){
+				    	// console.log(i,item);
+	                	$('.media-body').append('<div class="col-lg-2 col-md-4 col-xs-6 thumb>'
+	                		+'<div class="thumbnail" href="#">'
+	                			+'<img class="img-responsive" src='+item['face_path']+'>'
+	                			+'<div class="caption">'
+										+"<p>You can click the image to check this guy</p>"
+										+'<p><button onclick="demo('+item['start_frame']+','+item['end_frame']+')">View</button></p>'
+                				+'</div>'
+                			+'</div>'
+            			+'</div>');
+	        		});
+				  })
+				  .fail(function() {
+				    //alert( "error" );
+				  })
+				  .always(function() {
+				    //alert( "complete" );
+				  });
+			});
+		</script>
+			
+		<ol class="breadcrumb">
+		  <li><a href="index.html">Main Page</a></li>
+		  <li><a href="#">Face Counting</a></li>
+		  <li class="active">Extracted Faces</li>
+		</ol>
 	
-	<script type="text/javascript" src="js/environment.js"></script>
-	<script type="text/javascript" src="js/utils.js"></script>
-	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
-	<script type="text/javascript" src="js/jquery.video-ui.js"></script>
-	
-	<script type="text/javascript">
-	</script>
-	
-<ol class="breadcrumb">
-  <li><a href="index.html">Main Page</a></li>
-  <li><a href="#">Face Counting</a></li>
-  <li class="active">Extracted Faces</li>
-</ol>
+		<div class="panel panel-primary">
+		  <div class="panel-heading">Face Counting: Descriptions: text text text</div>
+		  <div class="panel-body">
+		  	
+		  	<div id="wrap" class="media">
+		  		<div id="left_a">
+		  			<a class="pull-left" href="#">
+			            <div class="videoUiWrapper thumbnail" style="position:fixed; left:0; width:320;">
+			                  <video width="370" height="214" id="demo3">
+			                    <source src="http://ia700305.us.archive.org/18/items/CopyingIsNotTheft/CINT_Nik_H264_720_512kb.mp4" type="video/mp4">
+			                    Your browser does not support the video tag.
+			                  </video>
+			            </div>
+			        </a>
+		  		</div>
+		  		<div id="right_a">
+		  			<div class="media-body">
+		            <!-- Row -->
+		          
+		            </div>
+		  		</div>
+		  		<div class="clear">
+		  			
+		  		</div>
+		  	</div>
+		  	</div>
+		  <div class="panel-footer">News video</div>
+		  </div>
+		 
+			<script type="text/javascript">
+			  	 function demo(s_f,e_f)
+			  	 {
+			  	 	
+			        alert(s_f+"_"+e_f);
+			  	 }
+			</script>
+	</body>
+</html>
 
-<div class="panel panel-primary">
-  <div class="panel-heading">Face Counting: Descriptions: text text text</div>
-  <div class="panel-body">
-    <div class="media">
-	  <a class="pull-left" href="#">
-	    <div class="videoUiWrapper thumbnail">
-		  <video width="370" height="214" id="demo3">
-		    <source src="http://ia700305.us.archive.org/18/items/CopyingIsNotTheft/CINT_Nik_H264_720_512kb.mp4" type="video/mp4">
-		    Your browser does not support the video tag.
-		  </video>
-		</div>
-	  </a>
-	  <div class="media-body">
-	    <!-- Row -->
-	    <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-          <a class="thumbnail" href="#"><img class="img-responsive" src="http://placehold.it/100x100"></a>
-        </div>
-        <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-          <a class="thumbnail" href="#"><img class="img-responsive" src="http://placehold.it/100x100"></a>
-        </div>
-        <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-          <a class="thumbnail" href="#"><img class="img-responsive" src="http://placehold.it/100x100"></a>
-        </div>
-        <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-          <a class="thumbnail" href="#"><img class="img-responsive" src="http://placehold.it/100x100"></a>
-        </div>
-        <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-          <a class="thumbnail" href="#"><img class="img-responsive" src="http://placehold.it/100x100"></a>
-        </div>
-        <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-          <a class="thumbnail" href="#"><img class="img-responsive" src="http://placehold.it/100x100"></a>
-        </div>
-        <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-          <a class="thumbnail" href="#"><img class="img-responsive" src="http://placehold.it/100x100"></a>
-        </div>
-        <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-          <a class="thumbnail" href="#"><img class="img-responsive" src="http://placehold.it/100x100"></a>
-        </div>
-        <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-          <a class="thumbnail" href="#"><img class="img-responsive" src="http://placehold.it/100x100"></a>
-        </div>
-        <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-          <a class="thumbnail" href="#"><img class="img-responsive" src="http://placehold.it/100x100"></a>
-        </div>
-        <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-          <a class="thumbnail" href="#"><img class="img-responsive" src="http://placehold.it/100x100"></a>
-        </div>
-        <div class="col-lg-2 col-md-4 col-xs-6 thumb">
-          <a class="thumbnail" href="#"><img class="img-responsive" src="http://placehold.it/100x100"></a>
-        </div>
-	</div>
-  </div>
-  <div class="panel-footer">News video</div>
-</div>
+	

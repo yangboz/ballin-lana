@@ -1,113 +1,119 @@
 <!DOCTYPE html>
-<title>People Counting Web Demo</title>
-<meta charset="utf-8">
-<style>
-</style>
-<body>
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
-	<!-- Optional theme -->
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
-	<!-- Latest compiled and minified JavaScript -->
-	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-	
-	<script type="text/javascript" src="js/environment.js"></script>
-	<script type="text/javascript" src="js/utils.js"></script>
-	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
-	<script type="text/javascript" src="js/jquery.video-ui.js"></script>
-	
-	<script type="text/javascript">
-	//@see:http://html5-ninja.com/preview/5
-        // $('#demo1').videoUI();
-        $('#demo1').videoUI({
-		  'autoHide':false,
-		  'volumeMedia': 0.75
-		});
-        // $('#demo3').videoUI();
-	</script>
-	
-<ol class="breadcrumb">
-  <li><a href="#">Main Page</a></li>
-</ol>
-
-<ul class="nav nav-tabs">
-  <li class="active"><a href="#">People Monitor</a></li>
-  <li><a href="#">Software Download</a></li>
-</ul>
-
-<p></p>
-
-<div class="panel panel-primary">
-  <div class="panel-heading">Face Counting: Descriptions: text text text</div>
-  <div class="panel-body">
-    <div class="media">
-	  <a class="pull-left" href="#">
-	    <div class="videoUiWrapper thumbnail">
-		  <video width="270" height="114" id="demo1">
-		    <source src="http://ia700305.us.archive.org/18/items/CopyingIsNotTheft/CINT_Nik_H264_720_512kb.mp4" type="video/mp4">
-		    Your browser does not support the video tag.
-		  </video>
+<html>
+	<head>
+		<title>People Counting Web Demo</title>
+		<meta charset="utf-8">
+	</head>
+	<body>
+			<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+		
+		<script type="text/javascript" src="js/environment.js"></script>
+		<script type="text/javascript" src="js/utils.js"></script>
+		<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="js/jquery.video-ui.js"></script>
+		
+		<script type="text/javascript">
+		//@see:http://html5-ninja.com/preview/5
+	        // $('#demo1').videoUI();
+	        $('#demo1').videoUI({
+			  'autoHide':false,
+			  'volumeMedia': 0.75
+			});
+	        // $('#demo3').videoUI();
+		</script>
+			
+		<ol class="breadcrumb">
+		  <li><a href="#">Main Page</a></li>
+		</ol>
+		
+		<ul class="nav nav-tabs">
+		  <li class="active"><a href="#">People Monitor</a></li>
+		  <li><a href="#">Software Download</a></li>
+		</ul>
+		
+		<p></p>
+		
+		<div class="panel panel-primary">
+		  <div class="panel-heading">Face Counting: Descriptions: text text text</div>
+		  <div class="panel-body">
+		    <div class="media">
+			  <a class="pull-left" href="#">
+			    <div class="videoUiWrapper thumbnail">
+				  <video width="270" height="114" id="demo1">
+				    <source src="http://ia700305.us.archive.org/18/items/CopyingIsNotTheft/CINT_Nik_H264_720_512kb.mp4" type="video/mp4">
+				    	<!-- <source src="data/test.mp4" type="video/mp4"> -->
+				    Your browser does not support the video tag.
+				  </video>
+				</div>
+			  </a>
+			  <div class="media-body">
+			    <nav>
+				  <ul class="nav nav-pills nav-stacked span2">
+					<li><a href="adFaceCounting.html">Analysis data</a></li>
+					<li><a href="chartFaceCounting.html">Flow chart</a></li>
+					<li><a href="extractedFaceCounting.html">Extracted faces</a></li>
+				  </ul>
+				</nav>
+			  </div>
+			</div>
+		  </div>
+		  <div class="panel-footer">Subway video</div>
 		</div>
-	  </a>
-	  <div class="media-body">
-	    <nav>
-		  <ul class="nav nav-pills nav-stacked span2">
-			<li><a href="adFaceCounting.html">Analysis data</a></li>
-			<li><a href="chartFaceCounting.html">Flow chart</a></li>
-			<li><a href="extractedFaceCounting.html">Extracted faces</a></li>
-		  </ul>
-		</nav>
-	  </div>
-	</div>
-  </div>
-  <div class="panel-footer">Subway video</div>
-</div>
-
-<div class="panel panel-primary">
-  <div class="panel-heading">Head Counting: Descriptions: text text text</div>
-  <div class="panel-body">
-    <div class="media">
-	  <a class="pull-left" href="#">
-	    <div class="videoUiWrapper thumbnail">
-		  <video width="270" height="114" id="demo2">
-		    <source src="http://ia700305.us.archive.org/18/items/CopyingIsNotTheft/CINT_Nik_H264_720_512kb.mp4" type="video/mp4">
-		    Your browser does not support the video tag.
-		  </video>
+		
+		<div class="panel panel-primary">
+		  <div class="panel-heading">Head Counting: Descriptions: text text text</div>
+		  <div class="panel-body">
+		    <div class="media">
+			  <a class="pull-left" href="#">
+			    <div class="videoUiWrapper thumbnail">
+				  <video width="270" height="114" id="demo2">
+				    <source src="http://ia700305.us.archive.org/18/items/CopyingIsNotTheft/CINT_Nik_H264_720_512kb.mp4" type="video/mp4">
+				    Your browser does not support the video tag.
+				  </video>
+				</div>
+			  </a>
+			  <div class="media-body">
+			    <nav>
+				  <ul class="nav nav-pills nav-stacked span2">
+					<li><a href="adHeadCounting.html" class="disabled">Analysis data</a></li>
+				  </ul>
+				</nav>
+			  </div>
+			</div>
+		  </div>
+		  <div class="panel-footer">Bank video</div>
 		</div>
-	  </a>
-	  <div class="media-body">
-	    <nav>
-		  <ul class="nav nav-pills nav-stacked span2">
-			<li><a href="adHeadCounting.html" class="disabled">Analysis data</a></li>
-		  </ul>
-		</nav>
-	  </div>
-	</div>
-  </div>
-  <div class="panel-footer">Bank video</div>
-</div>
-
-<div class="panel panel-primary">
-  <div class="panel-heading">Face Recognition: Descriptions: text text text</div>
-  <div class="panel-body">
-    <div class="media">
-	  <a class="pull-left" href="#">
-	    <div class="videoUiWrapper thumbnail">
-		  <video width="270" height="114" id="demo3">
-		    <source src="http://ia700305.us.archive.org/18/items/CopyingIsNotTheft/CINT_Nik_H264_720_512kb.mp4" type="video/mp4">
-		    Your browser does not support the video tag.
-		  </video>
+		
+		<div class="panel panel-primary">
+		  <div class="panel-heading">Face Recognition: Descriptions: text text text</div>
+		  <div class="panel-body">
+		    <div class="media">
+			  <a class="pull-left" href="#">
+			    <div class="videoUiWrapper thumbnail">
+				  <video width="270" height="114" id="demo3">
+				    <source src="http://ia700305.us.archive.org/18/items/CopyingIsNotTheft/CINT_Nik_H264_720_512kb.mp4" type="video/mp4">
+				    Your browser does not support the video tag.
+				  </video>
+				</div>
+			  </a>
+			  <div class="media-body">
+			    <nav>
+				  <ul class="nav nav-pills nav-stacked span2">
+					<li><a href="adFaceRecognition.html">Analysis data</a></li>
+					<li><a href="extractedRecognition.html">Extracted faces</a></li>
+				  </ul>
+				</nav>
+			  </div>
+			</div>
+		  </div>
+		  <div class="panel-footer">News video</div>
 		</div>
-	  </a>
-	  <div class="media-body">
-	    <nav>
-		  <ul class="nav nav-pills nav-stacked span2">
-			<li><a href="adFaceRecognition.html">Analysis data</a></li>
-			<li><a href="extractedRecognition.html">Extracted faces</a></li>
-		  </ul>
-		</nav>
-	  </div>
-	</div>
-  </div>
-  <div class="panel-footer">News video</div>
-</div>
+	</body>
+</html>
+
+	
