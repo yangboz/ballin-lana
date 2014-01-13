@@ -1,0 +1,21 @@
+*{margin:0;     padding:0;} 
+
+#wrap{
+
+       width:950px; 
+
+       height:100%; 
+
+       clear:both;     
+
+       margin:0 auto; 
+
+} 
+
+#left_a { float:left; width:190px; } 
+
+#right_a { float:right;    width:750px; } 
+
+.clear { clear:both; }
+
+.div_face_img{ border:1px solid #F00; width:100px; height:80px} 
