@@ -79,7 +79,7 @@
 					  	<button onclick="makeSmall()">Smaller</button> -->
 					  	<br /> 
 			                  <video width="370" height="214" id="demo3" controls>
-			                     <source src="data/2014_1_10_10_29_59.ogg" type="video/ogg">
+			                     <source src="data/CNTVFaceRecognitionDemo.ogg" type="video/ogg">
 			                    Your browser does not support the video tag.
 			                  </video>
 			            </div>
@@ -110,6 +110,7 @@
 		  	 	
 				if(myVideo.paused)
 				{
+					stop();
 					myVideo.currentTime+=start_time;
 					myVideo.play();
 					sysButton();
@@ -117,6 +118,7 @@
 					
 				}else
 				{
+					stop();
 					myVideo.pause();
 					myVideo.currentTime+=start_time;
 					myVideo.play();

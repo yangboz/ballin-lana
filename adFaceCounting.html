@@ -81,7 +81,7 @@
 					  	<br /> 
 					  	<video width="370" height="214" id="demo3" controls>
 					  		<!-- <video style="position: absolute; left: 0px; top: 0px; z-index: 3; width: 370px;height: 214px" id="demo3"> -->
-					    	 <source src="data/2014_1_10_10_29_59.ogg" type="video/ogg">
+					    	 <source src="data/SubwayFaceCountingDemo.ogg" type="video/ogg">
 					    	Your browser does not support the video tag.
 					  	</video>
 					</div>
@@ -123,6 +123,7 @@
 	  	 	
 			if(myVideo.paused)
 			{
+				stop();
 				myVideo.currentTime+=start_time;
 				myVideo.play();
 				sysButton();
@@ -130,6 +131,7 @@
 				
 			}else
 			{
+				stop();
 				myVideo.pause();
 				myVideo.currentTime+=start_time;
 				myVideo.play();

@@ -51,7 +51,7 @@
 					  	<br /> 
 				  <video width="370" height="214" id="demo1" controls>
 				  	
-				    <source src="data/2014_1_10_10_29_59.ogg" type="video/ogg">
+				    <source src="data/SubwayFaceCountingDemo.ogg" type="video/ogg">
 				    Your browser does not support the video tag.
 				  </video>
 				</div>
@@ -130,6 +130,27 @@
 					mySpan.className="glyphicon glyphicon-play";
 				}
 			}
+			
+			
+			function playClip(val)
+			{
+				start_time=val*60;
+				if(myVideo.paused)
+				{
+					stop();
+					myVideo.currentTime+=start_time;
+					myVideo.play();
+					sysButton();
+					
+				}else
+				{
+					stop();
+					myVideo.pause();
+					myVideo.currentTime+=start_time;
+					myVideo.play();
+					sysButton();
+				}
+			}
 			function stop()
 			{
 				myVideo.currentTime = 0;
@@ -137,23 +158,6 @@
 				mySpan.className="glyphicon glyphicon-play";
 			}
 			
-			function playClip(val)
-			{
-				start_time=val*60;
-				if(myVideo.paused)
-				{
-					myVideo.currentTime+=start_time;
-					myVideo.play();
-					sysButton();
-					
-				}else
-				{
-					myVideo.pause();
-					myVideo.currentTime+=start_time;
-					myVideo.play();
-					sysButton();
-				}
-			}
 			function sysButton()
 			{
 				if(myVideo.paused)

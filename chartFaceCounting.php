@@ -8,7 +8,7 @@ try{
  	$dbh ->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	//echo 'PDO Connection  OK!','';
 	$dbh -> beginTransaction();
-	$sth = $dbh -> prepare('SELECT * FROM vica_people_counting');
+	$sth = $dbh -> prepare('SELECT * FROM vica_facetracking');
 	$sth -> execute();
 	//for JSON output
 	$resultsArr = array();
@@ -20,7 +20,7 @@ try{
 		// print_r($result[$i]);
 		$resultsArr[$i]["start_frame"] = $result[$i]["start_frame"];
 		$resultsArr[$i]["end_frame"] = $result[$i]["end_frame"];
-		$resultsArr[$i]["idvica_peoplecounting"] = $result[$i]["idvica_peoplecounting"];
+		$resultsArr[$i]["idvica_facetracking"] = $result[$i]["idvica_facetracking"];
 		$resultsArr[$i]["personID"] = $result[$i]["personID"];
 	}
 	
