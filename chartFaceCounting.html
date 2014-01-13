@@ -2,7 +2,12 @@
 <html>
 	<head>
 		<title>People Counting Web Demo</title>
+		<script src="js/Chart.js"></script>
 		<meta charset="utf-8">
+		<style>
+			canvas{
+			}
+		</style>
 	</head>
 	<body>
 		<script type="text/javascript" src="js/environment.js"></script>
@@ -31,14 +36,36 @@
 		    <div class="media">
 			  <a class="pull-left" href="#">
 			    <div class="videoUiWrapper thumbnail">
-				  <video width="370" height="214" id="demo1">
-				    <source src="http://ia700305.us.archive.org/18/items/CopyingIsNotTheft/CINT_Nik_H264_720_512kb.mp4" type="video/mp4">
+			    	<button type="button" class="btn btn-default btn-lg" onclick="playPause()">
+					  		<span id="play/pause" class="glyphicon glyphicon-play"></span>Play/Pause
+				  	  	</button>
+					  	<button type="button" class="btn btn-default btn-lg" onclick="stop()">
+					  		<span id="stop" class="glyphicon glyphicon-stop"></span>Stop
+					  	</button>
+					  	<!-- <button type="button" class="btn btn-default btn-lg" onclick="playClip()">
+					  		<span id="user" class="glyphicon glyphicon-user"></span>Go
+					  	</button>
+					  	<button onclick="makeBig()">Bigger</button>
+					  	<button onclick="makeNormal()">Middle</button>
+					  	<button onclick="makeSmall()">Smaller</button> -->
+					  	<br /> 
+				  <video width="370" height="214" id="demo1" controls>
+				  	
+				    <source src="data/2014_1_10_10_29_59.ogg" type="video/ogg">
 				    Your browser does not support the video tag.
 				  </video>
 				</div>
 			  </a>
 			  <div class="media-body">
+			  	
 			  </div>
+				  <div>
+			  		<select id="select-clip">
+					  
+					</select>
+				  	</div>
+			  	<canvas id="canvas" height="450" width="600"></canvas>
+			  					
 			</div>
 		  </div>
 		  <div class="panel-footer">Subway video</div>
@@ -46,66 +73,100 @@
 		
 		
 		<script type="text/javascript">
-			var margin = {top: 20, right: 20, bottom: 30, left: 50},
-	   		width = 600 - margin.left - margin.right,
-	    	height = 250 - margin.top - margin.bottom;
-	
-			var parseDate = d3.time.format("%d-%b-%y").parse;
+		
+			 var myVideo=document.getElementById("demo1");
+			var mySpan=document.getElementById("play/pause");
 			
-			var x = d3.time.scale()
-			    .range([0, width]);
+			function getData(str) {  
+    		var arr = str;  
+    		var myLabels = new Array();
+    		var myData = new Array();
+    		var slt=document.getElementById("select-clip");
+    		// alert(slt);
+    		for(var i=0;i<str.length;++i)
+    		{
+    			myLabels[i]=arr[i].labels+"min";
+    			myData[i]=arr[i].data;
+    			if(i==str.length-1) continue;
+    			var objOption=document.createElement("OPTION");
+    			objOption.text=arr[i].labels+"-"+arr[i+1].labels+"min";
+    			objOption.value=arr[i].labels;
+    			// objOption.onclick=testoption(this);
+    			slt.add(objOption);
+    		}
+			var lineChartData = {
+			labels : myLabels,
+			datasets : [
+				{
+					fillColor : "rgba(151,187,205,0.5)",
+					strokeColor : "rgba(151,187,205,1)",
+					pointColor : "rgba(151,187,205,1)",
+					pointStrokeColor : "#fff",
+					data : myData
+				}
+			]
 			
-			var y = d3.scale.linear()
-			    .range([height, 0]);
+		};
+
+		var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartData);
+		
+		
+	}
 			
-			var xAxis = d3.svg.axis()
-			    .scale(x)
-			    .orient("bottom");
+	    $('#select-clip').change(function() {
+			    var val = $("#select-clip option:selected").val();
+			    // alert(val);
+			    playClip(val);
+		    });
+		    
+		  
+			function playPause(){
+				if(myVideo.paused){
+					myVideo.play();
+					mySpan.className="glyphicon glyphicon-pause";
+				}
+				else{
+					myVideo.pause();
+					mySpan.className="glyphicon glyphicon-play";
+				}
+			}
+			function stop()
+			{
+				myVideo.currentTime = 0;
+				myVideo.pause();
+				mySpan.className="glyphicon glyphicon-play";
+			}
 			
-			var yAxis = d3.svg.axis()
-			    .scale(y)
-			    .orient("left");
-			
-			var line = d3.svg.line()
-			    .x(function(d) { return x(d.date); })
-			    .y(function(d) { return y(d.close); });
-			
-			var svg = d3.select(".media-body").append("svg")
-			    .attr("width", width + margin.left + margin.right)
-			    .attr("height", height + margin.top + margin.bottom)
-			  	.append("g")
-			    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-			
-			d3.tsv("data/data_chartFaceCounting.csv", function(error, data) {
-			  data.forEach(function(d) {
-			    d.date = parseDate(d.date);
-			    d.close = +d.close;
-			  });
-			
-			  x.domain(d3.extent(data, function(d) { return d.date; }));
-			  y.domain(d3.extent(data, function(d) { return d.close; }));
-			
-			  svg.append("g")
-			      .attr("class", "x axis")
-			      .attr("transform", "translate(0," + height + ")")
-			      .call(xAxis);
-			
-			  svg.append("g")
-			      .attr("class", "y axis")
-			      .call(yAxis)
-			    .append("text")
-			      .attr("transform", "rotate(-90)")
-			      .attr("y", 6)
-			      .attr("dy", ".71em")
-			      .style("text-anchor", "end")
-			      .text("Faces (#)");
-			
-			  svg.append("path")
-			      .datum(data)
-			      .attr("class", "line")
-			      .attr("d", line);
-			});
+			function playClip(val)
+			{
+				start_time=val*60;
+				if(myVideo.paused)
+				{
+					myVideo.currentTime+=start_time;
+					myVideo.play();
+					sysButton();
+					
+				}else
+				{
+					myVideo.pause();
+					myVideo.currentTime+=start_time;
+					myVideo.play();
+					sysButton();
+				}
+			}
+			function sysButton()
+			{
+				if(myVideo.paused)
+				{
+					mySpan.className="glyphicon glyphicon-pause";
+				}
+				else
+				{
+					mySpan.className="glyphicon glyphicon-play";				
+				}
+		}
 		</script>
+		<script type="text/javascript" src="chartFaceCounting.php"></script> 
 	</body>
 </html>
 	

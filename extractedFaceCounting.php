@@ -29,6 +29,7 @@ try {
 		$resultsArr[$i]["start_frame"] = $result[$i]["start_frame"];
 		$resultsArr[$i]["end_frame"] = $result[$i]["end_frame"];
 		$resultsArr[$i]["face_path"] = $result[$i]["face_path"];
+		
 	}
 	//Return vica_facetracking results.
 	echo json_encode($resultsArr);

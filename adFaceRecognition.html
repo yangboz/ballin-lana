@@ -4,113 +4,191 @@
 		<title>People Counting Web Demo</title>
 		<meta charset="utf-8">
 	</head>
-	<body>
-		<!-- Latest compiled and minified CSS -->
-		<script type="text/javascript" src="js/environment.js"></script>
-		<script type="text/javascript" src="js/utils.js"></script>
-		<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
-		<script type="text/javascript" src="js/jquery.video-ui.js"></script>
-		<!-- Latest compiled and minified CSS -->
-		<link rel="stylesheet" href="bootstrap/bootstrap.min.css">
-		<!-- Optional theme -->
-		<link rel="stylesheet" href="bootstrap/bootstrap-theme.min.css">
-		<!-- Latest compiled and minified JavaScript -->
-		<script src="bootstrap/bootstrap.min.js"></script>
-		
-		<link rel="stylesheet" href="css/layout.css"/>
-		
-		<script type="text/javascript">
-			$(document).ready(function(){
-				//in minutes
-				var dataCenterURL = VICA.ConfigHandler.getValue('static') + "/vica_web/adFaceRecognition.php";
-				// and remember the jqXHR object for this request
-				var jqxhr = $.ajax( dataCenterURL )
-				  .done(function(data) {
-				    //alert( "success" );
-				    var data = $.parseJSON(data);
-				    console.log("Face Recognition data:",data);
-				    $.each(data, function(i,item){
-				    	// console.log(i,item);
-	                	$('#tabel_adFaceRecognition > tbody:last').append('<tr  data-row-key='+item['idvica_facerecognition']+' id='+ item['idvica_facerecognition'] +'>'
-	                	+'<td>'+item['idvica_facerecognition']+'</td>'
-	                	+'<td>'+item['faceID']+'</td>'
-	                	+'<td>'+item['person_name']+'</td>'
-	                	+'<td>'+item['start_frame']+'</td>'
-	                	+'<td>'+item['end_frame']+'</td>'
-	                	+'<td onclick="demo('+ item['idvica_facerecognition'] +')">'+"<button>View</button>"+'</td>'
-	                	+'</tr>');
-	        		});
-				  })
-				  .fail(function() {
-				    //alert( "error" );
-				  })
-				  .always(function() {
-				    //alert( "complete" );
-				  });
-			});
-		</script>
-		
+	
+<body>
+	<script type="text/javascript" src="js/environment.js"></script>
+	<script type="text/javascript" src="js/utils.js"></script>
+	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery.video-ui.js"></script>
+	
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+	
+	<link rel="stylesheet" href="css/layout.css"/>
+	
+	<script type="text/javascript">
+		$(document).ready(function(){
+			//in minutes
+			var dataCenterURL = VICA.ConfigHandler.getValue('static') + "/vica_web/adFaceRecognition.php";
+			// and remember the jqXHR object for this request
+			var jqxhr = $.ajax( dataCenterURL )
+			  .done(function(data) {
+			    //alert( "success" );
+			    var data = $.parseJSON(data);
+			    console.log("Face Recognition data:",data);
+			    $.each(data, function(i,item){
+			    	// console.log(i,item);
+                	$('#tabel_adFaceRecognition > tbody:last').append('<tr data-row-key='+item['idvica_facerecognition']+' id='+ item['idvica_facerecognition'] +'>'
+                	+'<td>'+item['idvica_facerecognition']+'</td>'
+                	+'<td>'+item['faceID']+'</td>'
+                	+'<td>'+item['person_name']+'</td>'
+                	+'<td>'+item['start_frame']+'</td>'
+                	+'<td>'+item['end_frame']+'</td>'
+                	+'<td onclick="playClip('+item['start_frame']+','+item['end_frame']+')">'+"<button>View</button>"+'</td>'
+                	+'</tr>');
+        		});
+			  })
+			  .fail(function() {
+			    //alert( "error" );
+			  })
+			  .always(function() {
+			    //alert( "complete" );
+			  });
+		});
+	</script>
+	
 	<ol class="breadcrumb">
 	  <li><a href="index.html">Main Page</a></li>
-	  <li><a href="#">Head Counting</a></li>
+	  <li><a href="#">Face Counting</a></li>
 	  <li class="active">Analysis Data</li>
 	</ol>
-	
+
 	<div class="panel panel-primary">
-	  <div class="panel-heading">Head Counting: Descriptions: text text text</div>
+	  <div class="panel-heading">Face Counting: Descriptions: text text text</div>
 	  <div class="panel-body">
-	  	<div id="wrap" class="media">
-			<div id="left_a">
-				<a class="pull-left" href="#">
-			    <div class="videoUiWrapper thumbnail" style="position:fixed; left:0; width:320;">
-				  <video width="370" height="214" id="demo3">
-				    <source src="http://ia700305.us.archive.org/18/items/CopyingIsNotTheft/CINT_Nik_H264_720_512kb.mp4" type="video/mp4">
-				    Your browser does not support the video tag.
-				  </video>
-				</div>
-			  </a>
-			</div>
-			<div id="right_a" class="media-body">
-			    <!-- Table -->
-				<table  id="tabel_adFaceRecognition" class="table table-striped table-condensed">
-		          <thead>
-		            <tr>
-		              <th>#</th>
-		              <th>Face id</th>
-		              <th>Person name</th>
-		              <th>Start frmae</th>
-		              <th>End frame</th>
-		              <th>View</th>
-		            </tr>
-		          </thead>
-		          <tbody>
-		          </tbody>
-		        </table>
-			</div>
-			 <div class="clear">
-			 	
-			 </div>   
-		</div>
-			  
-		</div>
-  	</div>
-		    
+	  	<div id="warp" class="media">
+	  		
+	  		
+	  		
+	  		<div id="left_a">
+	  			<a class="pull-left" href="#">
+				    <div class="videoUiWrapper thumbnail" style="position:fixed; left:0; width:320;">
+				    	<button type="button" class="btn btn-default btn-lg" onclick="playPause()">
+					  		<span id="play/pause" class="glyphicon glyphicon-play"></span>Play/Pause
+				  	  	</button>
+					  	<button type="button" class="btn btn-default btn-lg" onclick="stop()">
+					  		<span id="stop" class="glyphicon glyphicon-stop"></span>Stop
+					  	</button>
+					  	<!-- <button type="button" class="btn btn-default btn-lg" onclick="playClip()">
+					  		<span id="user" class="glyphicon glyphicon-user"></span>Go
+					  	</button>
+					  	<button onclick="makeBig()">Bigger</button>
+					  	<button onclick="makeNormal()">Middle</button>
+					  	<button onclick="makeSmall()">Smaller</button> -->
+					  	<br /> 
+					  	<video width="370" height="214" id="demo3" controls>
+					  		<!-- <video style="position: absolute; left: 0px; top: 0px; z-index: 3; width: 370px;height: 214px" id="demo3"> -->
+					    	 <source src="data/2014_1_10_10_29_59.ogg" type="video/ogg">
+					    	Your browser does not support the video tag.
+					  	</video>
+					</div>
+		  		</a>
+	  		</div>
+	  		
+	  		
+	  		
+	  		
+	  		
+	  		<div id="right_a" class="media-body">
+				    <!-- Table -->
+					 <table  id="tabel_adFaceRecognition" class="table table-striped table-condensed">
+			          <thead>
+			            <tr>
+			              <th>#</th>
+			              <th>Face id</th>
+			              <th>Person name</th>
+			              <th>Start frame</th>
+			              <th>End frame</th>
+			              <th>View</th>
+			            </tr>
+			          </thead>
+			          <tbody>
+			          </tbody>
+			        </table>
+	  		</div>
+	  		<div class="clear">
+		 	
+		 	</div>   
+	  	</div>
+	  </div>
 	  <div class="panel-footer">News video</div>
-		<script type="text/javascript">
-		  	 function demo(tr_id)
-		  	 {
-		         // var count=0;
-		         var elem=document.getElementById(tr_id);
-		         // alert(elem);
-		         var s=elem.cells;
-		         // for (j=0; j < elem.cells.length; j++) { 
-// 		         	
-		                // alert(s[j].innerText);
-		            // count++;
-		        // }
-		        alert(s[2].innerText+"_"+s[3].innerText);
-		  	 }
-		  	
+	  <script type="text/javascript">
+	  var myVideo=document.getElementById("demo3");
+		var mySpan=document.getElementById("play/pause");
+		  	 function playClip(s_f,e_f)
+	  	 {
+	  	 	var fps=25;
+	  	 	var start_time=Math.floor(s_f/fps);
+	  	 	var end_time=Math.floor(e_f/fps);
+	  	 	var interval=(end_time-start_time)*1000;
+	  	 	
+			if(myVideo.paused)
+			{
+				myVideo.currentTime+=start_time;
+				myVideo.play();
+				sysButton();
+				setTimeout("myVideo.pause()",interval);
+				
+			}else
+			{
+				myVideo.pause();
+				myVideo.currentTime+=start_time;
+				myVideo.play();
+				sysButton();
+				setTimeout("myVideo.pause()",interval);
+				
+			}
+	  	 }
+		  	 
+		  	 
+		function playPause(){
+			if(myVideo.paused){
+				myVideo.play();
+				mySpan.className="glyphicon glyphicon-pause";
+			}
+			else{
+				myVideo.pause();
+				mySpan.className="glyphicon glyphicon-play";
+			}
+		}
+		function stop()
+		{
+			myVideo.currentTime = 0;
+			myVideo.pause();
+			mySpan.className="glyphicon glyphicon-play";
+		}
+		
+		function sysButton()
+		{
+			if(myVideo.paused)
+			{
+				mySpan.className="glyphicon glyphicon-pause";
+			}
+			else
+			{
+				mySpan.className="glyphicon glyphicon-play";				
+			}
+		}
+		
+		// function makeBig()
+		// { 
+			// myVideo.width=560; 
+		// } 
+// 		
+		// function makeSmall()
+		// { 
+			// myVideo.width=320; 
+		// } 
+// 		
+		// function makeNormal()
+		// { 
+			// myVideo.width=420; 
+		// } 
 		</script>
-	</body>
+	</div>
+</body>
 </html>
