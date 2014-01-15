@@ -60,9 +60,11 @@
 			  	
 			  </div>
 				  <div>
-			  		<select id="select-clip">
+			  		<!-- <select id="select-clip" onclick="playSelected()"> -->
+		  			<select id="select-clip">
 					  
 					</select>
+					<button onclick="playSelectedContent()">View</button>
 				  	</div>
 			  	<canvas id="canvas" height="450" width="600"></canvas>
 			  					
@@ -82,7 +84,7 @@
     		var myLabels = new Array();
     		var myData = new Array();
     		var slt=document.getElementById("select-clip");
-    		// alert(slt);
+    		 // alert(arr[11]);
     		for(var i=0;i<str.length;++i)
     		{
     			myLabels[i]=arr[i].labels+"min";
@@ -91,7 +93,8 @@
     			var objOption=document.createElement("OPTION");
     			objOption.text=arr[i].labels+"-"+arr[i+1].labels+"min";
     			objOption.value=arr[i].labels;
-    			// objOption.onclick=testoption(this);
+    			//alert(myData[i]);
+    			if(arr[i+1].data==0) objOption.disabled="disabled";
     			slt.add(objOption);
     		}
 			var lineChartData = {
@@ -112,13 +115,24 @@
 		
 		
 	}
+	
+	
+	
+	function playSelectedContent(){
+		var obj = document.getElementById("select-clip"); //selectid
+		var index = obj.selectedIndex; // 选中索引
+		// var text = obj.options[index].text; 选中文本
+		value = obj.options[index].value; 
+		// alert(index+"_"+text+"_"+value);
+		playClip(value);
+	}
+	
 			
-	    $('#select-clip').change(function() {
-			    var val = $("#select-clip option:selected").val();
+	    // $('#select-clip').change(function() {
+			    // var val = $("#select-clip option:selected").val();
 			    // alert(val);
-			    playClip(val);
-		    });
-		    
+			    // playClip(val);
+		    // });
 		  
 			function playPause(){
 				if(myVideo.paused){
