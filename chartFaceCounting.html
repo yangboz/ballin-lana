@@ -87,6 +87,7 @@
     		 // alert(arr[11]);
     		for(var i=0;i<str.length;++i)
     		{
+    			// myLabels[i]=arr[i].labels+"min";
     			myLabels[i]=arr[i].labels+"min";
     			myData[i]=arr[i].data;
     			if(i==str.length-1) continue;
@@ -149,6 +150,7 @@
 			function playClip(val)
 			{
 				start_time=val*60;
+				// start_time=val;
 				if(myVideo.paused)
 				{
 					stop();

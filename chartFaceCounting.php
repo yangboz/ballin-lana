@@ -28,7 +28,9 @@ try{
 		$start_frame[$key]=$row['start_frame'];
     	$end_frame[$key]  = $row['end_frame'];
 	}
-	arsort($end_frame);
+	rsort($end_frame);
+	// print_r($end_frame);
+	// echo "</br>";
 	$max_end_frame=$end_frame[0];
 	$dsn = null;
 	
@@ -40,24 +42,62 @@ try{
 	
 }
 
+// //compute the axis ration and get the data
+// $fps=25;
+// $interval=10;
+// $time_span_second=floor($max_end_frame/$fps);
+// $time_span_minute=floor($time_span_second/60);
+// $people_count=count($resultsArr);
+// $time_interval=floor($time_span_minute/$interval);
+// $time_interval=$time_interval+1;
+// //echo "$time_interval"."</br>";
+// $labels=array();
+// $labels[0]=0;
+// for($i=1;$i<=$interval;$i++)
+// {
+	// $labels[$i]=$labels[$i-1]+$time_interval;
+// }
+// 
+// $data=array();
+// for($i=0;$i<=$interval;$i++)
+// {
+	// $data[$i]=0;
+// }
+// // asort($start_frame);
+// $idx=0;
+// for($k=0;$k<count($start_frame);$k++)
+// {
+	// $idx=$start_frame[$k]/($fps*60*$time_interval) + 1;
+	// $data[$idx]++;
+// }
+// 
+// $res=array();
+// for($i=0;$i<=$interval;$i++)
+// {
+	// $res[$i]['labels']=$labels[$i];
+	// $res[$i]['data']=$data[$i];
+// }
+// 
+// $json_string = json_encode($res);
+// 
+// echo "getData($json_string)";
+
 //compute the axis ration and get the data
 $fps=25;
-$interval=10;
-$time_span_second=floor($max_end_frame/$fps);
-$time_span_minute=floor($time_span_second/60);
-$people_count=count($resultsArr);
-$time_interval=floor($time_span_minute/$interval);
-$time_interval=$time_interval+1;
-//echo "$time_interval"."</br>";
+$interval_count=10;
+$second_per_minute=60;
+//15 seconds per interval
+$time_span=30;
 $labels=array();
 $labels[0]=0;
-for($i=1;$i<=$interval;$i++)
+for($i=1;$i<=$interval_count;$i++)
 {
-	$labels[$i]=$labels[$i-1]+$time_interval;
+	// $labels[$i]=$labels[$i-1]+$time_span;
+$labels[$i]=$labels[$i-1]+$time_span/$second_per_minute;
 }
 
 $data=array();
-for($i=0;$i<=$interval;$i++)
+for($i=0;$i<=$interval_count;$i++)
 {
 	$data[$i]=0;
 }
@@ -65,12 +105,12 @@ for($i=0;$i<=$interval;$i++)
 $idx=0;
 for($k=0;$k<count($start_frame);$k++)
 {
-	$idx=$start_frame[$k]/($fps*60*$time_interval) + 1;
+	$idx=$start_frame[$k]/($fps*$time_span) + 1;
 	$data[$idx]++;
 }
 
 $res=array();
-for($i=0;$i<=$interval;$i++)
+for($i=0;$i<=$interval_count;$i++)
 {
 	$res[$i]['labels']=$labels[$i];
 	$res[$i]['data']=$data[$i];
@@ -79,5 +119,7 @@ for($i=0;$i<=$interval;$i++)
 $json_string = json_encode($res);
 
 echo "getData($json_string)";
+
+
 
 ?>
