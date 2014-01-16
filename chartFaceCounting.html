@@ -98,6 +98,20 @@
     			if(arr[i+1].data==0) objOption.disabled="disabled";
     			slt.add(objOption);
     		}
+    		
+    		var scaleSteps = 10;
+    		var max =  Math.max.apply(null,myData);
+    		var scaleOverride = true;
+    		var scaleStepWidth =  Math.floor(max / scaleSteps) + 1;
+    		var Ymax = scaleStepWidth * scaleSteps;
+    		var scaleStartValue = 0;
+
+			var config = new Array();
+			config['scaleOverride'] = scaleOverride;
+			config['scaleSteps'] = scaleSteps;
+			config['scaleStepWidth'] = scaleStepWidth;
+			config['scaleStartValue'] = scaleStartValue;
+			    		
 			var lineChartData = {
 			labels : myLabels,
 			datasets : [
@@ -108,7 +122,8 @@
 					pointStrokeColor : "#fff",
 					data : myData
 				}
-			]
+			],
+			configs : config
 			
 		};
 
