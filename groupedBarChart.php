@@ -29,6 +29,7 @@ Backlog:
 // define('USER_NAME', NULL);
 // define('PASS_WORD', NULL);
 include("settings.php");
+ // header("Access-Control-Allow-Origin: *");
 // $dsn = 'sqlite:Uploads/vica_dev.db';
 // $user = null;
 // $password = null;
