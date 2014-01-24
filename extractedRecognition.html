@@ -5,19 +5,19 @@
 		<meta charset="utf-8">
 	</head>
 	<body>
+		<!-- <script src="js/myInclude.js"></script> -->
 		<script type="text/javascript" src="js/environment.js"></script>
 		<script type="text/javascript" src="js/utils.js"></script>
 		<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
-		<script type="text/javascript" src="js/jquery.video-ui.js"></script>
+		<script type="text/javascript" src="js/jquery.video-ui.js"></script>		
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
 		<!-- Optional theme -->
 		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-		
-		
 		<link rel="stylesheet" href="css/layout.css"/>
+		
 		<script type="text/javascript">
 			$(document).ready(function(){
 				//in minutes
@@ -58,7 +58,13 @@
 		</ol>
 	
 		<div class="panel panel-primary">
-		  <div class="panel-heading">Face Counting: Descriptions: text text text</div>
+		  <div class="panel-heading">Face Recognition
+		  	<p></p>
+		  	<p>Face recognition computes the facial feature vector for each face and compare it with a library of facial feature vectors for identification and verification purposes.</p>
+		  	<p>It can operate in several modes:</p>
+		  	<p>(1) Still images of known faces are registered.</p>
+		  	<p>(2) Each new face in surveillance video is automatically registered.</p>
+		  	<p>(3) Faces in a video frame is detected and manually registered.</p></div>
 		  <div class="panel-body">
 		  	
 		  	<div id="wrap" class="media">
@@ -100,61 +106,61 @@
 		  </div>
 			<script type="text/javascript">
 			var myVideo=document.getElementById("demo3");
-		var mySpan=document.getElementById("play/pause");
-			  	 function playClip(s_f,e_f)
-			  	 {
-		  	 	var fps=20;
-		  	 	var start_time=Math.floor(s_f/fps);
-		  	 	var end_time=Math.ceil(e_f/fps);
-		  	 	var interval=(end_time-start_time)*1000;
-		  	 	
-				if(myVideo.paused)
-				{
-					stop();
-					myVideo.currentTime+=start_time;
-					myVideo.play();
-					sysButton();
-					setTimeout("myVideo.pause()",interval);
-					
-				}else
-				{
-					stop();
-					myVideo.pause();
-					myVideo.currentTime+=start_time;
-					myVideo.play();
-					sysButton();
-					setTimeout("myVideo.pause()",interval);
-					
-				}
-			  	 }
-		function playPause(){
-			if(myVideo.paused){
+			var mySpan=document.getElementById("play/pause");
+		  	 function playClip(s_f,e_f)
+		  	 {
+	  	 	var fps=20;
+	  	 	var start_time=Math.floor(s_f/fps);
+	  	 	var end_time=Math.ceil(e_f/fps);
+	  	 	var interval=(end_time-start_time)*1000;
+	  	 	
+			if(myVideo.paused)
+			{
+				stop();
+				myVideo.currentTime+=start_time;
 				myVideo.play();
-				mySpan.className="glyphicon glyphicon-pause";
+				sysButton();
+				setTimeout("myVideo.pause()",interval);
+				
+			}else
+			{
+				stop();
+				myVideo.pause();
+				myVideo.currentTime+=start_time;
+				myVideo.play();
+				sysButton();
+				setTimeout("myVideo.pause()",interval);
+				
 			}
-			else{
+		  	 }
+			function playPause(){
+				if(myVideo.paused){
+					myVideo.play();
+					mySpan.className="glyphicon glyphicon-pause";
+				}
+				else{
+					myVideo.pause();
+					mySpan.className="glyphicon glyphicon-play";
+				}
+			}
+			function stop()
+			{
+				myVideo.currentTime = 0;
 				myVideo.pause();
 				mySpan.className="glyphicon glyphicon-play";
 			}
-		}
-		function stop()
-		{
-			myVideo.currentTime = 0;
-			myVideo.pause();
-			mySpan.className="glyphicon glyphicon-play";
-		}
-		
-		function sysButton()
-		{
-			if(myVideo.paused)
+			
+			function sysButton()
 			{
-				mySpan.className="glyphicon glyphicon-pause";
+				if(myVideo.paused)
+				{
+					mySpan.className="glyphicon glyphicon-pause";
+				}
+				else
+				{
+					mySpan.className="glyphicon glyphicon-play";				
+				}
 			}
-			else
-			{
-				mySpan.className="glyphicon glyphicon-play";				
-			}
-		}
 			</script>
 	</body>
 </html>

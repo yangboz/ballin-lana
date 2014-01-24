@@ -5,17 +5,19 @@
 		<meta charset="utf-8">
 	</head>
 	<body>
+		<!-- <script src="js/myInclude.js"></script> -->
+		<script type="text/javascript" src="js/environment.js"></script>
+		<script type="text/javascript" src="js/utils.js"></script>
 		<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
 		<script type="text/javascript" src="js/jquery.video-ui.js"></script>
-			<!-- Latest compiled and minified CSS -->
+		
+		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
 		<!-- Optional theme -->
 		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-		
-		<script type="text/javascript" src="js/environment.js"></script>
-		<script type="text/javascript" src="js/utils.js"></script>
+		<link rel="stylesheet" href="css/layout.css"/>
 		
 		
 			
@@ -31,7 +33,9 @@
 		<p></p>
 		
 		<div class="panel panel-primary">
-		  <div class="panel-heading">Face Counting: Descriptions: In our Application we can detect one person’s face who go through the camera in the surveillance video and do some analysis. In our Web demo we can show some demographics data and check the person who appear in the video
+		  <div class="panel-heading">Face Counting
+		  	<p></p>
+		  	<p>Face Counting can detect faces of people passing through a camera and track them. This can produce a count of the number of people passing through the camera during any time interval. This module can be used for surveillance videos which has clearly visible faces.</p>
 </div>
 		  <div class="panel-body">
 		    <div class="media">
@@ -59,7 +63,9 @@
 		</div>
 		
 		<div class="panel panel-primary">
-		  <div class="panel-heading">Head Counting: Descriptions: In our Application we can detect one person’s Head who go through the camera in the surveillance video and do some analysis
+		  <div class="panel-heading">Head Counting
+		  	<p></p>
+		  	<p>Head Counting can detect heads of people passing through a camera and track them. This can produce a count of the number of people passing through the camera during any time interval. This module can be used for surveillance videos mounted on the ceiling. In such situations, the faces are often difficult to detect but heads can be detected reliably.</p>
 </div>
 		  <div class="panel-body">
 		    <div class="media">
@@ -84,7 +90,14 @@
 		</div>
 		
 		<div class="panel panel-primary">
-		  <div class="panel-heading">Face Recognition: Descriptions: In our Application we can recognize one person’s face who go through the camera in the surveillance video and do some analysis such as register and recognition</div>
+		  <div class="panel-heading">Face Recognition
+		  	<p></p>
+		  	<p>Face recognition computes the facial feature vector for each face and compare it with a library of facial feature vectors for identification and verification purposes.</p>
+		  	<p>It can operate in several modes:</p>
+		  	<p>(1) Still images of known faces are registered.</p>
+		  	<p>(2) Each new face in surveillance video is automatically registered.</p>
+		  	<p>(3) Faces in a video frame is detected and manually registered.</p>
+</div>
 		  <div class="panel-body">
 		    <div class="media">
 			  <a class="pull-left" href="#">
@@ -107,6 +120,31 @@
 		  </div>
 		  <div class="panel-footer">News video</div>
 		</div>
+		
+		<!-- <div class="panel panel-primary">
+		  <div class="panel-heading">Face Demographic: text</div>
+		  <div class="panel-body">
+		    <div class="media">
+			  <a class="pull-left" href="#">
+			    <div class="videoUiWrapper thumbnail">
+				  <video width="370" height="214" id="demo4" controls>
+				     <source src="data/CNTVFaceRecognitionDemo1.ogg" type="video/ogg">
+				    Your browser does not supprt the video tag.
+				  </video>
+				</div>
+			  </a>
+			  <div class="media-body">
+			    <nav>
+				  <ul class="nav nav-pills nav-stacked span2">
+					<li><a href="adFaceDemographic.html">Analysis data</a></li>
+					<li><a href="extractedDemographic.html">Extracted faces</a></li>
+				  </ul>
+				</nav>
+			  </div>
+			</div>
+		  </div>
+		  <div class="panel-footer">News video</div>
+		</div> -->
 	</body>
 </html>
 

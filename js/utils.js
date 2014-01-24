@@ -19,3 +19,4 @@ VICA.ConfigHandler = {
     return VICA.Config[env][key];
   }
 };
+

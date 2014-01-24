@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>People Counting Web Demo</title>
+		<title>人数统计的Web演示</title>
 		<meta charset="utf-8">
 	</head>
 	
@@ -36,7 +36,7 @@
                 	+'<td>'+item['personID']+'</td>'
                 	+'<td>'+item['start_frame']+'</td>'
                 	+'<td>'+item['end_frame']+'</td>'
-                	+'<td onclick="playClip('+item['start_frame']+','+item['end_frame']+')">'+"<button>View</button>"+'</td>'
+                	+'<td onclick="playClip('+item['start_frame']+','+item['end_frame']+')">'+"<button>查看</button>"+'</td>'
                 	+'</tr>');
         		});
 			  })
@@ -50,16 +50,15 @@
 	</script>
 	
 	<ol class="breadcrumb">
-	  <li><a href="index.html">Main Page</a></li>
-	  <li><a href="#">Face Counting</a></li>
-	  <li class="active">Analysis Data</li>
+	  <li><a href="indexchi.html">主页</a></li>
+	  <li><a href="#">人脸统计</a></li>
+	  <li class="active">数据分析</li>
 	</ol>
 
 	<div class="panel panel-primary">
-	  <div class="panel-heading">Face Counting
+	  <div class="panel-heading">人脸统计
 		  	<p></p>
-		  	<p>Face Counting can detect faces of people passing through a camera and track them. This can produce a count of the number of people passing through the camera during any time interval. This module can be used for surveillance videos which has clearly visible faces.</p>
-</div>
+		  	<p>人脸统计可以检测并且追踪通过监控区域中的人脸。该模块可以统计任何时间间隔内出现在监控区域中的人脸个数。可用于在监控视频里有清晰可见人脸的场景。</p></div>
 	  <div class="panel-body">
 	  	<div id="warp" class="media">
 	  		
@@ -69,10 +68,10 @@
 	  			<a class="pull-left" href="#">
 				    <div class="videoUiWrapper thumbnail" style="position:fixed; left:0; width:320;">
 				    	<button type="button" class="btn btn-default btn-lg" onclick="playPause()">
-					  		<span id="play/pause" class="glyphicon glyphicon-play"></span>Play/Pause
+					  		<span id="play/pause" class="glyphicon glyphicon-play"></span>播放/暂停
 				  	  	</button>
 					  	<button type="button" class="btn btn-default btn-lg" onclick="stop()">
-					  		<span id="stop" class="glyphicon glyphicon-stop"></span>Stop
+					  		<span id="stop" class="glyphicon glyphicon-stop"></span>停止
 					  	</button>
 					  	<!-- <button type="button" class="btn btn-default btn-lg" onclick="playClip()">
 					  		<span id="user" class="glyphicon glyphicon-user"></span>Go
@@ -111,7 +110,7 @@
 		 	</div>   
 	  	</div>
 	  </div>
-	  <div class="panel-footer">Subway video</div>
+	  <div class="panel-footer">地铁视频演示</div>
 	</div>
 	
 	 <script type="text/javascript">

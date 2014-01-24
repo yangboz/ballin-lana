@@ -6,18 +6,17 @@
 	</head>
 	
 <body>
+	<!-- <script src="js/myInclude.js"></script> -->
 	<script type="text/javascript" src="js/environment.js"></script>
 	<script type="text/javascript" src="js/utils.js"></script>
 	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
-	<script type="text/javascript" src="js/jquery.video-ui.js"></script>
-	
+	<script type="text/javascript" src="js/jquery.video-ui.js"></script>	
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
 	<!-- Optional theme -->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-	
 	<link rel="stylesheet" href="css/layout.css"/>
 	
 	<script type="text/javascript">
@@ -53,12 +52,18 @@
 	
 	<ol class="breadcrumb">
 	  <li><a href="index.html">Main Page</a></li>
-	  <li><a href="#">Face Counting</a></li>
+	  <li><a href="#">Face Recognition</a></li>
 	  <li class="active">Analysis Data</li>
 	</ol>
 
 	<div class="panel panel-primary">
-	  <div class="panel-heading">Face Counting: Descriptions: text text text</div>
+	  <div class="panel-heading">Face Recognition
+		  	<p></p>
+		  	<p>Face recognition computes the facial feature vector for each face and compare it with a library of facial feature vectors for identification and verification purposes.</p>
+		  	<p>It can operate in several modes:</p>
+		  	<p>(1) Still images of known faces are registered.</p>
+		  	<p>(2) Each new face in surveillance video is automatically registered.</p>
+		  	<p>(3) Faces in a video frame is detected and manually registered.</p></div>
 	  <div class="panel-body">
 	  	<div id="warp" class="media">
 	  		
@@ -116,7 +121,8 @@
 	  	</div>
 	  </div>
 	  <div class="panel-footer">News video</div>
-	  <script type="text/javascript">
+	</div>
+	<script type="text/javascript">
 	  var myVideo=document.getElementById("demo3");
 		var mySpan=document.getElementById("play/pause");
 		  	 function playClip(s_f,e_f)
@@ -191,6 +197,5 @@
 			// myVideo.width=420; 
 		// } 
 		</script>
-	</div>
 </body>
 </html>

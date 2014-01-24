@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>人数统计的Web演示</title>
+		<meta charset="utf-8">
+	</head>
+	<body>
+		<script src="js/myInclude.js"></script>
+		<!-- <script type="text/javascript" src="js/environment.js"></script>
+		<script type="text/javascript" src="js/utils.js"></script>
+		<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="js/jquery.video-ui.js"></script> -->
+		
+		<!-- Latest compiled and minified CSS -->
+		<!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"> -->
+		<!-- Optional theme -->
+		<!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css"> -->
+		<!-- Latest compiled and minified JavaScript -->
+		<!-- <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script> -->
+		<!-- <link rel="stylesheet" href="css/layout.css"/> -->
+		
+		
+			
+		<ol class="breadcrumb">
+		  <li><a href="#">主页</a></li>
+		</ol>
+		
+		<ul class="nav nav-tabs">
+		  <li class="active"><a href="#">人数监控</a></li>
+		  <li><a href="#">软件下载</a></li>
+		</ul>
+		
+		<p></p>
+		
+		<div class="panel panel-primary">
+		  <div class="panel-heading">人脸统计
+		  	<p></p>
+		  	<p>人脸统计可以检测并且追踪通过监控区域中的人脸。该模块可以统计任何时间间隔内出现在监控区域中的人脸个数。可用于在监控视频里有清晰可见人脸的场景。</p>
+</div>
+		  <div class="panel-body">
+		    <div class="media">
+			  <a class="pull-left" href="#">
+			    <div class="videoUiWrapper thumbnail">
+				  <video width="370" height="214" id="demo1" controls>
+				    <source src="data/SubwayFaceCountingDemo.ogg" type="video/ogg">
+				    	<!-- <source src="data/test.mp4" type="video/mp4"> -->
+				    Your browser does not support the video tag.
+				  </video>
+				</div>
+			  </a>
+			  <div class="media-body">
+			    <nav>
+				  <ul class="nav nav-pills nav-stacked span2">
+					<li><a href="adFaceCountingchi.html">数据分析</a></li>
+					<li><a href="chartFaceCountingchi.html">统计图表</a></li>
+					<li><a href="extractedFaceCountingchi.html">检测人脸</a></li>
+				  </ul>
+				</nav>
+			  </div>
+			</div>
+		  </div>
+		  <div class="panel-footer">地铁视频演示</div>
+		</div>
+		
+		<div class="panel panel-primary">
+		  <div class="panel-heading">人头统计
+		  	<p></p>
+		  	<p>人头统计可以检测并且追踪通过监控区域中的人头。该模块可以统计任何时间间隔内出现在监控区域中的人头个数。可以用于监控摄像头被安装在天花板上的场景。在这种情况下监控到的人脸不够清晰但是人的头部可以被可靠地检测到。</p>
+</div>
+		  <div class="panel-body">
+		    <div class="media">
+			  <a class="pull-left" href="#">
+			    <div class="videoUiWrapper thumbnail">
+				  <video width="370" height="214" id="demo2" controls>
+				     <source src="data/BankVideoDemo.ogg" type="video/ogg">
+				    Your browser does not support the video tag.
+				  </video>
+				</div>
+			  </a>
+			  <div class="media-body">
+			    <nav>
+				  <ul class="nav nav-pills nav-stacked span2">
+					<li><a href="adHeadCountingchi.html" class="disabled">数据分析</a></li>
+				  </ul>
+				</nav>
+			  </div>
+			</div>
+		  </div>
+		  <div class="panel-footer">银行视频演示</div>
+		</div>
+		
+		<div class="panel panel-primary">
+		  <div class="panel-heading">人脸识别
+		  	<p></p>
+		  	<p>人脸识别模块可以计算人脸的特征向量并将其与人脸库中人脸的进行比对以达到验证和识别人脸的目的。</p>
+		  	<p>该功能模块有以下几种操作方式：</p>
+		  	<p>(1) 注册过的人脸的静态图像库</p>
+		  	<p>(2) 在监控视频中出现的人脸被自动注册</p>
+		  	<p>(3) 在视频帧中出现的人脸被检测并且手动地注册</p>
+</div>
+		  <div class="panel-body">
+		    <div class="media">
+			  <a class="pull-left" href="#">
+			    <div class="videoUiWrapper thumbnail">
+				  <video width="370" height="214" id="demo3" controls>
+				     <source src="data/CNTVFaceRecognitionDemo.ogg" type="video/ogg">
+				    Your browser does not support the video tag.
+				  </video>
+				</div>
+			  </a>
+			  <div class="media-body">
+			    <nav>
+				  <ul class="nav nav-pills nav-stacked span2">
+					<li><a href="adFaceRecognitionchi.html">数据分析</a></li>
+					<li><a href="extractedRecognitionchi.html">识别人脸</a></li>
+				  </ul>
+				</nav>
+			  </div>
+			</div>
+		  </div>
+		  <div class="panel-footer">新闻视频演示</div>
+		</div>
+		
+	
+	</body>
+</html>
+
+	
