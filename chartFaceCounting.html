@@ -34,7 +34,7 @@
 		  <div class="panel-heading">Face Counting
 		  	<p></p>
 		  	<p>Face Counting can detect faces of people passing through a camera and track them. This can produce a count of the number of people passing through the camera during any time interval. This module can be used for surveillance videos which has clearly visible faces.</p>
-</div>
+		</div>
 		  <div class="panel-body">
 		    <div class="media">
 			  <a class="pull-left" href="#">
@@ -69,7 +69,7 @@
 					</select>
 					<button onclick="playSelectedContent()">View</button>
 				  	</div>
-			  	<canvas id="canvas" height="450" width="600"></canvas>
+			  	<canvas id="canvas" height="600" width="900"></canvas>
 			  					
 			</div>
 		  </div>
@@ -78,7 +78,7 @@
 		
 		<script type="text/javascript">
 		
-			 var myVideo=document.getElementById("demo1");
+		 	var myVideo=document.getElementById("demo1");
 			var mySpan=document.getElementById("play/pause");
 			
 			function getData(str) {  
@@ -139,18 +139,10 @@
 	function playSelectedContent(){
 		var obj = document.getElementById("select-clip"); //selectid
 		var index = obj.selectedIndex; // 选中索引
-		// var text = obj.options[index].text; 选中文本
 		value = obj.options[index].value; 
-		// alert(index+"_"+text+"_"+value);
 		playClip(value);
 	}
 	
-			
-	    // $('#select-clip').change(function() {
-			    // var val = $("#select-clip option:selected").val();
-			    // alert(val);
-			    // playClip(val);
-		    // });
 		  
 			function playPause(){
 				if(myVideo.paused){

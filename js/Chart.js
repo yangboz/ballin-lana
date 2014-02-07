@@ -321,10 +321,10 @@ window.Chart = function(context){
 	this.Bar = function(data,options){
 		chart.Bar.defaults = {
 			scaleOverlay : false,
-			scaleOverride : false,
-			scaleSteps : null,
-			scaleStepWidth : null,
-			scaleStartValue : null,
+			scaleOverride : data.configs['scaleOverride'],
+			scaleSteps : data.configs['scaleSteps'],
+			scaleStepWidth : data.configs['scaleStepWidth'],
+			scaleStartValue : data.configs['scaleStartValue'],
 			scaleLineColor : "rgba(0,0,0,.1)",
 			scaleLineWidth : 1,
 			scaleShowLabels : true,
