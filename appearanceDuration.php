@@ -40,34 +40,34 @@ try{
 
 $fps=25;
 $count=count($start_frame);
-$labels=array();
-for($i=0;$i<$count;$i++)
-{
-	$labels[$i]=$personID[$i];
-}
-
-$data=array();
+$apperanceDuration=array();
+$start_time=array();
 for($i=0;$i<$count;$i++)
 {
 	$duration=ceil(($end_frame[$i]-$start_frame[$i])/$fps);
-	$data[$i]=$duration;
+	$apperanceDuration[$i]=$duration;
+	$start_time[$i]=ceil($start_frame[$i]/$fps);
 }
 
-$res=array();
-$res[0]['labels']=0;
-$res[0]['data']=0;
-$res[0]['start_frame']=0;
-$res[0]['end_frame']=0;
+$tsv_file = 'data/appearanceDuration.tsv';
+$file = fopen($tsv_file,"w");
+$title_line = "personID	apperanceDuration	start_time	start_frame	end_frame";
+// $title_line = "letter	frequency";
+$content = $title_line."\n";
+
 for($i=0;$i<$count;$i++)
 {
-	$res[$i+1]['labels']=$labels[$i];
-	$res[$i+1]['data']=$data[$i];
-	$res[$i+1]['start_frame']=$start_frame[$i];
-	$res[$i+1]['end_frame']=$end_frame[$i];
+	$tmp = $personID[$i]."\t".$apperanceDuration[$i]."\t".$start_time[$i]."\t".$start_frame[$i]."\t".$end_frame[$i];
+	// $tmp = $personID[$i]."\t".$apperanceDuration[$i];
+	
+	$content=$content.$tmp."\n";
 }
-
-$json_string = json_encode($res);
-
-echo "getData($json_string)";
+echo $content."</br>";
+// $json_string = json_encode($res);
+// 
+// echo "getData($json_string)";
+fwrite($file, $content);
+fclose($file);
+echo "ok";
 
 ?>
