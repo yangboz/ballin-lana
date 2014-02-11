@@ -7,9 +7,60 @@
 		<style>
 			canvas{
 			}
+			.x {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.bar {
+  fill: orange;
+}
+
+.bar:hover {
+  fill: orangered ;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
 		</style>
 	</head>
-	
+
 	<body>
 		<!-- <script src="js/myInclude.js"></script> -->
 		<script type="text/javascript" src="js/environment.js"></script>
@@ -23,7 +74,8 @@
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" href="css/layout.css"/>
-		
+		<script src="http://d3js.org/d3.v3.min.js"></script>
+		<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 		
 		<ol class="breadcrumb">
 		  <li><a href="index.html">主页</a></li>
@@ -35,6 +87,7 @@
 		  <div class="panel-heading">人脸统计
 		  	<p></p>
 		  	<p>人脸统计可以检测并且追踪通过监控区域中的人脸。该模块可以统计任何时间间隔内出现在监控区域中的人脸个数。可用于在监控视频里有清晰可见人脸的场景。</p></div>
+		</div>
 		  <div class="panel-body">
 		    <div class="media">
 			  <a class="pull-left" href="#">
@@ -46,7 +99,7 @@
 					  		<span id="stop" class="glyphicon glyphicon-stop"></span>停止
 					  	</button>
 					  	<br /> 
-				  <video width="370" height="214" id="demo1" controls>
+				  <video width="300" height="214" id="demo1" controls>
 				  	
 				    <source src="data/SubwayFaceCountingDemo.ogg" type="video/ogg">
 				    Your browser does not support the video tag.
@@ -56,90 +109,100 @@
 			  <div class="media-body">
 			  	
 			  </div>
-				  <div>
-			  		<!-- <select id="select-clip" onclick="playSelected()"> -->
-		  			<select id="select-clip">
-					  
-					</select>
-					<button onclick="playSelectedContent()">查看</button>
-				  	</div>
-			  	<canvas id="canvas" height="600" width="900"></canvas>
-			  					
+		  		<div id="chartbar" style="height:530px;width:840;overflow:scroll;background-color:#67F152;">
+		  			
+		  		</div>			
 			</div>
 		  </div>
 		  <div class="panel-footer">地铁视频演示</div>
 		</div>
-		
-		<script type="text/javascript">
-		
-		 	var myVideo=document.getElementById("demo1");
-			var mySpan=document.getElementById("play/pause");
-			
-			function getData(str) {  
-    		var arr = str;  
-    		var myLabels = new Array();
-    		var myData = new Array();
-    		var slt=document.getElementById("select-clip");
-    		 // alert(arr[11]);
-    		for(var i=0;i<str.length;++i)
-    		{
-    			myLabels[i]=arr[i].labels;
-    			myData[i]=arr[i].data;
-    			if(i==0) continue;
-    			var objOption=document.createElement("OPTION");
-    			objOption.text="person: "+arr[i].labels;
-    			objOption.value=arr[i].start_frame+"_"+arr[i].end_frame;
-    			if(arr[i].data==0) objOption.disabled="disabled";
-    			slt.add(objOption);
-    		}
-    		
-    		var scaleSteps = 40;
-    		var max =  Math.max.apply(null,myData);
-    		var scaleOverride = true;
-    		var scaleStepWidth =  Math.floor(max / scaleSteps) + 1;
-    		var Ymax = scaleStepWidth * scaleSteps;
-    		var scaleStartValue = 0;
+		<script>
 
-			var config = new Array();
-			config['scaleOverride'] = scaleOverride;
-			config['scaleSteps'] = scaleSteps;
-			config['scaleStepWidth'] = scaleStepWidth;
-			config['scaleStartValue'] = scaleStartValue;
-			    		
-			var barChartData = {
-			labels : myLabels,
-			datasets : [
-				{
-					fillColor : "rgba(151,187,205,0.5)",
-					strokeColor : "rgba(151,187,205,1)",
-					pointColor : "rgba(151,187,205,1)",
-					pointStrokeColor : "#fff",
-					data : myData
-				}
-			],
-			configs : config
-			
-		};
+var margin = {top: 40, right: 20, bottom: 30, left: 100},
+    width = 1600 - margin.left - margin.right,
+    height = 600 - margin.top - margin.bottom;
 
-		var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Bar(barChartData);
-		
-		
-	}
-	
-	
-	
-	function playSelectedContent(){
-		var obj = document.getElementById("select-clip"); //selectid
-		var index = obj.selectedIndex; // 选中索引
-		value = obj.options[index].value;
-		var params = value.split('_');
-		var s_f = params[0];
-		var e_f = params[1];
-		playClip(s_f,e_f);
-	}
-	
-			
-			function playPause(){
+var formatPercent = d3.format(".0%");
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    // .tickFormat(formatPercent);
+    .tickFormat(d3.format("d"));
+
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+    // return "<strong>Strat Time:</strong> <span style='color:red'>" + d.start_time + "s" + "</span>";
+    return "<strong>ID:</strong> <span style='color:red'>" + d.personID +
+    "</span></br><strong>出现时间:</strong> <span style='color:red'>" + d.start_time + "s" + 
+    "</span></br><strong>持续时间:</strong> <span style='color:red'>" + d.apperanceDuration + "s" + 
+    "</span></br> <button text='查看' onclick='playClip("+d.start_frame+","+d.end_frame+")'>查看</button>";
+  })
+
+var svg = d3.select("#chartbar").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg.call(tip);
+
+d3.tsv("data/appearanceDuration.tsv", type, function(error, data) {
+  x.domain(data.map(function(d) { return d.personID; }));
+  y.domain([0, d3.max(data, function(d) { return d.apperanceDuration; })]);
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+      // .append("text")
+      // .text("personID");
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("apperanceDuration");
+
+  svg.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.personID); })
+      .attr("width", x.rangeBand())
+      .attr("y", function(d) { return y(d.apperanceDuration); })
+      .attr("height", function(d) { return height - y(d.apperanceDuration); })
+      // .on('mouseover', tip.show)
+      // .on('mouseout', tip.hide)
+      .on('click', tip.show)
+      // .on('mouseout', tip.hide)
+
+});
+
+function type(d) {
+  d.apperanceDuration = +d.apperanceDuration;
+  return d;
+}
+
+var myVideo=document.getElementById("demo1");
+var mySpan=document.getElementById("play/pause");
+function playPause(){
 				if(myVideo.paused){
 					myVideo.play();
 					mySpan.className="glyphicon glyphicon-pause";
@@ -195,9 +258,8 @@
 					mySpan.className="glyphicon glyphicon-play";				
 				}
 		}
-		</script>
-		<script type="text/javascript" src="appearanceDuration.php"></script> 
-		
+</script>
+
 	</body>
 	
 </html>
