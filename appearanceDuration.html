@@ -19,11 +19,11 @@
 }
 
 .bar {
-  fill: orange;
+  fill: steelblue;
 }
 
 .bar:hover {
-  fill: orangered ;
+  fill: brown ;
 }
 
 .x.axis path {
@@ -109,7 +109,7 @@
 			  <div class="media-body">
 			  	
 			  </div>
-		  		<div id="chartbar" style="height:530px;width:840;overflow:scroll;background-color:#67F152;">
+		  		<div id="chartbar" style="height:530px;width:840;overflow:scroll;">
 		  			
 		  		</div>			
 			</div>
@@ -119,7 +119,7 @@
 		<script>
 
 var margin = {top: 40, right: 20, bottom: 30, left: 100},
-    width = 1600 - margin.left - margin.right,
+    width = 1100 - margin.left - margin.right,
     height = 600 - margin.top - margin.bottom;
 
 var formatPercent = d3.format(".0%");
@@ -148,7 +148,7 @@ var tip = d3.tip()
     return "<strong>PersonID:</strong> <span style='color:red'>" + d.personID +
     "</span></br><strong>Start Time:</strong> <span style='color:red'>" + d.start_time + "s" + 
     "</span></br><strong>Appearance Duration:</strong> <span style='color:red'>" + d.apperanceDuration + "s" + 
-    "</span></br> <button text='View' onclick='playClip("+d.start_frame+","+d.end_frame+")'>View</button>";
+    "</span></br> <p><strong>you can double click the bar to view the person</strong></p>";
   })
 
 var svg = d3.select("#chartbar").append("svg")
@@ -188,12 +188,17 @@ d3.tsv("data/appearanceDuration.tsv", type, function(error, data) {
       .attr("width", x.rangeBand())
       .attr("y", function(d) { return y(d.apperanceDuration); })
       .attr("height", function(d) { return height - y(d.apperanceDuration); })
-      // .on('mouseover', tip.show)
-      // .on('mouseout', tip.hide)
-      .on('click', tip.show)
-      // .on('mouseout', tip.hide)
-
+      .on('dblclick', function(d) {
+  		playClip(d.start_frame,d.end_frame)
+		})
+      .on('mouseover', tip.show)
+      .on('mouseout',tip.hide);
 });
+
+// function t(s,e)
+// {
+	// alert(s+"_"+e);
+// }
 
 function type(d) {
   d.apperanceDuration = +d.apperanceDuration;
