@@ -14,7 +14,7 @@ try {
  	$dbh ->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	//echo 'PDO Connection  OK!','';
 	$dbh -> beginTransaction();
-	$sth = $dbh -> prepare('SELECT idvica_facetracking,personID,start_frame,end_frame FROM vica_facetracking');
+	$sth = $dbh -> prepare('SELECT idvica_facetracking,personID,start_frame,end_frame,face_path FROM vica_facetracking');
 	$sth -> execute();
 	//for JSON output
 	$resultsArr = array();
@@ -28,6 +28,7 @@ try {
 		$resultsArr[$i]["personID"] = $result[$i]["personID"];
 		$resultsArr[$i]["start_frame"] = $result[$i]["start_frame"];
 		$resultsArr[$i]["end_frame"] = $result[$i]["end_frame"];
+		$resultsArr[$i]["face_path"] = $result[$i]["face_path"];
 	}
 	//Return vica_facetracking results.
 	echo json_encode($resultsArr);

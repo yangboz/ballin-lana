@@ -33,6 +33,7 @@
 			    	// console.log(i,item);
                 	$('#tabel_adFaceCounting > tbody:last').append('<tr data-row-key='+item['personID']+' id='+ item['idvica_facetracking'] +'>'
                 	+'<td>'+item['idvica_facetracking']+'</td>'
+                	+'<td> <img src="'+ item['face_path'] +'" width="80" height="80"></td>'
                 	+'<td>'+item['personID']+'</td>'
                 	+'<td>'+item['start_frame']+'</td>'
                 	+'<td>'+item['end_frame']+'</td>'
