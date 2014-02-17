@@ -80,14 +80,14 @@
 		<ol class="breadcrumb">
 		  <li><a href="ISIndexchi.html">主页</a></li>
 		  <li><a href="#">人脸统计</a></li>
-		  <li class="active">拥塞检测统计图表</li>
+		  <li class="active">人脸时长统计图表</li>
 		</ol>
 		
 		<div class="panel panel-primary">
 		  <div class="panel-heading">人脸统计
 		  	<p></p>
-		  	<p>人脸统计可以检测并且追踪通过监控区域中的人脸。该模块可以统计任何时间间隔内出现在监控区域中的人脸个数。可用于在监控视频里有清晰可见人脸的场景。</p></div>
-
+		  	<p>人脸统计可以检测并且追踪通过监控区域中的人脸。该模块可以统计任何时间间隔内出现在监控区域中的人脸个数。可用于在监控视频里有清晰可见人脸的场景。</p>
+		</div>
 		  <div class="panel-body">
 		    <div class="media">
 			  <a class="pull-left" href="#">
@@ -109,7 +109,7 @@
 			  <div class="media-body">
 			  	
 			  </div>
-		  		<div id="chartbar">
+		  		<div id="chartbar" style="height:530px;width:840;overflow:scroll;">
 		  			
 		  		</div>			
 			</div>
@@ -119,8 +119,8 @@
 		<script>
 
 var margin = {top: 40, right: 20, bottom: 30, left: 100},
-    width = 600 - margin.left - margin.right,
-    height = 300 - margin.top - margin.bottom;
+    width = 1100 - margin.left - margin.right,
+    height = 600 - margin.top - margin.bottom;
 
 var formatPercent = d3.format(".0%");
 
@@ -144,9 +144,11 @@ var tip = d3.tip()
   .attr('class', 'd3-tip')
   .offset([-10, 0])
   .html(function(d) {
-    return "<strong>在 </strong> <span style='color:red'>" + d.start_time + "min - "+d.end_time+"min"+
-    "</span><strong> 的时间内</strong></br><strong>一共有  </strong> <span style='color:red'>" + d.num +
-    "</span><strong> 个人出现在监控视频里</strong></br> <p><strong>你可以通过双击查看这段拥塞检测的原视频</strong></p>";
+    // return "<strong>Strat Time:</strong> <span style='color:red'>" + d.start_time + "s" + "</span>";
+    return "<strong>ID:</strong> <span style='color:red'>" + d.personID +
+    "</span></br><strong>出现时间:</strong> <span style='color:red'>" + d.start_time + "s" + 
+    "</span></br><strong>持续时间:</strong> <span style='color:red'>" + d.apperanceDuration + "s" + 
+    "</span></br> <p><strong>你可以通过双击查看这个人出现的原视频</strong></p>";
   })
 
 var svg = d3.select("#chartbar").append("svg")
@@ -157,14 +159,16 @@ var svg = d3.select("#chartbar").append("svg")
 
 svg.call(tip);
 
-d3.tsv("data/congestionDetection.tsv", type, function(error, data) {
-  x.domain(data.map(function(d) { return d.time; }));
-  y.domain([0, d3.max(data, function(d) { return d.num; })]);
+d3.tsv("data/appearanceDuration.tsv", type, function(error, data) {
+  x.domain(data.map(function(d) { return d.personID; }));
+  y.domain([0, d3.max(data, function(d) { return d.apperanceDuration; })]);
 
   svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis);
+      // .append("text")
+      // .text("personID");
 
   svg.append("g")
       .attr("class", "y axis")
@@ -174,30 +178,26 @@ d3.tsv("data/congestionDetection.tsv", type, function(error, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("num");
+      .text("出现时长");
 
   svg.selectAll(".bar")
       .data(data)
     .enter().append("rect")
       .attr("class", "bar")
-      .attr("x", function(d) { return x(d.time); })
+      .attr("x", function(d) { return x(d.personID); })
       .attr("width", x.rangeBand())
-      .attr("y", function(d) { return y(d.num); })
-      .attr("height", function(d) { return height - y(d.num); })
+      .attr("y", function(d) { return y(d.apperanceDuration); })
+      .attr("height", function(d) { return height - y(d.apperanceDuration); })
       .on('dblclick', function(d) {
-  		playClip(d.start_time,d.end_time)
+  		playClip(d.start_frame,d.end_frame)
 		})
       .on('mouseover', tip.show)
       .on('mouseout',tip.hide);
 });
 
-// function t(s,e)
-// {
-	// alert(s+"_"+e);
-// }
 
 function type(d) {
-  d.num = +d.num;
+  d.apperanceDuration = +d.apperanceDuration;
   return d;
 }
 
@@ -215,12 +215,12 @@ function playPause(){
 			}
 			
 			
-			function playClip(s_t,e_t)
+			function playClip(s_f,e_f)
 		  	 {
 		  	 	var fps=25;
-		  	 	var start_time=s_t*60;
-		  	 	var end_time=e_t*60;
-		  	 	var interval=(end_time-start_time)*1000;
+		  	 	var start_time=Math.floor(s_f/fps);
+		  	 	var end_time=Math.floor(e_f/fps);
+		  	 	var interval=(end_time-start_time+1)*1000;
 		  	 	
 				if(myVideo.paused)
 				{
