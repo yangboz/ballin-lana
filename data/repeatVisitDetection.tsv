@@ -1,0 +1,5 @@
+personID	start_end_frame	face_path	num
+1	2793_3655_3683_4400_4402_4406	data\ExtractedFaces\SubwayFaceCountingFaceImg\face27.jpg	3
+2	3539_3553_3555_3555	data\ExtractedFaces\SubwayFaceCountingFaceImg\face36.jpg	2
+3	3752_3767_3812_3830	data\ExtractedFaces\SubwayFaceCountingFaceImg\face40.jpg	2
+4	5226_5227_5237_5287	data\ExtractedFaces\SubwayFaceCountingFaceImg\face60.jpg	2
