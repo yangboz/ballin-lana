@@ -12,9 +12,18 @@
 
 } 
 
-#left_a { float:left; width:190px; } 
+#left_a { float:left; width:300px; } 
 
-#right_a { float:right;    width:750px; } 
+#right_a { float:right; width:650px; }
+
+#left_a1 { float:left; width:150px; }
+
+#right_a1 { float:right; width:500px; } 
+
+.changed div::selection {
+  background:#FF0057;
+  color: red;
+}
 
 .clear { clear:both; }
 
