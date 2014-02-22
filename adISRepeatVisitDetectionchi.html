@@ -84,10 +84,7 @@
 		</ol>
 		
 		<div class="panel panel-primary">
-		  <div class="panel-heading">人脸统计
-		  	<p></p>
-		  	<p>人脸统计可以检测并且追踪通过监控区域中的人脸。该模块可以统计任何时间间隔内出现在监控区域中的人脸个数。可用于在监控视频里有清晰可见人脸的场景。</p>
-		</div>
+		  <div class="panel-heading">重复出现检测</div>
 		  <div class="panel-body">
 		    <div class="media">
 			  <a class="pull-left" href="#">
@@ -145,7 +142,8 @@ var tip = d3.tip()
   .attr('class', 'd3-tip')
   .offset([-10, 0])
   .html(function(d) {
-    return "<strong>这个人在监控区域中重复出现了  </strong> <span style='color:red'>" + d.num +
+    return "<strong>人物：  </strong> <span style='color:red'>" + d.personID +
+    "</span><strong> 在监控视频中重复出现了  </strong> <span style='color:red'>" + d.num +
     "</span><strong> 次 </strong></br><p><img src="+d.face_path+" width=100 height=100></p>";
   })
 
@@ -180,8 +178,9 @@ d3.tsv("data/repeatVisitDetection.tsv", type, function(error, data) {
       .data(data)
     .enter().append("rect")
       .attr("class", "bar")
-      .attr("x", function(d) { return x(d.personID); })
-      .attr("width", x.rangeBand())
+      .attr("x", function(d) { return x(d.personID)+45; })
+      // .attr("width", x.rangeBand())
+      .attr("width", "12")
       .attr("y", function(d) { return y(d.num); })
       .attr("height", function(d) { return height - y(d.num); })
       .on('dblclick', function(d) {

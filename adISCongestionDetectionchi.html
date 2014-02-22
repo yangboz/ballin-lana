@@ -84,9 +84,7 @@
 		</ol>
 		
 		<div class="panel panel-primary">
-		  <div class="panel-heading">人脸统计
-		  	<p></p>
-		  	<p>人脸统计可以检测并且追踪通过监控区域中的人脸。该模块可以统计任何时间间隔内出现在监控区域中的人脸个数。可用于在监控视频里有清晰可见人脸的场景。</p></div>
+		  <div class="panel-heading">拥塞检测</div>
 
 		  <div class="panel-body">
 		    <div class="media">
@@ -180,8 +178,9 @@ d3.tsv("data/congestionDetection.tsv", type, function(error, data) {
       .data(data)
     .enter().append("rect")
       .attr("class", "bar")
-      .attr("x", function(d) { return x(d.time); })
-      .attr("width", x.rangeBand())
+      .attr("x", function(d) { return x(d.time)+15; })
+      // .attr("width", x.rangeBand())
+      .attr("width","12")
       .attr("y", function(d) { return y(d.num); })
       .attr("height", function(d) { return height - y(d.num); })
       .on('dblclick', function(d) {

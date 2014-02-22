@@ -84,10 +84,7 @@
 		</ol>
 		
 		<div class="panel panel-primary">
-		  <div class="panel-heading">Face Counting
-		  	<p></p>
-		  	<p>Face Counting can detect faces of people passing through a camera and track them. This can produce a count of the number of people passing through the camera during any time interval. This module can be used for surveillance videos which has clearly visible faces.</p>
-		</div>
+		  <div class="panel-heading">Congestion Detection</div>
 		  <div class="panel-body">
 		    <div class="media">
 			  <a class="pull-left" href="#">
@@ -152,7 +149,7 @@ var tip = d3.tip()
 var svg = d3.select("#chartbar").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
-  .append("g")
+  	.append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 svg.call(tip);
@@ -165,7 +162,7 @@ d3.tsv("data/congestionDetection.tsv", type, function(error, data) {
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis);
-
+      
   svg.append("g")
       .attr("class", "y axis")
       .call(yAxis)
@@ -178,23 +175,22 @@ d3.tsv("data/congestionDetection.tsv", type, function(error, data) {
 
   svg.selectAll(".bar")
       .data(data)
-    .enter().append("rect")
+    .enter()
+    .append("rect")
       .attr("class", "bar")
-      .attr("x", function(d) { return x(d.time); })
-      .attr("width", x.rangeBand())
+      .attr("x", function(d) { return x(d.time)+15; })
+      // .attr("width", x.rangeBand())
+      .attr("width","12")
       .attr("y", function(d) { return y(d.num); })
       .attr("height", function(d) { return height - y(d.num); })
+      .attr("text-anchor", "middle")  
       .on('dblclick', function(d) {
-  		playClip(d.start_time,d.end_time)
+  		playClip(d.start_time,d.end_time);
 		})
       .on('mouseover', tip.show)
       .on('mouseout',tip.hide);
 });
 
-// function t(s,e)
-// {
-	// alert(s+"_"+e);
-// }
 
 function type(d) {
   d.num = +d.num;

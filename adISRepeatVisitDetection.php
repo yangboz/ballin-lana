@@ -39,6 +39,7 @@ try{
 
 $count=count($resultsArr);
 $data=array();
+
 for($i=0;$i<$count;$i++)
 {
 	$k = $resultsArr[$i]['personID'];
@@ -60,52 +61,29 @@ for($i=0;$i<$count;$i++)
 		$data[$k]['num']=1;
 	}
 	
+	if(!isset($data[$k]['personID']))
+	{
+		$data[$k]['personID'] = $k;
+	}
 }
-
-// print_r($data);
-// echo "</br>";
 
 $tsv_file = 'data/repeatVisitDetection.tsv';
 $file = fopen($tsv_file,"w");
 $title_line = "personID	start_end_frame	face_path	num";
 // $title_line = "letter	frequency";
 $content = $title_line."\n";
-
-for($i=1;$i<=count($data);$i++)
-{
+// print_r($data);
+foreach ($data as $key => $row) {
 	
-	$tmp = $i."\t".$data[$i]['s_e_frame']."\t".$data[$i]['face_path']."\t".$data[$i]['num'];
-	// $tmp = $personID[$i]."\t".$apperanceDuration[$i];
-	
+	$tmp = $data[$key]['personID']."\t".$data[$key]['s_e_frame']."\t".$data[$key]['face_path']."\t".$data[$key]['num'];
+	// echo $data[$key]['personID']."--".$data[$key]['s_e_frame']."--".$data[$key]['face_path']."--".$data[$k]['num']."</br>";
 	$content=$content.$tmp."\n";
 }
+
 echo $content."</br>";
-// $json_string = json_encode($res);
-// 
-// echo "getData($json_string)";
 fwrite($file, $content);
 fclose($file);
 echo "ok";
 
 ?>
 
-
-<!-- $cou=max($personID);
-$count=count($resultsArr);
-$data=array();
-for($i=1;$i<=$cou;$i++)
-{
-	$data[$i]['s_e_frame']="";
-	// $data[$i]['face_path']="";
-	$data[$i]['num']=0;
-}
-for($i=0;$i<$count;$i++)
-{
-	$k = $resultsArr[$i]['personID'];
-	$data[$k]['s_e_frame'] = $data[$k]['s_e_frame']."_".($resultsArr[$i]['start_frame']."_".$resultsArr[$i]['end_frame']);
-	$data[$k]['num']++; 
-	if(!isset($data[$k]['face_path']))
-	{
-		$data[$k]['face_path'] = $resultsArr[$i]['face_path'];	
-	}
-} -->

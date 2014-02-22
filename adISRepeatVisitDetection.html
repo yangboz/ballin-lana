@@ -84,10 +84,7 @@
 		</ol>
 		
 		<div class="panel panel-primary">
-		  <div class="panel-heading">Face Counting
-		  	<p></p>
-		  	<p>Face Counting can detect faces of people passing through a camera and track them. This can produce a count of the number of people passing through the camera during any time interval. This module can be used for surveillance videos which has clearly visible faces.</p>
-		</div>
+		  <div class="panel-heading">Repeat Visit Detection</div>
 		  <div class="panel-body">
 		    <div class="media">
 			  <a class="pull-left" href="#">
@@ -145,7 +142,8 @@ var tip = d3.tip()
   .attr('class', 'd3-tip')
   .offset([-10, 0])
   .html(function(d) {
-    return "<strong>This guy repeat </strong> <span style='color:red'>" + d.num + "</span> times in the video."+
+    return "<strong>The person: </strong> <span style='color:red'>" + d.personID +
+    "</span><strong> repeat </strong> <span style='color:red'>" + d.num + "</span> times in the video."+
     "</br><p><img src="+d.face_path+" width=100 height=100></p>";
   })
 
@@ -180,8 +178,9 @@ d3.tsv("data/repeatVisitDetection.tsv", type, function(error, data) {
       .data(data)
     .enter().append("rect")
       .attr("class", "bar")
-      .attr("x", function(d) { return x(d.personID); })
-      .attr("width", x.rangeBand())
+      .attr("x", function(d) { return x(d.personID)+45; })
+      // .attr("width", x.rangeBand())
+      .attr("width", "12")
       .attr("y", function(d) { return y(d.num); })
       .attr("height", function(d) { return height - y(d.num); })
       .on('dblclick', function(d) {
