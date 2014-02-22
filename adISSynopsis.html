@@ -84,10 +84,8 @@
 		</ol>
 		
 		<div class="panel panel-primary">
-		  <div class="panel-heading">Face Counting
-		  	<p></p>
-		  	<p>Face Counting can detect faces of people passing through a camera and track them. This can produce a count of the number of people passing through the camera during any time interval. This module can be used for surveillance videos which has clearly visible faces.</p>
-		</div>
+		  <div class="panel-heading">Video Synopsis		
+		  	</div>
 		  <div class="panel-body">
 		    <div class="media">
 			  <a class="pull-left" href="#">
@@ -99,7 +97,7 @@
 					  		<span id="stop" class="glyphicon glyphicon-stop"></span>Stop
 					  	</button>
 					  	<br /> 
-				  <video width="300" height="214" id="demo1" controls>
+				  <video width="300" height="214" id="demo1">
 				  	
 				    <source src="data/SubwayFaceCountingDemo.ogg" type="video/ogg">
 				    Your browser does not support the video tag.
@@ -109,159 +107,72 @@
 			  <div class="media-body">
 			  	
 			  </div>
-		  		<div id="chartbar" style="height:530px;width:840;overflow:scroll;">
-		  			
-		  		</div>			
 			</div>
 		  </div>
 		  <div class="panel-footer">Subway video</div>
 		</div>
+		
 		<script>
 
-var margin = {top: 40, right: 20, bottom: 30, left: 100},
-    width = 1100 - margin.left - margin.right,
-    height = 600 - margin.top - margin.bottom;
 
-var formatPercent = d3.format(".0%");
-
-var x = d3.scale.ordinal()
-    .rangeRoundBands([0, width], .1);
-
-var y = d3.scale.linear()
-    .range([height, 0]);
-
-var xAxis = d3.svg.axis()
-    .scale(x)
-    .orient("bottom");
-
-var yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("left")
-    // .tickFormat(formatPercent);
-    .tickFormat(d3.format("d"));
-
-var tip = d3.tip()
-  .attr('class', 'd3-tip')
-  .offset([-10, 0])
-  .html(function(d) {
-    // return "<strong>Strat Time:</strong> <span style='color:red'>" + d.start_time + "s" + "</span>";
-    return "<strong>In the </strong> <span style='color:red'>" + d.synop + 
-    "</span><strong> st synopsis </strong></br><strong>There have </strong> <span style='color:red'>" + d.num + 
-    "</span><strong> person emerge </strong></br> <p><strong>you can double click the bar to view the video synopsis</strong></p>";
-  })
-
-var svg = d3.select("#chartbar").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-svg.call(tip);
-
-d3.tsv("data/synopsis.tsv", type, function(error, data) {
-  x.domain(data.map(function(d) { return d.synop; }));
-  y.domain([0, d3.max(data, function(d) { return d.num; })]);
-
-  svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(xAxis);
-      // .append("text")
-      // .text("personID");
-
-  svg.append("g")
-      .attr("class", "y axis")
-      .call(yAxis)
-    .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", ".71em")
-      .style("text-anchor", "end")
-      .text("num");
-
-  svg.selectAll(".bar")
-      .data(data)
-    .enter().append("rect")
-      .attr("class", "bar")
-      .attr("x", function(d) { return x(d.synop); })
-      .attr("width", x.rangeBand())
-      .attr("y", function(d) { return y(d.num); })
-      .attr("height", function(d) { return height - y(d.num); })
-      .on('dblclick', function(d) {
-  		playClip(d.start_frame,d.end_frame)
-		})
-      .on('mouseover', tip.show)
-      .on('mouseout',tip.hide);
-});
-
-// function t(s,e)
-// {
-	// alert(s+"_"+e);
-// }
-
-function type(d) {
-  d.num = +d.num;
-  return d;
-}
-
-var myVideo=document.getElementById("demo1");
-var mySpan=document.getElementById("play/pause");
-function playPause(){
-				if(myVideo.paused){
-					myVideo.play();
-					mySpan.className="glyphicon glyphicon-pause";
+	var myVideo=document.getElementById("demo1");
+	var mySpan=document.getElementById("play/pause");
+	function playPause(){
+					if(myVideo.paused){
+						myVideo.play();
+						mySpan.className="glyphicon glyphicon-pause";
+					}
+					else{
+						myVideo.pause();
+						mySpan.className="glyphicon glyphicon-play";
+					}
 				}
-				else{
+				
+				
+				function playClip(s_f,e_f)
+			  	 {
+			  	 	var fps=25;
+			  	 	var start_time=Math.floor(s_f/fps);
+			  	 	var end_time=Math.floor(e_f/fps);
+			  	 	var interval=(end_time-start_time+1)*1000;
+			  	 	
+					if(myVideo.paused)
+					{
+						stop();
+						myVideo.currentTime+=start_time;
+						myVideo.play();
+						sysButton();
+						setTimeout("myVideo.pause()",interval);
+						
+					}else
+					{
+						stop();
+						myVideo.pause();
+						myVideo.currentTime+=start_time;
+						myVideo.play();
+						sysButton();
+						setTimeout("myVideo.pause()",interval);
+						
+					}
+			  	 }
+				function stop()
+				{
+					myVideo.currentTime = 0;
 					myVideo.pause();
 					mySpan.className="glyphicon glyphicon-play";
 				}
+				
+				function sysButton()
+				{
+					if(myVideo.paused)
+					{
+						mySpan.className="glyphicon glyphicon-pause";
+					}
+					else
+					{
+						mySpan.className="glyphicon glyphicon-play";				
+					}
 			}
-			
-			
-			function playClip(s_f,e_f)
-		  	 {
-		  	 	var fps=25;
-		  	 	var start_time=Math.floor(s_f/fps);
-		  	 	var end_time=Math.floor(e_f/fps);
-		  	 	var interval=(end_time-start_time+1)*1000;
-		  	 	
-				if(myVideo.paused)
-				{
-					stop();
-					myVideo.currentTime+=start_time;
-					myVideo.play();
-					sysButton();
-					setTimeout("myVideo.pause()",interval);
-					
-				}else
-				{
-					stop();
-					myVideo.pause();
-					myVideo.currentTime+=start_time;
-					myVideo.play();
-					sysButton();
-					setTimeout("myVideo.pause()",interval);
-					
-				}
-		  	 }
-			function stop()
-			{
-				myVideo.currentTime = 0;
-				myVideo.pause();
-				mySpan.className="glyphicon glyphicon-play";
-			}
-			
-			function sysButton()
-			{
-				if(myVideo.paused)
-				{
-					mySpan.className="glyphicon glyphicon-pause";
-				}
-				else
-				{
-					mySpan.className="glyphicon glyphicon-play";				
-				}
-		}
 </script>
 
 	</body>
