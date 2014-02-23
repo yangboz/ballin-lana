@@ -7,57 +7,6 @@
 		<style>
 			canvas{
 			}
-			.x {
-  font: 10px sans-serif;
-}
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-.bar {
-  fill: steelblue;
-}
-
-.bar:hover {
-  fill: brown ;
-}
-
-.x.axis path {
-  display: none;
-}
-
-.d3-tip {
-  line-height: 1;
-  font-weight: bold;
-  padding: 12px;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  border-radius: 2px;
-}
-
-/* Creates a small triangle extender for the tooltip */
-.d3-tip:after {
-  box-sizing: border-box;
-  display: inline;
-  font-size: 10px;
-  width: 100%;
-  line-height: 1;
-  color: rgba(0, 0, 0, 0.8);
-  content: "\25BC";
-  position: absolute;
-  text-align: center;
-}
-
-/* Style northward tooltips differently */
-.d3-tip.n:after {
-  margin: -1px 0 0 0;
-  top: 100%;
-  left: 0;
-}
 		</style>
 	</head>
 
@@ -74,9 +23,33 @@
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" href="css/layout.css"/>
-		<script src="http://d3js.org/d3.v3.min.js"></script>
-		<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-		
+		<script type="text/javascript">
+		$(document).ready(function(){
+			//in minutes
+			var dataCenterURL = VICA.ConfigHandler.getValue('static') + "/vica_web/adISSynopsis.php";
+			// and remember the jqXHR object for this request
+			var jqxhr = $.ajax( dataCenterURL )
+			  .done(function(data) {
+			    //alert( "success" );
+			    var data = $.parseJSON(data);
+			    console.log("Face Counting data:",data);
+			    $.each(data, function(i,item){
+			    	// console.log(i,item);
+			    	$('#plystpDiv').append('<button id="plyBtn" type="button" class="btn btn-default btn-lg" onclick="playSynosis(\''+item['start_frame']+'\',\''+item['end_frame']+'\')">'+
+				  		'<span id="play/pause" class="glyphicon glyphicon-play"></span>Play/Pause'+
+			  	  	'</button><button id="stpBtn" type="button" class="btn btn-default btn-lg" onclick="stop()">'+
+				  		'<span id="stop" class="glyphicon glyphicon-stop"></span>Stop'+
+				  	'</button>');
+		  	  	});
+			  })
+			  .fail(function() {
+			    //alert( "error" );
+			  })
+			  .always(function() {
+			    //alert( "complete" );
+			  });
+		});
+	</script>
 		<ol class="breadcrumb">
 		  <li><a href="ISIndex.html">Main Page</a></li>
 		  <li><a href="#">Face Counting</a></li>
@@ -90,16 +63,14 @@
 		    <div class="media">
 			  <a class="pull-left" href="#">
 			    <div class="videoUiWrapper thumbnail">
-			    	<button type="button" class="btn btn-default btn-lg" onclick="playPause()">
-					  		<span id="play/pause" class="glyphicon glyphicon-play"></span>Play/Pause
-				  	  	</button>
-					  	<button type="button" class="btn btn-default btn-lg" onclick="stop()">
-					  		<span id="stop" class="glyphicon glyphicon-stop"></span>Stop
-					  	</button>
+			    	<div id="plystpDiv">
+			    		
+			    	</div>
 					  	<br /> 
 				  <video width="300" height="214" id="demo1">
 				  	
-				    <source src="data/SubwayFaceCountingDemo.ogg" type="video/ogg">
+				   <source src="data/SubwayFaceCountingDemo.ogg" type="video/ogg"> </source>
+				    <!-- <source src="data/videobak/mov_bbb.ogg" type="video/ogg"></source> -->
 				    Your browser does not support the video tag.
 				  </video>
 				</div>
@@ -116,63 +87,76 @@
 
 
 	var myVideo=document.getElementById("demo1");
-	var mySpan=document.getElementById("play/pause");
-	function playPause(){
-					if(myVideo.paused){
-						myVideo.play();
-						mySpan.className="glyphicon glyphicon-pause";
-					}
-					else{
-						myVideo.pause();
-						mySpan.className="glyphicon glyphicon-play";
-					}
-				}
-				
-				
-				function playClip(s_f,e_f)
-			  	 {
-			  	 	var fps=25;
-			  	 	var start_time=Math.floor(s_f/fps);
-			  	 	var end_time=Math.floor(e_f/fps);
-			  	 	var interval=(end_time-start_time+1)*1000;
-			  	 	
-					if(myVideo.paused)
-					{
-						stop();
-						myVideo.currentTime+=start_time;
-						myVideo.play();
-						sysButton();
-						setTimeout("myVideo.pause()",interval);
-						
-					}else
-					{
-						stop();
-						myVideo.pause();
-						myVideo.currentTime+=start_time;
-						myVideo.play();
-						sysButton();
-						setTimeout("myVideo.pause()",interval);
-						
-					}
-			  	 }
-				function stop()
-				{
-					myVideo.currentTime = 0;
-					myVideo.pause();
-					mySpan.className="glyphicon glyphicon-play";
-				}
-				
-				function sysButton()
-				{
-					if(myVideo.paused)
-					{
-						mySpan.className="glyphicon glyphicon-pause";
-					}
-					else
-					{
-						mySpan.className="glyphicon glyphicon-play";				
-					}
+	var flag = true;
+	
+	$("#demo1").bind("ended", function() {
+	   if(document.getElementById("plyBtn").disabled)
+			{
+				document.getElementById("plyBtn").disabled = false;
 			}
+	});
+	function playSynosis(s_f,e_f){
+					
+			flag = true;
+			var start_frame = s_f.split("_");
+			var end_frame = e_f.split("_");
+			var len = start_frame.length-1;		
+			document.getElementById("plyBtn").disabled = true;
+			var fps=25;
+	  	 	var start_time=Math.floor(start_frame[0]/fps);
+	  	 	var end_time=Math.floor(end_frame[0]/fps);
+	  	 	var interval=(end_time-start_time)*1000;
+		  	playClip(start_frame[0],end_frame[0]);
+	 	 	var idx=1;
+			  function run()
+			  {
+			  	if(flag)
+			  	{
+			  		playClip(start_frame[idx],end_frame[idx]);
+			  	}
+			  	start_time=Math.floor(start_frame[idx]/fps);
+				end_time=Math.floor(end_frame[idx]/fps);
+				interval=(end_time-start_time)*1000;
+			  	idx+=1;
+			  	if(idx<len)
+			  	{
+			  		setTimeout(run,interval);
+			  	}
+			  	if(idx==len)
+			  	{
+			  		if(document.getElementById("plyBtn").disabled)
+					{
+						document.getElementById("plyBtn").disabled = false;
+					}
+			  	}
+			  	
+			  }
+		  setTimeout(run,interval);
+		}
+				
+		function playClip(s_f,e_f)
+	  	 {
+	  	 	var fps=25;
+	  	 	var start_time=Math.floor(s_f/fps);
+	  	 	var end_time=Math.floor(e_f/fps);
+	  	 	var interval=(end_time-start_time)*1000;
+			myVideo.currentTime = 0;
+			myVideo.pause();
+			myVideo.currentTime+=start_time;
+			myVideo.play();
+			setTimeout("myVideo.pause()",interval);
+	  	 }
+	  	 	
+		function stop()
+		{
+			myVideo.load();
+			flag = false;
+			if(document.getElementById("plyBtn").disabled)
+			{
+				document.getElementById("plyBtn").disabled = false;
+			}
+		}
+	
 </script>
 
 	</body>

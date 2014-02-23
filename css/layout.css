@@ -1,4 +1,4 @@
-*{margin:0;     padding:0;} 
+/**{margin:0;     padding:0;} 
 
 #wrap{
 
@@ -15,6 +15,37 @@
 #left_a { float:left; width:300px; } 
 
 #right_a { float:right; width:650px; }
+
+#left_a1 { float:left; width:150px; }
+
+#right_a1 { float:right; width:500px; } 
+
+.changed div::selection {
+  background:#FF0057;
+  color: red;
+}
+
+.clear { clear:both; }
+
+.div_face_img{ border:1px solid #F00; width:100px; height:80px} */
+
+*{margin:0;     padding:0;} 
+
+#wrap{
+
+       width:950px; 
+
+       height:100%; 
+
+       clear:both;     
+
+       margin:0 auto; 
+
+} 
+
+#left_a { float:left; width:30%; } 
+
+#right_a { float:right; width:70%; }
 
 #left_a1 { float:left; width:150px; }
 

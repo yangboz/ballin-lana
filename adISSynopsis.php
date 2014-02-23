@@ -96,26 +96,38 @@ for($i=0;$i<$count-1;$i++)
 }
 
 // print_r($data);
-$tsv_file = 'data/synopsis.tsv';
-$file = fopen($tsv_file,"w");
-$title_line = "synop	num	start_frame	end_frame";
-// $title_line = "letter	frequency";
-$content = $title_line."\n";
+// $tsv_file = 'data/synopsis.tsv';
+// $file = fopen($tsv_file,"w");
+// $title_line = "synop	num	start_frame	end_frame";
+// // $title_line = "letter	frequency";
+// $content = $title_line."\n";
+// 
+// for($i=0;$i<count($data);$i++)
+// {
+	// $tmp = $data[$i]['synop']."\t".$data[$i]['num']."\t".$data[$i]['start_frame']."\t".$data[$i]['end_frame'];
+	// // $tmp = $personID[$i]."\t".$apperanceDuration[$i];
+// 	
+	// $content=$content.$tmp."\n";
+// }
+// echo $content."</br>";
 
+// fwrite($file, $content);
+// fclose($file);
+// echo "ok";
+
+$res=array();
+$tmp_start_frame = "";
+$tmp_end_frame = "";
 for($i=0;$i<count($data);$i++)
 {
-	$tmp = $data[$i]['synop']."\t".$data[$i]['num']."\t".$data[$i]['start_frame']."\t".$data[$i]['end_frame'];
-	// $tmp = $personID[$i]."\t".$apperanceDuration[$i];
-	
-	$content=$content.$tmp."\n";
+	$tmp_start_frame = $tmp_start_frame.$data[$i]['start_frame']."_";
+	$tmp_end_frame = $tmp_end_frame.$data[$i]['end_frame']."_";
 }
-echo $content."</br>";
-// $json_string = json_encode($res);
-// 
-// echo "getData($json_string)";
-fwrite($file, $content);
-fclose($file);
-echo "ok";
+$res[0]['start_frame'] = $tmp_start_frame;
+$res[0]['end_frame'] = $tmp_end_frame;
 
+$json_string = json_encode($res);
+
+echo $json_string;
 
 ?>
