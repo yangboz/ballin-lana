@@ -118,16 +118,21 @@ for($i=0;$i<$count-1;$i++)
 $res=array();
 $tmp_start_frame = "";
 $tmp_end_frame = "";
+// $sum=0;
 for($i=0;$i<count($data);$i++)
 {
 	$tmp_start_frame = $tmp_start_frame.$data[$i]['start_frame']."_";
 	$tmp_end_frame = $tmp_end_frame.$data[$i]['end_frame']."_";
+	// $sum+=($data[$i]['end_frame']-$data[$i]['start_frame']);
+	// echo $data[$i]['start_frame'].'_'.$data[$i]['end_frame']."</br>";
+	// echo floor($data[$i]['start_frame']/25).'_'.ceil($data[$i]['end_frame']/25)."</br>";
 }
 $res[0]['start_frame'] = $tmp_start_frame;
 $res[0]['end_frame'] = $tmp_end_frame;
+// $time=floor($sum/25);
 
 $json_string = json_encode($res);
 
 echo $json_string;
-
+// echo $time;
 ?>

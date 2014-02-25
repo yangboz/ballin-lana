@@ -70,7 +70,6 @@
 				  <video width="300" height="214" id="demo1">
 				  	
 				   <source src="data/SubwayFaceCountingDemo.ogg" type="video/ogg"> </source>
-				    <!-- <source src="data/videobak/mov_bbb.ogg" type="video/ogg"></source> -->
 				    Your browser does not support the video tag.
 				  </video>
 				</div>
@@ -104,18 +103,18 @@
 			document.getElementById("plyBtn").disabled = true;
 			var fps=25;
 	  	 	var start_time=Math.floor(start_frame[0]/fps);
-	  	 	var end_time=Math.floor(end_frame[0]/fps);
+	  	 	var end_time=Math.ceil(end_frame[0]/fps);
 	  	 	var interval=(end_time-start_time)*1000;
-		  	playClip(start_frame[0],end_frame[0]);
+		  	playClip(0,start_frame[0]);
 	 	 	var idx=1;
 			  function run()
 			  {
 			  	if(flag)
 			  	{
-			  		playClip(start_frame[idx],end_frame[idx]);
+			  		playClip(end_frame[idx-1],start_frame[idx]);
 			  	}
 			  	start_time=Math.floor(start_frame[idx]/fps);
-				end_time=Math.floor(end_frame[idx]/fps);
+				end_time=Math.ceil(end_frame[idx]/fps);
 				interval=(end_time-start_time)*1000;
 			  	idx+=1;
 			  	if(idx<len)
@@ -134,17 +133,16 @@
 		  setTimeout(run,interval);
 		}
 				
-		function playClip(s_f,e_f)
+	  	 	function playClip(l_e_f,s_f)
 	  	 {
 	  	 	var fps=25;
-	  	 	var start_time=Math.floor(s_f/fps);
-	  	 	var end_time=Math.floor(e_f/fps);
-	  	 	var interval=(end_time-start_time)*1000;
-			myVideo.currentTime = 0;
-			myVideo.pause();
-			myVideo.currentTime+=start_time;
-			myVideo.play();
-			setTimeout("myVideo.pause()",interval);
+	  	 	var last_end_time = Math.floor(l_e_f/fps);
+	  	 	var start_time=Math.ceil(s_f/fps);
+			myVideo.currentTime+=(start_time-last_end_time);
+			if(l_e_f==0)
+			{
+				myVideo.play();
+			}
 	  	 }
 	  	 	
 		function stop()
