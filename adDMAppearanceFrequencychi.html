@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>数字媒体管理</title>
+		<script src="js/Chart.js"></script>
+		<meta charset="utf-8">
+		<style>
+			canvas{
+			}
+			.x {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.bar {
+  fill: steelblue;
+}
+
+.bar:hover {
+  fill: brown ;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+		</style>
+	</head>
+
+	<body>
+		<!-- <script src="js/myInclude.js"></script> -->
+		<script type="text/javascript" src="js/environment.js"></script>
+		<script type="text/javascript" src="js/utils.js"></script>
+		<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="js/jquery.video-ui.js"></script>		
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="css/layout.css"/>
+		<script src="http://d3js.org/d3.v3.min.js"></script>
+		<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+		
+		<ol class="breadcrumb">
+		  <li><a href="DMIndexchi.html">主页</a></li>
+		  <li class="active">出现频次检测</li>
+		</ol>
+		
+		<div class="panel panel-primary">
+		  <div class="panel-heading">出现频次检测</div>
+		  <div class="panel-body">
+		   <div id="warp" class="media">
+		    	<div id="left_a">
+		    		<a class="pull-left" href="#">
+				    <div class="videoUiWrapper thumbnail">
+				    	<button type="button" class="btn btn-default btn-lg" onclick="playPause()">
+						  		<span id="play/pause" class="glyphicon glyphicon-play"></span>播放/暂停
+					  	  	</button>
+						  	<button type="button" class="btn btn-default btn-lg" onclick="stop()">
+						  		<span id="stop" class="glyphicon glyphicon-stop"></span>停止
+						  	</button>
+						  	<br /> 
+					  <video width="300" height="214" id="demo1" controls>
+					  	
+					    <source src="data/xjp.ogg" type="video/ogg">
+					    Your browser does not support the video tag.
+					  </video>
+					</div>
+				  </a>
+    			</div>
+			  
+			  <div id="right_a" class="media-body">
+			  	<div id="chartbar">
+		  			
+		  		</div>	
+			  </div>
+			<div class="clear">
+		 	
+		 	</div>   	
+			</div>
+		  </div>
+		  <div class="panel-footer">CNTV视频</div>
+		</div>
+		
+		<script>
+
+var margin = {top: 40, right: 20, bottom: 30, left: 100},
+    width = 600 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+
+var formatPercent = d3.format(".0%");
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    // .tickFormat(formatPercent);
+    .tickFormat(d3.format("d"));
+
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+    return "<strong>人物：  </strong> <span style='color:red'>" + d.personID +
+    "</span><strong> 在监控视频中重复出现了  </strong> <span style='color:red'>" + d.num +
+    "</span><strong> 次 </strong></br><p><img src="+d.face_path+" width=100 height=100></p>";
+  })
+
+var svg = d3.select("#chartbar").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg.call(tip);
+
+d3.tsv("data/adDMAppearanceFrequency.tsv", type, function(error, data) {
+  x.domain(data.map(function(d) { return d.personID; }));
+  y.domain([0, d3.max(data, function(d) { return d.num; })]);
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("频次");
+
+  svg.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.personID)+35; })
+      // .attr("width", x.rangeBand())
+      .attr("width", "12")
+      .attr("y", function(d) { return y(d.num); })
+      .attr("height", function(d) { return height - y(d.num); })
+      .on('dblclick', function(d) {
+  		
+  		var vals = d.start_end_frame.split("_");
+  	 	var len = vals.length;
+  	 	var fps=25;
+  	 	var start_time=Math.floor(vals[0]/fps);
+  	 	var end_time=Math.floor(vals[1]/fps);
+  	 	var interval=(end_time-start_time+1)*1000;
+	  	playClip(vals[0],vals[1]);
+ 	 	var idx=2;
+		  function run()
+		  {
+		  	playClip(vals[idx],vals[idx+1]);
+		  	start_time=Math.floor(vals[idx]/fps);
+			end_time=Math.floor(vals[idx+1]/fps);
+			interval=(end_time-start_time+1)*1000;
+		  	idx+=2;
+		  	if(idx<len)
+		  	{
+		  		setTimeout(run,interval);
+		  	}
+		  	
+		  }
+		  setTimeout(run,interval);
+		})
+      .on('mouseover', tip.show)
+      .on('mouseout',tip.hide);
+});
+
+
+function type(d) {
+  d.num = +d.num;
+  return d;
+}
+
+var myVideo=document.getElementById("demo1");
+var mySpan=document.getElementById("play/pause");
+function playPause(){
+				if(myVideo.paused){
+					myVideo.play();
+					mySpan.className="glyphicon glyphicon-pause";
+				}
+				else{
+					myVideo.pause();
+					mySpan.className="glyphicon glyphicon-play";
+				}
+			}
+			
+			
+			function playClip(s_f,e_f)
+	  	 {
+	  	 	var fps=25;
+	  	 	var start_time=Math.floor(s_f/fps);
+	  	 	var end_time=Math.floor(e_f/fps);
+	  	 	var interval=(end_time-start_time+1)*1000;
+	  	 	
+			if(myVideo.paused)
+			{
+				stop();
+				myVideo.currentTime+=start_time;
+				myVideo.play();
+				sysButton();
+				setTimeout("myVideo.pause()",interval);
+				
+			}else
+			{
+				stop();
+				myVideo.pause();
+				myVideo.currentTime+=start_time;
+				myVideo.play();
+				sysButton();
+				setTimeout("myVideo.pause()",interval);
+				
+			}
+	  	 }
+	  	 
+	  	 
+	  	 function latetimeout(sec)
+     {
+            var d1 = new Date();
+            var s1 = d1.getTime();
+            var d2 = new Date();
+            var s2 = d2.getTime();
+            
+            var st = 0;
+
+            while(st<sec)
+            {
+             d2 = new Date();
+             s2 = d2.getTime();
+             st = (s2-s1)/1000;             
+             
+            }
+    }
+			
+			function stop()
+			{
+				myVideo.currentTime = 0;
+				myVideo.pause();
+				mySpan.className="glyphicon glyphicon-play";
+			}
+			
+			function sysButton()
+			{
+				if(myVideo.paused)
+				{
+					mySpan.className="glyphicon glyphicon-pause";
+				}
+				else
+				{
+					mySpan.className="glyphicon glyphicon-play";				
+				}
+		}
+</script>
+
+	</body>
+	
+</html>
