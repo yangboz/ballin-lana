@@ -22,17 +22,44 @@ try {
 	//printf(count($result));
 	$count = count($result);
 	//customize results assembling.
+	$tmp = array();
+	$personID = array();
+	$idx = 0;
 	for ($i = 0; $i < $count; $i++) {
 		// print_r($result[$i]);
-		$resultsArr[$i]["idvica_facetracking"] = $result[$i]["idvica_facetracking"];
-		$resultsArr[$i]["personID"] = $result[$i]["personID"];
-		$resultsArr[$i]["start_frame"] = $result[$i]["start_frame"];
-		$resultsArr[$i]["end_frame"] = $result[$i]["end_frame"];
-		$resultsArr[$i]["face_path"] = $result[$i]["face_path"];
+		// $tmp[$i] = $result[$i]["personID"];
+		if(in_array($result[$i]["personID"], $tmp))
+		{
+			$personID[$result[$i]["personID"]]=$personID[$result[$i]["personID"]]+1;
+			continue;
+		}
+		else {
+			$resultsArr[$idx]["idvica_facetracking"] = $result[$i]["idvica_facetracking"];
+			$resultsArr[$idx]["personID"] = $result[$i]["personID"];
+			$resultsArr[$idx]["start_frame"] = $result[$i]["start_frame"];
+			$resultsArr[$idx]["end_frame"] = $result[$i]["end_frame"];
+			$resultsArr[$idx]["face_path"] = $result[$i]["face_path"];
+			$tmp[$i] = $result[$i]["personID"];
+			$personID[$result[$i]["personID"]]=1;
+			$idx++;
+		}
+		
 		
 	}
+	
+	$res = array();
+	for ($i=0; $i < $idx; $i++) { 
+		$res[$i]['idvica_facetracking'] = $resultsArr[$i]['idvica_facetracking'];
+		$res[$i]['personID'] = $resultsArr[$i]['personID'];
+		$res[$i]['start_frame'] = $resultsArr[$i]['start_frame'];
+		$res[$i]['end_frame'] = $resultsArr[$i]['end_frame'];
+		$res[$i]['face_path'] = $resultsArr[$i]['face_path'];
+		$res[$i]['times'] = $personID[$res[$i]['personID']];
+	}
 	//Return vica_facetracking results.
-	echo json_encode($resultsArr);
+	echo json_encode($res);
+	// echo "</br>";
+	// print_r($personID);
 	//
 	$dsn = null;
 } catch (PDOException $e) {
