@@ -6,10 +6,10 @@ VICA.ConfigHandler = {
       case "127.0.0.1":
         env = 'Local';
         break;
-      case "http://15.185.109.31/":
-      case "15.185.109.31":
-        env = 'Dev';
-        break;
+      // case "http://15.185.109.31/":
+      // case "15.185.109.31":
+        // env = 'Dev';
+        // break;
       case "http://15.185.160.200/":
       case "15.185.160.200":
         env = 'Dev';
