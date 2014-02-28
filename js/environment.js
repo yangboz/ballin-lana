@@ -6,10 +6,15 @@ VICA.Config = {
      otherConfig : ''
    },
    Dev : {
-     static : 'http://15.185.109.31',
+     static : 'http://15.185.160.200/',
      relativeUrl : '/FaceCounting/dataCenter.php?',
      otherConfig : ''
    },
+   // Dev : {
+     // static : 'http://15.185.109.31',
+     // relativeUrl : '/FaceCounting/dataCenter.php?',
+     // otherConfig : ''
+   // },
    /*
    Staging : {
      static : 'http://15.185.109.31',
