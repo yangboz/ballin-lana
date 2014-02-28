@@ -110,10 +110,17 @@
 	  
 	  	 function playClip(s_f,e_f)
 	  	 {
-	  	 	var fps=25;
+	  	 	var fps=20;
 	  	 	var start_time=Math.floor(s_f/fps);
 	  	 	var end_time=Math.floor(e_f/fps);
 	  	 	var interval=(end_time-start_time+1)*1000;
+	  	 	
+	  	 	
+  	 			// stop();
+				// myVideo.currentTime+=187;
+				// myVideo.play();
+				// sysButton();
+				// setTimeout("myVideo.pause()",interval);
 	  	 	
 			if(myVideo.paused)
 			{

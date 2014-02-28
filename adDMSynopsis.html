@@ -100,7 +100,7 @@
 			var end_frame = e_f.split("_");
 			var len = start_frame.length-1;		
 			document.getElementById("plyBtn").disabled = true;
-			var fps=25;
+			var fps=20;
 	  	 	var start_time=Math.floor(start_frame[0]/fps);
 	  	 	var end_time=Math.ceil(end_frame[0]/fps);
 	  	 	var interval=(end_time-start_time)*1000;
@@ -134,7 +134,7 @@
 				
 	  	 	function playClip(l_e_f,s_f)
 	  	 {
-	  	 	var fps=25;
+	  	 	var fps=20;
 	  	 	var last_end_time = Math.floor(l_e_f/fps);
 	  	 	var start_time=Math.ceil(s_f/fps);
 			myVideo.currentTime+=(start_time-last_end_time);
