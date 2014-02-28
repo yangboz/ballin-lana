@@ -6,7 +6,7 @@ VICA.Config = {
      otherConfig : ''
    },
    Dev : {
-     static : 'http://15.185.160.200/',
+     static : 'http://173.201.131.157/',
      relativeUrl : '/FaceCounting/dataCenter.php?',
      otherConfig : ''
    },
