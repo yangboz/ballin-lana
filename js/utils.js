@@ -10,8 +10,8 @@ VICA.ConfigHandler = {
       // case "15.185.109.31":
         // env = 'Dev';
         // break;
-      case "http://173.201.131.157/":
-      case "173.201.131.157":
+      case "http://15.125.94.250/":
+      case "15.125.94.250":
         env = 'Dev';
         break;
       case "yourdomain.com":
