@@ -25,10 +25,11 @@ try {
 	$tmp = array();
 	$personID = array();
 	$idx = 0;
+	$thres = 0.60;
 	for ($i = 0; $i < $count; $i++) {
 		// print_r($result[$i]);
 		// $tmp[$i] = $result[$i]["personID"];
-		if(in_array($result[$i]["personID"], $tmp))
+		if(in_array($result[$i]["personID"], $tmp)&&($result[$i]["score"]>=$thres))
 		{
 			$personID[$result[$i]["personID"]]=$personID[$result[$i]["personID"]]+1;
 			continue;
