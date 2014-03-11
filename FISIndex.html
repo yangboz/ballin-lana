@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Face Indexing and Search</title>
+		<meta charset="utf-8">
+	</head>
+	
+	<body>
+		
+		<script type="text/javascript" src="js/environment.js"></script>
+		<script type="text/javascript" src="js/utils.js"></script>
+		<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+		
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href='css/hoverbox.css' type="text/css" media="screen, projection" />
+		
+		<script type="text/javascript">
+			$(document).ready(function(){
+			//in minutes
+			var dataCenterURL = VICA.ConfigHandler.getValue('static') + "/vica_web/FISIndex.php";
+			// and remember the jqXHR object for this request
+			var jqxhr = $.ajax( dataCenterURL )
+			  .done(function(data) {
+			    //alert( "success" );
+			    var data = $.parseJSON(data);
+			    console.log("Face Counting data:",data);
+			    $.each(data, function(i,item){
+			    	// console.log(i,item);
+                	$('#ul-hoverbox').append('<li>'
+	                		+'<a href="#">'
+	                			+'<img src='+item['face_path']+' alt="description"/><img src='+item['face_path']+' alt="description" class="preview" />'
+            				+'</a>'
+        				+'</li>');
+        		});
+			  })
+			  .fail(function() {
+			    //alert( "error" );
+			  })
+			  .always(function() {
+			    //alert( "complete" );
+			  });
+		});
+		</script>
+		
+		<ul class="nav nav-tabs">
+		  <li class="active"><a href="FISIndex.html">EN</a></li>
+		  <li><a href="FISIndexchi.html">CH</a></li>
+		</ul>
+		
+		<div class="panel panel-primary">
+		  	<div class="panel-heading">
+		  		<!-- <p><strong>Face Indexing and Search</strong></p> -->
+		  		<h2>Face Indexing and Search</h2>
+		  		<p>People Analytics can be used to index and search people in an image collection</p>
+			</div>
+		  	<div class="panel-body">
+		  		<!-- <div id="left_a"> -->
+	  			<div id="left_a">
+		  			<!-- <div id="img-collage"> -->
+		  				<ul class="hoverbox" id="ul-hoverbox">
+
+		  				</ul>
+		  			<!-- </div> -->
+		  		</div>
+		  		<!-- <div id="right_a"> -->
+		  			<div id="right_a">
+			  			<nav>
+						  <ul class="nav nav-pills nav-stacked span2">
+							<li><a href="adFISFaceIndexing.html">Face Indexing</a></li>
+							<li><a href="adFISFaceSearch.html">Face Search</a></li>
+						  </ul>
+						</nav>
+		  		</div>
+		  	</div>
+	  	</div>
+		
+	</body>
+</html>
