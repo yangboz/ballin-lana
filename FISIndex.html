@@ -18,6 +18,7 @@
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" href='css/hoverbox.css' type="text/css" media="screen, projection" />
+		<link rel="stylesheet" href="css/FISLayout.css"/>
 		
 		<script type="text/javascript">
 			$(document).ready(function(){
@@ -47,37 +48,33 @@
 		});
 		</script>
 		
-		<ul class="nav nav-tabs">
-		  <li class="active"><a href="FISIndex.html">EN</a></li>
-		  <li><a href="FISIndexchi.html">CH</a></li>
-		</ul>
 		
-		<div class="panel panel-primary">
-		  	<div class="panel-heading">
-		  		<!-- <p><strong>Face Indexing and Search</strong></p> -->
-		  		<h2>Face Indexing and Search</h2>
-		  		<p>People Analytics can be used to index and search people in an image collection</p>
+		
+		<div id="container">
+		  	<div id="header">
+			  	<ul class="nav nav-tabs">
+					  <li class="active"><a href="FISIndex.html">EN</a></li>
+					  <li><a href="FISIndexchi.html">CH</a></li>
+				</ul>
+				<h2>Face Indexing and Search</h2>
+		  		<h4>People Analytics can be used to index and search people in an image collection</h4>
 			</div>
-		  	<div class="panel-body">
-		  		<!-- <div id="left_a"> -->
-	  			<div id="left_a">
-		  			<!-- <div id="img-collage"> -->
-		  				<ul class="hoverbox" id="ul-hoverbox">
-
-		  				</ul>
-		  			<!-- </div> -->
-		  		</div>
-		  		<!-- <div id="right_a"> -->
-		  			<div id="right_a">
-			  			<nav>
-						  <ul class="nav nav-pills nav-stacked span2">
-							<li><a href="adFISFaceIndexing.html">Face Indexing</a></li>
-							<li><a href="adFISFaceSearch.html">Face Search</a></li>
-						  </ul>
-						</nav>
-		  		</div>
-		  	</div>
-	  	</div>
+		  <div id="mainContent">
+			    <div id="sidebar">
+		    		<nav>
+					  <ul class="nav nav-pills nav-stacked span2">
+						<li><a href="adFISFaceIndexing.html"><strong>Face Indexing</strong></a></li>
+						<li><a href="adFISFaceSearch.html"><strong>Face Search</strong></a></li>
+					  </ul>
+					</nav>
+		    	</div>
+			    <div id="content">
+					<ul class="hoverbox" id="ul-hoverbox">
+	
+	  				</ul>
+				</div>
+			</div>
+		</div>
 		
 	</body>
 </html>

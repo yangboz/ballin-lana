@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>人脸索引和检索</title>
+		<meta charset="utf-8">
+	</head>
+	
+	<body>
+		
+		<script type="text/javascript" src="js/environment.js"></script>
+		<script type="text/javascript" src="js/utils.js"></script>
+		<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+		
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href='css/hoverbox.css' type="text/css" media="screen, projection" />
+		<link rel="stylesheet" href="css/FISLayout.css"/>
+		
+		<script type="text/javascript">
+			$(document).ready(function(){
+			//in minutes
+			var dataCenterURL = VICA.ConfigHandler.getValue('static') + "/vica_web/FISIndex.php";
+			// and remember the jqXHR object for this request
+			var jqxhr = $.ajax( dataCenterURL )
+			  .done(function(data) {
+			    //alert( "success" );
+			    var data = $.parseJSON(data);
+			    console.log("Face Counting data:",data);
+			    $.each(data, function(i,item){
+			    	// console.log(i,item);
+                	$('#ul-hoverbox').append('<li>'
+	                		+'<a href="#">'
+	                			+'<img src='+item['face_path']+' alt="description"/><img src='+item['face_path']+' alt="description" class="preview" />'
+            				+'</a>'
+        				+'</li>');
+        		});
+			  })
+			  .fail(function() {
+			    //alert( "error" );
+			  })
+			  .always(function() {
+			    //alert( "complete" );
+			  });
+		});
+		</script>
+		
+		
+		
+		<div id="container">
+		  	<div id="header">
+			  	<ul class="nav nav-tabs">
+					  <li class="active"><a href="FISIndexchi.html">CN</a></li>
+					  <li><a href="FISIndex.html">EN</a></li>
+				</ul>
+				<h2>人脸索引和检索</h2>
+		  		<h4>行人分析在图片集上可以完成人脸索引和检索任务</h4>
+			</div>
+		  <div id="mainContent">
+			    <div id="sidebar">
+		    		<nav>
+					  <ul class="nav nav-pills nav-stacked span2">
+						<li><a href="adFISFaceIndexing.html"><strong>人脸索引</strong></a></li>
+						<li><a href="adFISFaceSearch.html"><strong>人脸检索</strong></a></li>
+					  </ul>
+					</nav>
+		    	</div>
+			    <div id="content">
+					<ul class="hoverbox" id="ul-hoverbox">
+	
+	  				</ul>
+				</div>
+			</div>
+		</div>
+		
+	</body>
+</html>
