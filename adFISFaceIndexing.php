@@ -8,7 +8,7 @@
 	$tmp = 0;
 	while (false !== ($entry = $dir_info->read())) {
    // echo $entry."\n";
-		if($tmp == 10) break;
+		if($tmp == 30) break;
 		if($entry=='.'||$entry=='..') continue;
 		$tmp_dir = $dir_path.$entry.'\\';
 		$dir_img = dir($tmp_dir);

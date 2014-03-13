@@ -2,10 +2,9 @@
 	include("settings.php");
 	header("Access-Control-Allow-Origin: *");
 	$postValue=$_POST['trans_data'];
-     // echo $backValue."xhr";
      $dir_info = dir($postValue);
 	 
-	 $count = 5;
+	 $count = 50;
 	 $res = array();
 	 $idx = 0;
 	 $postValue = str_replace("\\\\", "/", $postValue);

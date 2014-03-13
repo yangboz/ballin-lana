@@ -1,41 +1,30 @@
 <?php
 	include("settings.php");
 	header("Access-Control-Allow-Origin: *");
-	$res_file_path = 'E:\\WorkSpace\\HP\\from.group\\from.yongqiang\\ParseAffinMat\\ParseAffinMat\\res.txt';
+	$res_file_path = 'data\\face_indexing_and_search_simres.txt';
 	$file = fopen($res_file_path, 'r');
 	$c = 0;
 	$file_dir = 'data\\ExtractedFaces\\FacialImg\\Cluster_';
 	$dir_num_len = 4;
 	$idx=0;
-	$count=10;
+	$count=50;
 	$res = array();
 	while(!feof($file))
 	{
-		if($c==11) break;
+		if($c==50) break;
 		$line = fgets($file);
 		$line = trim($line);
-		// $res_array = array_filter(explode("\t", $line));
 		$res_array = explode("\t", $line);
 		arsort($res_array);
-		// // $res_array = array_sort($res_array,'start_frame');
-// 		
-		// print_r($res_array);
-		// $c++;
-		// echo get_dir_num($idx, $dir_num_len)."</br>";
 		$dir_num = get_dir_num($idx, $dir_num_len);
 		$img_dir = $file_dir.$dir_num.'\\';
 		$first_img_path = get_dir_first_img_path($img_dir);
 		$res[$idx]['face_path'] = $first_img_path;
 		$res[$idx]['sim_count'] = count(glob($img_dir.'*.jpg'));
-		// $data = array();
-		
-		
 		$data = array();
 		$index = 0;
 		foreach ($res_array as $key => $value) {
 			if($index == $count) break;
-			// if($index == $key) continue;
-			
 			$dir_num = get_dir_num($key, $dir_num_len);
 			$img_dir = $file_dir.$dir_num.'\\';
 			$first_img_path = get_dir_first_img_path($img_dir);
@@ -54,7 +43,6 @@
 
 	echo json_encode($res);
 	fclose($file);
-	// echo "</br>"."ok";
 	
 	function get_dir_num($num,$len)
 	{

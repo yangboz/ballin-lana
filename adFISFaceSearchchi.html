@@ -1,7 +1,7 @@
  <!DOCTYPE html>
 <html>
 	<head>
-		<title>Face Search</title>
+		<title>人脸检索</title>
 		<meta charset="utf-8">
 		<style type="text/css">
 		    .step_box {
@@ -54,7 +54,7 @@
 	                			+'<img class="img-responsive" src='+item['face_path']+' width="100" height="80">'
 	                			+'<div class="caption">'
 	                			+'<p>'+item['sim_count']+'</p>'
-								+'<p><button onclick=Search('+JSON.stringify(item['data'])+')>Search</button></p>'
+								+'<p><button onclick=Search('+JSON.stringify(item['data'])+')>检索</button></p>'
                 				+'</div>'
                 			+'</div>'
             			+'</div>');
@@ -73,9 +73,9 @@
 		<div id="FScontainer">
 		  <div id="FSheader">
 		  	<ol class="breadcrumb">
-			  <li><a href="FISIndex.html">Main Page</a></li>
-			  <li class="active">Face Search</li>
-			  <h2>Face Search</h2>
+			  <li><a href="FISIndexchi.html">主页</a></li>
+			  <li class="active">人脸检索</li>
+			  <h2>人脸检索</h2>
 			</ol>
 		  </div>
 		  <div id="FSmenu" style="overflow-x: scroll;">
@@ -85,7 +85,7 @@
 	    	</div>
 		    <div id="FScontent" style="overflow: scroll;">
 		    </div>
-		   </div>
+		  </div>
 		</div>
 		
 	<script type="text/javascript">
@@ -101,7 +101,7 @@
             			+'<img class="img-responsive" src='+data[i]['face_path']+' width="100" height="80">'
 						+'<p>'+data[i]['sim_value']+'</p>'
 						+'<p>'+data[i]['sim_count']+'</p>'
-						+'<p><button onclick=LoadSimImg('+JSON.stringify(data[i]['img_dir'])+')>Load</button></p>'
+						+'<p><button onclick=LoadSimImg('+JSON.stringify(data[i]['img_dir'])+')>加载</button></p>'
         			+'</div>'
     			+'</div>');
 			}

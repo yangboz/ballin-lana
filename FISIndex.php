@@ -1,9 +1,11 @@
 <?php
 include("settings.php");
 header("Access-Control-Allow-Origin: *");
-	$dir_path = 'data\\test-2000\\test-2000\\';
+	$dir_path = 'data\\FaceIndexingAndSearchImg\\';
 	$res = array();
-	$count = 10;
+	
+	$count = 50;		//控制首页随机显示图片的张数
+	
 	$dir_info = dir($dir_path);
 	// print_r($dir_info);
 	$dir_array=array();

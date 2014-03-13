@@ -16,3 +16,16 @@ body { font-family:Verdana; font-size:14px; margin:0;}
 /*#content { margin-right:300px !important; margin-right:150px; height:500px; background:#ffa;}*/
 #sidebar { float:right; width:300px; height:500px;}
 #content { margin-right:300px !important; margin-right:150px; height:500px;}
+#FIcontent { margin-right:300px !important; margin-right:150px; height:500px;}
+#FIimg_collage { float:right; width:600px; height:700px;background:#999999}
+#FIheader { height:100px; background:#dcdcdc; margin-bottom:5px;}
+
+FSbody { font-family:Verdana; font-size:14px; margin:0;}
+
+#FScontainer {margin:0 auto; width:100%;}
+#FSheader { height:50px; background:#9c6; margin-bottom:5px;}
+#FSmenu {margin-left:200px; height:200px; background:#693; margin-bottom:5px;}
+#FSmainContent { height:500px; margin-bottom:5px;}
+#FSsidebar { float:left; width:200px; height:500px; background:#cf9;}
+#FScontent { margin-left:205px !important; margin-left:202px; height:500px; background:#ffa;}
+.FSdiv-inline{ float:left;} 
