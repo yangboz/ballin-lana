@@ -1,12 +1,33 @@
 <?php
 include("settings.php");
 header("Access-Control-Allow-Origin: *");
-	$dir_path = 'data\\FaceIndexingAndSearchImg\\';
+
+$os = (DIRECTORY_SEPARATOR=='\\')?"windows":'linux';
+$dir_path = '';
+$dir_info;
+switch ($os) {
+	case 'windows':
+		$dir_path = 'data\\FaceIndexingAndSearchImg\\';
+		// echo $dir_path;
+		$dir_info = dir($dir_path);
+		break;
+	
+	case 'linux':
+		$dir_path = '/var/www/html/vica_web/data/FaceIndexingAndSearchImg/';
+		// echo $dir_path;
+		$dir_info = dir($dir_path);
+		$dir_path = 'http://15.125.94.250/vica_web/data/FaceIndexingAndSearchImg/';
+		break;
+	default:
+		
+		break;
+}
+	
 	$res = array();
 	
-	$count = 50;		//控制首页随机显示图片的张数
+	$count = 30;		//控制首页随机显示图片的张数
 	
-	$dir_info = dir($dir_path);
+	
 	// print_r($dir_info);
 	$dir_array=array();
 	$idx=0;
@@ -23,6 +44,7 @@ header("Access-Control-Allow-Origin: *");
 		$res[$i]['face_path']=$dir_array[$num];
 	 }
 	 
+	 // print_r($res);
 	 echo json_encode($res);
 	 
 ?>

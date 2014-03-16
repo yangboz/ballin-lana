@@ -101,20 +101,21 @@
             			+'<img class="img-responsive" src='+data[i]['face_path']+' width="100" height="80">'
 						+'<p>'+data[i]['sim_value']+'</p>'
 						+'<p>'+data[i]['sim_count']+'</p>'
-						+'<p><button onclick=LoadSimImg('+JSON.stringify(data[i]['img_dir'])+')>Load</button></p>'
+						+'<p><button onclick=LoadSimImg('+JSON.stringify(data[i]['img_dir'])+','+JSON.stringify(data[i]['sub_img_path'])+')>Load</button></p>'
         			+'</div>'
     			+'</div>');
 			}
 		}
-		function LoadSimImg(val)
+		function LoadSimImg(val,val1)
 		{
 			// alert(data);
 			var my_data = val;
+			var my_data1 = val1;
 			$(function(){
 				$.ajax({
 					url: "adFISFaceSearchLoadSimImg.php",
 					type: "POST",
-					data: {trans_data:my_data},
+					data: {trans_data:my_data,trans_data1:my_data1},
 				error: function(){  
 	            alert('Error loading XML document');  
 		        },  
