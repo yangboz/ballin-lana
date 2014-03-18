@@ -22,6 +22,7 @@
 			// echo $dir_path;
 			// $dir_path = 'http://15.125.94.250/vica_web/data/ExtractedFaces/FacialImg/Cluster_';
 			$sub_dir_path = 'http://15.125.94.250/vica_web/data/ExtractedFaces/FacialImg/Cluster_';
+			
 			$win_lin = '/';
 			break;
 		default:
@@ -65,6 +66,7 @@
 			
 			$data[$index]['face_path'] = $first_img_path;
 			$data[$index]['img_dir'] = $img_dir;
+			// $data[$index]['origin_img_dir'] = $origin_dir_path;
 			$data[$index]['sub_img_path'] = $sub_img_path;
 			$data[$index]['sim_count'] = $img_count;
 			$data[$index]['sim_value'] = $value;

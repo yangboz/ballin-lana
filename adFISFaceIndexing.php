@@ -13,6 +13,7 @@
 			// echo $dir_path;
 			$dir_info = dir($dir_path);
 			$sub_dir_path = 'data\\ExtractedFaces\\FacialImg\\';
+			$origin_dir_path = 'data\\FaceIndexingAndSearchImg\\';
 			$win_lin = '\\';
 			break;
 		
@@ -21,6 +22,7 @@
 			// echo $dir_path;
 			$dir_info = dir($dir_path);
 			$sub_dir_path = 'http://15.125.94.250/vica_web/data/ExtractedFaces/FacialImg/';
+			$origin_dir_path = 'http://15.125.94.250/vica_web/data/FaceIndexingAndSearchImg/';
 			$win_lin = '/';
 			break;
 		default:
@@ -45,14 +47,18 @@
 		{
 			// echo $entry."\n";
 			if($tmp_entry=='.'||$tmp_entry=='..') continue;
-			$img_path = $tmp_dir.$tmp_entry;
+			
 			if(!isset($res[$idx]['face_path']))
 			{
+				$img_path = $tmp_dir.$tmp_entry;
 				$res[$idx]['face_path'] = $img_path;
 			}
 			if($count == 10) break;
-		 	$data[$index++] = array('sim_path' => $img_path);
+			$origin_path = get_the_origin_path($tmp_entry);
+			$origin_img_path = $origin_dir_path.$origin_path;
+		 	$data[$index++] = array('sim_path' => $origin_img_path);
 			$count++;
+			// echo $img_path."</br>";
 				
 		}
 		$res[$idx]['sim_face_data'] = $data;
@@ -62,4 +68,17 @@
 	}
 	
 	echo json_encode($res);
+	
+	function get_the_origin_path($path)
+	{
+		$tmp = explode("_", $path);
+		$origin_path = '';
+		$count = count($tmp);
+		for($i=0;$i<$count-2;++$i)
+		{
+			$origin_path = $origin_path.$tmp[$i].'_';
+		}
+		$origin_path = $origin_path.$tmp[$i].'.JPG';
+		return $origin_path;		
+	}
 ?>
