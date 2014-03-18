@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Login</title>
+  <style type="text/css">
+    html{font-size:12px;}
+	fieldset{width:300px; margin: 0 auto;}
+	legend{font-weight:bold; font-size:14px;}
+	.label{float:left; width:70px; margin-left:10px;}
+	.left{margin-left:80px;}
+	.input{width:150px;}
+	span{color: #666666;}
+  </style>
+</head>
+
+<body>
+<script type="text/javascript">
+
+
+	function InputCheck(LoginForm)
+	{
+	  if (LoginForm.username.value == "")
+	  {
+	    alert("miss username!");
+	    LoginForm.username.focus();
+	    return (false);
+	  }
+	  if (LoginForm.password.value == "")
+	  {
+	    alert("miss password!");
+	    LoginForm.password.focus();
+	    return (false);
+	  }
+	}
+
+</script>
+
+<div>
+<fieldset>
+<legend>Login</legend>
+<form name="LoginForm" method="post" action="login.php" onSubmit="return InputCheck(this)">
+<p>
+<label for="username" class="label">username:</label>
+<input id="username" name="username" type="text" value="sunny" class="input" />
+</p
+<p>
+<label for="password" class="label">password:</label>
+<input id="password" name="password" type="password" class="input" />
+</p>
+<p>
+<input type="submit" name="submit" value="login" class="left" />
+</p>
+</form>
+</fieldset>
+</div>
+</body>
+</html>

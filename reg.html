@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Register</title>
+  <style type="text/css">
+    html{font-size:12px;}
+	fieldset{width:300px; margin: 0 auto;}
+	legend{font-weight:bold; font-size:14px;}
+	label{float:left; width:70px; margin-left:10px;}
+	.left{margin-left:80px;}
+	.input{width:150px;}
+	span{color: #666666;}
+  </style>
+
+</head>
+
+<body>
+	<script type="text/javascript">
+	function InputCheck(RegForm)
+	{
+	  if (RegForm.username.value == "")
+	  {
+	    alert("miss username!");
+	    RegForm.username.focus();
+	    return (false);
+	  }
+	  if (RegForm.password.value == "")
+	  {
+	    alert("miss password!");
+	    RegForm.password.focus();
+	    return (false);
+	  }
+}
+
+
+</script>
+</body>
+<div>
+<fieldset>
+<legend>Register</legend>
+<form name="RegForm" method="post" action="reg.php" onSubmit="return InputCheck(this)">
+<p>
+<label for="username" class="label">Username:</label>
+<input id="username" name="username" type="text" value="sunny" class="input" />
+</p>
+<p>
+<label for="password" class="label">Password:</label>
+<input id="password" name="password" type="password" class="input" />
+</p>
+
+<p>
+<input type="submit" name="submit" value="register" class="left" />
+</p>
+</form>
+</fieldset>
+</div>
+<body>
+</body>
+</html>
