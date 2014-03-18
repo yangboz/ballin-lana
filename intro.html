@@ -1,23 +1,53 @@
 <!DOCTYPE html>
-<title>Main Page</title>
-<meta charset="utf-8">
-<style>
-</style>
+<html>
+<head>
+	<title>Main Page</title>
+	<meta charset="utf-8">
+	<script type="text/javascript">
+		function checkLogin()
+		{
+			$(function(){
+				$.ajax({
+					url: "my.php",
+					type: "POST",
+				error: function(){  
+	            alert('Error loading XML document');  
+		        },  
+		        success: function(data,status){//如果调用php成功    
+		        var data = $.parseJSON(data);
+				if(data['state']=="true")
+				{
+					$('#userinfo').append(
+						'<p>User: '+data['username']+'</br>'
+						+'<a href="login.php?action=logout">Logout</a>'
+						+'</p>'
+					);
+				}else
+				{
+					self.location='login.html';
+				}
+		        }
+				});
+			});
+		}
+		window.onload=checkLogin;
+	</script>
+</head>
+
 <body>
+	<script src="js/environment.js"></script>
+	<script src="js/utils.js"></script>
+	<script src="js/jquery-1.7.1.min.js"></script>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
 	<!-- Optional theme -->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-	
-	<script src="js/environment.js"></script>
-	<script src="js/utils.js"></script>
-	<script src="js/jquery-1.7.1.min.js"></script>
-	
-	<script type="text/javascript">
 
-	</script>
+<div id="userinfo">
+	
+</div>
 
 <div class="jumbotron">
   <h1>People Counting Web Demo</h1>
@@ -28,3 +58,5 @@
   <p>(3) Automated staffing monitoring.</p>
   <p><a class="btn btn-primary btn-lg" role="button" href="index.html">Learn more</a></p>
 </div>
+</body>
+</html>
