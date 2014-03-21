@@ -4,6 +4,30 @@
 		<title>Face Indexing</title>
 		<meta charset="utf-8">
 		 <link href="slider/generic.css" rel="stylesheet" type="text/css" />
+		 <script type="text/javascript">
+		function checkLogin()
+		{
+			$(function(){
+				$.ajax({
+					url: "my.php",
+					type: "POST",
+				error: function(){  
+	            alert('Error loading XML document');  
+		        },  
+		        success: function(data,status){//如果调用php成功    
+		        var data = $.parseJSON(data);
+				if(data['state']=="true")
+				{
+				}else
+				{
+					self.location='login.html';
+				}
+		        }
+				});
+			});
+		}
+		window.onload=checkLogin;
+	</script>
 	</head>
 	<body>
 		<script type="text/javascript" src="js/environment.js"></script>

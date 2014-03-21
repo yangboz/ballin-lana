@@ -31,7 +31,7 @@ try {
 		$_SESSION['username'] = $username;
 		$_SESSION['user_id'] = $result['user_id'];
 		$dsn = null;
-		header("Location:intro.html");
+		header("Location:index.html");
 		exit();
 		
 	} else {

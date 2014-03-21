@@ -18,8 +18,8 @@
 				if(data['state']=="true")
 				{
 					$('#userinfo').append(
-						'<p>User: '+data['username']+'</br>'
-						+'<a href="login.php?action=logout">Logout</a>'
+						'<p>用户: '+data['username']+'</br>'
+						+'<a href="login.php?action=logout">登出</a>'
 						+'</p>'
 					);
 				}else
@@ -47,7 +47,9 @@
 		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" href="css/layout.css"/>
 		
-		
+		<div id="userinfo">
+	
+</div>
 			
 		<ol class="breadcrumb">
 		  <li><a href="#">主页</a></li>

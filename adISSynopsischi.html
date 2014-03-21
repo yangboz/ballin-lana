@@ -17,11 +17,6 @@
 		        var data = $.parseJSON(data);
 				if(data['state']=="true")
 				{
-					$('#userinfo').append(
-						'<p>User: '+data['username']+'</br>'
-						+'<a href="login.php?action=logout">Logout</a>'
-						+'</p>'
-					);
 				}else
 				{
 					self.location='login.html';
