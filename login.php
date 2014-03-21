@@ -30,13 +30,9 @@ try {
 	if($result){
 		$_SESSION['username'] = $username;
 		$_SESSION['user_id'] = $result['user_id'];
-		// echo $username,'Welcome!<a href="my.php">User Center</a><br />';
-		// echo 'Click!<a href="login.php?action=logout">Logout</a>Login!<br />';
 		$dsn = null;
 		header("Location:intro.html");
-		
 		exit();
-		// exit;
 		
 	} else {
 		exit('Login failed <a href="javascript:history.back(-1);">Return</a>Try again!');

@@ -34,12 +34,12 @@ ini_set('max_execution_time', 2000);	//设置执行超时时间
 $src_dir_pre = "E:\\WorkSpace\\HP\\from.group\\from.yongqiang\\cluster_result\\cluster_result\\FacialImg\\Cluster_";
 $sIdx = 0;
 $eIdx = 1172;
-$dest_dir_pre = "E:\\WorkSpace\\HP\\from.group\\from.yongqiang\\FacialImg\\Cluster_";
+$dest_dir_pre = "E:\\WorkSpace\\HP\\from.group\\from.yongqiang\\FacialImg1\\Cluster_";
 
 $c = 0;
 $len = 4;	//因为有1173个文件夹，所以位数为4
 
-for($i=1172; $i<=1172; ++$i)
+for($i=0; $i<=1172; ++$i)
 {
 	$flag = TRUE;
 	$suffix = '';
@@ -62,7 +62,7 @@ for($i=1172; $i<=1172; ++$i)
 		
 		$src_img_path = $src_dir.$entry.".".$suffix;
 		$dest_img_path = $dest_dir.$entry.".".$suffix;
-		 thumn($src_img_path, 480, 320,$dest_img_path);
+		 thumn($src_img_path, 320, 320,$dest_img_path);
 		// $c++;
 	}	
 	

@@ -1,8 +1,38 @@
 <!DOCTYPE html>
-<title>Main Page</title>
-<meta charset="utf-8">
-<style>
-</style>
+<head>
+	<title>Main Page</title>
+	<meta charset="utf-8">
+	<script type="text/javascript">
+		function checkLogin()
+		{
+			$(function(){
+				$.ajax({
+					url: "my.php",
+					type: "POST",
+				error: function(){  
+	            alert('Error loading XML document');  
+		        },  
+		        success: function(data,status){//如果调用php成功    
+		        var data = $.parseJSON(data);
+				if(data['state']=="true")
+				{
+					$('#userinfo').append(
+						'<p>User: '+data['username']+'</br>'
+						+'<a href="login.php?action=logout">Logout</a>'
+						+'</p>'
+					);
+				}else
+				{
+					self.location='login.html';
+				}
+		        }
+				});
+			});
+		}
+		window.onload=checkLogin;
+	</script>
+</head>
+
 <body>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
