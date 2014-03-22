@@ -77,7 +77,7 @@
 	                		+'<div class="thumbnail" href="#">'
 	                			+'<img class="img-responsive" src='+item['face_path']+' width="100" height="80">'
 	                			+'<div class="caption">'
-	                			+'<p>'+item['sim_count']+'</p>'
+	                			// +'<p>'+item['sim_count']+'</p>'
 								+'<p><button onclick=Search('+JSON.stringify(item['data'])+')>检索</button></p>'
                 				+'</div>'
                 			+'</div>'
@@ -125,21 +125,21 @@
             			+'<img class="img-responsive" src='+data[i]['face_path']+' width="100" height="80">'
 						+'<p>'+data[i]['sim_value']+'</p>'
 						+'<p>'+data[i]['sim_count']+'</p>'
-						+'<p><button onclick=LoadSimImg('+JSON.stringify(data[i]['img_dir'])+','+JSON.stringify(data[i]['sub_img_path'])+')>加载</button></p>'
+						+'<p><button onclick=LoadSimImg('+JSON.stringify(data[i]['img_dir'])+')>加载</button></p>'
         			+'</div>'
     			+'</div>');
 			}
 		}
-		function LoadSimImg(val,val1)
+		function LoadSimImg(val)
 		{
 			// alert(data);
 			var my_data = val;
-			var my_data1 = val1;
+			// var my_data1 = val1;
 			$(function(){
 				$.ajax({
 					url: "adFISFaceSearchLoadSimImg.php",
 					type: "POST",
-					data: {trans_data:my_data,trans_data1:my_data1},
+					data: {trans_data:my_data},
 				error: function(){  
 	            alert('Error loading XML document');  
 		        },  

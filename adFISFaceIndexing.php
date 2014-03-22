@@ -4,7 +4,7 @@ include("settings.php");
 header("Access-Control-Allow-Origin: *");
 	
 	$page = intval($_POST['pageNum']);
-	// $page = 0;
+	// $page = 130;
 	$pageSize = 9; //每页显示数
 	$total = 0;
 	$os = (DIRECTORY_SEPARATOR=='\\')?"windows":'linux';
@@ -109,6 +109,7 @@ header("Access-Control-Allow-Origin: *");
 		$startIdx = $startPage+2;
 		$endIdx = $startIdx+$pageSize;
 		if($endIdx>$total) $endIdx=$total;
+		// echo $endIdx;
 		// echo $startIdx.'_'.$endIdx;
 		while ($startIdx < $endIdx) 
 		{

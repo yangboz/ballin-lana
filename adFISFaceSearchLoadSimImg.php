@@ -2,7 +2,6 @@
 	include("settings.php");
 	header("Access-Control-Allow-Origin: *");
 	$postValue=$_POST['trans_data'];
-	$postValue1=$_POST['trans_data1'];
      $dir_info = dir($postValue);
 	 
 	 $count = 50;
@@ -12,7 +11,6 @@
  	$os = (DIRECTORY_SEPARATOR=='\\')?"windows":'linux';
 	switch ($os) {
 		case 'windows':
-			$postValue1 = str_replace("\\\\", "/", $postValue1);
 			$origin_dir_path = 'data\\FaceIndexingAndSearchImg\\';
 			$origin_dir_path = str_replace("\\\\", "/", $origin_dir_path);
 			break;
