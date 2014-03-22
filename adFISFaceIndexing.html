@@ -4,6 +4,15 @@
 		<title>Face Indexing</title>
 		<meta charset="utf-8">
 		 <link href="slider/generic.css" rel="stylesheet" type="text/css" />
+		 <style type="text/css">
+			#list{width:600px; height:530px; margin:20px auto 2px auto; position:relative}
+			#list ul li{ float:left;width:160px; height:240px; margin:2px;list-style:none;}
+			#list ul li img{width:140px; height:140px}
+			#list ul li p{line-height:22px}
+			#pagecount{width:500px; margin:10px auto 2px auto; padding-bottom:20px; text-align:center}
+			#pagecount span{margin:4px; font-size:14px}
+			#list ul li#loading{width:120px; height:32px; line-height:32px; border:1px solid #d3d3d3; position:absolute; top:35%; left:42%; text-align:center; background:#f7f7f7 url(data/loading.gif) no-repeat 8px 8px;-moz-box-shadow:1px 1px 2px rgba(0,0,0,.2); -webkit-box-shadow:1px 1px 2px rgba(0,0,0,.2); box-shadow:1px 1px 2px rgba(0,0,0,.2);}
+			</style>
 		 <script type="text/javascript">
 		function checkLogin()
 		{
@@ -43,54 +52,87 @@
 	 	<link href="slider/js-image-slider.css" rel="stylesheet" type="text/css" />
 	    <script src="slider/js-image-slider.js" type="text/javascript"></script>
 	    
-	    <script type="text/javascript">
-		    $( document ).ready( function(){
-		        $('.step_wrapper').on('click','.step_box',function () {
-		             $('.step_box').removeClass('selected');
-		             $(this).addClass('selected');
-		        });
-		    });
-		 </script>
 		<script type="text/javascript">
+			var curPage = 1; //当前页码
+			var total,pageSize,totalPage;
+			//获取数据
+			function getData(page){ 
+				$.ajax({
+					type: 'POST',
+					url: 'adFISFaceIndexing.php',
+					data: {'pageNum':page-1},
+					dataType:'json',
+					beforeSend:function(){
+						$("#list ul").append("<li id='loading'>loading...</li>");
+					},
+					success:function(json){
+						$("#list ul").empty();
+						total = json.total; //总记录数
+						pageSize = json.pageSize; //每页显示条数
+						curPage = page; //当前页
+						totalPage = json.totalPage; //总页数
+						var li = "";
+						var list = json.list;
+						$.each(list,function(index,array){ //遍历json数据列
+							// li += "<li><a href='#'><img src='"+array['face_path']+"'>"+array['count']+"</a></li>";
+							li += "<li>"
+									// +'<div class="col-lg-4 col-md-4 col-xs-6" thumb>'
+										+'<div class="thumbnail" href="#">'
+											+"<img src='"+array['face_path']+"'>"
+											+'<div class="caption">'
+												+'<p>'+array['count']+'</p>'
+												+'<p><button onclick=loadSimImg('+JSON.stringify(array['sim_face_path'])+')>Load</button></p>'
+											+'</div>'
+										+'</div>'
+									// +'</div>'
+								+"</li>";
+						});
+						$("#list ul").append(li);
+					},
+					complete:function(){ //生成分页条
+						getPageBar();
+					},
+					error:function(){
+						alert("数据加载失败");
+					}
+				});
+			}
+			
+			//获取分页条
+			function getPageBar(){
+				//页码大于最大页数
+				if(curPage>totalPage) curPage=totalPage;
+				//页码小于1
+				if(curPage<1) curPage=1;
+				pageStr = "<span>Total: "+total+"</span><span>"+curPage+"/"+totalPage+"</span>";
+				
+				//如果是第一页
+				if(curPage==1){
+					pageStr += "<span>First</span><span>Pre</span>";
+				}else{
+					pageStr += "<span><a href='javascript:void(0)' rel='1'>First</a></span><span><a href='javascript:void(0)' rel='"+(curPage-1)+"'>Pre</a></span>";
+				}
+				
+				//如果是最后页
+				if(curPage>=totalPage){
+					pageStr += "<span>Next</span><span>Last</span>";
+				}else{
+					pageStr += "<span><a href='javascript:void(0)' rel='"+(parseInt(curPage)+1)+"'>Next</a></span><span><a href='javascript:void(0)' rel='"+totalPage+"'>Last</a></span>";
+				}
+					
+				$("#pagecount").html(pageStr);
+			}
 			$(document).ready(function(){
-				//in minutes
-				var dataCenterURL = VICA.ConfigHandler.getValue('static') + "/vica_web/adFISFaceIndexing.php";
-				// and remember the jqXHR object for this request
-				var jqxhr = $.ajax( dataCenterURL )
-				  .done(function(data) {
-				    // alert( "success" );
-				    var data = $.parseJSON(data);
-				    console.log("Extracted Face Counting data:",data);
-				    $.each(data, function(i,item){
-	                	// $('#FIimg_collage').append('<div class="col-lg-2 col-md-4 col-xs-6" thumb>'
-	                		// +'<div class="thumbnail" href="#">'
-	                			// +'<img class="img-responsive" src='+item['face_path']+' width="150px" height="150px">'
-	                			// // +'<img src='+item['face_path']+' width="150" height="150">'
-	                			// +'<div class="caption">'
-	                			// +'<p>'+item['count']+'</p>'
-								// +'<p><button onclick=loadSimImg('+JSON.stringify(item['sim_face_data'])+')>Load</button></p>'
-                				// +'</div>'
-                			// +'</div>'
-            			// +'</div>');
-							$('#FIimg_collage').append('<div class="col-lg-4 col-md-4 col-xs-6" thumb>'
-	                		+'<div class="thumbnail" href="#">'
-	                			+'<img src='+item['face_path']+'>'
-	                			// +'<img src='+item['face_path']+' width="150" height="150">'
-	                			+'<div class="caption">'
-	                			+'<p>'+item['count']+'</p>'
-								+'<p><button onclick=loadSimImg('+JSON.stringify(item['sim_face_data'])+')>Load</button></p>'
-                				+'</div>'
-                			+'</div>'
-            			+'</div>');
-	        		});
-				  })
-				  .fail(function() {
-				    //alert( "error" );
-				  })
-				  .always(function() {
-				    //alert( "complete" );
-				  });
+			// $(function(){
+				getData(1);
+				$("#pagecount span a").live('click',function(){
+					var rel = $(this).attr("rel");
+					if(rel){
+						getData(rel);
+					}
+				});
 			});
+
 		</script>
 			
 			
@@ -106,7 +148,10 @@
 		      </div>
 			  <div id="mainContent">
 			    <div id="FIimg_collage" style="height:700px;width:900;overflow:scroll;">
-			    	
+			    	<div id="list">
+			    		<ul></ul>
+				    </div>
+				   	<div id="pagecount"></div>
 			    </div>
 			    <div id="FIcontent">
 			    	<div id="sliderFrame">
