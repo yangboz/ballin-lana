@@ -3,6 +3,16 @@
 	<head>
 		<title>Face Search</title>
 		<meta charset="utf-8">
+		<style type="text/css">
+			#list{width:200px; height:450px; position:relative}
+			#list ul li{ float:left;width:180px; height:240px; margin:2px;list-style:none;}
+			#list ul li img{width:180px; height:180px}
+			#list ul li p{line-height:22px}
+			/*#pagecount{width:100px; margin:10px auto 2px auto; padding-bottom:20px; text-align:left}*/
+			#pagecount{width:200px; padding-bottom:20px; text-align:left}
+			#pagecount span{margin:4px; font-size:14px}
+			#list ul li#loading{width:120px; height:32px; line-height:32px; border:1px solid #d3d3d3; position:absolute; top:35%; left:42%; text-align:center; background:#f7f7f7 url(data/loading.gif) no-repeat 8px 8px;-moz-box-shadow:1px 1px 2px rgba(0,0,0,.2); -webkit-box-shadow:1px 1px 2px rgba(0,0,0,.2); box-shadow:1px 1px 2px rgba(0,0,0,.2);}
+			</style>
 		<script type="text/javascript">
 		function checkLogin()
 		{
@@ -27,7 +37,7 @@
 		}
 		window.onload=checkLogin;
 	</script>
-		<style type="text/css">
+		<!-- <style type="text/css">
 		    .step_box {
 		        border: 1.0px solid rgb(204, 204, 204);
 		        border-radius: 10.0px 10.0px 10.0px 10.0px;
@@ -38,7 +48,7 @@
 		    .selected {
 		        background-color : #fff000;
 		    }
-	    </style>
+	    </style> -->
 	</head>
 	<body>
 		<!-- <script src="js/myInclude.js"></script> -->
@@ -62,7 +72,7 @@
 	        });
 	    });
 		 </script>
-		<script type="text/javascript">
+		<!-- <script type="text/javascript">
 			$(document).ready(function(){
 				//in minutes
 				var dataCenterURL = VICA.ConfigHandler.getValue('static') + "/vica_web/adFISFaceSearch.php";
@@ -77,7 +87,7 @@
 	                		+'<div class="thumbnail" href="#">'
 	                			+'<img class="img-responsive" src='+item['face_path']+' width="100" height="80">'
 	                			+'<div class="caption">'
-	                			// +'<p>'+item['sim_count']+'</p>'
+	                			+'<p>'+item['sim_count']+'</p>'
 								+'<p><button onclick=Search('+JSON.stringify(item['data'])+')>Search</button></p>'
                 				+'</div>'
                 			+'</div>'
@@ -91,7 +101,95 @@
 				    //alert( "complete" );
 				  });
 			});
+		</script> -->
+		
+		
+		
+		
+		<script type="text/javascript">
+			var curPage = 1; //当前页码
+			var total,pageSize,totalPage;
+			//获取数据
+			function getData(page){ 
+				$.ajax({
+					type: 'POST',
+					url: 'adFISFaceSearch.php',
+					data: {'pageNum':page-1},
+					dataType:'json',
+					beforeSend:function(){
+						$("#list ul").append("<li id='loading'>loading...</li>");
+					},
+					success:function(json){
+						$("#list ul").empty();
+						total = json.total; //总记录数
+						pageSize = json.pageSize; //每页显示条数
+						curPage = page; //当前页
+						totalPage = json.totalPage; //总页数
+						var li = "";
+						var list = json.list;
+						$.each(list,function(index,array){ //遍历json数据列
+							// li += "<li><a href='#'><img src='"+array['face_path']+"'>"+array['count']+"</a></li>";
+							li += "<li>"
+									// +'<div class="col-lg-4 col-md-4 col-xs-6" thumb>'
+										+'<div class="thumbnail" href="#">'
+											+"<img src='"+array['face_path']+"'>"
+											+'<div class="caption">'
+												// +'<p>'+array['sim_count']+'</p>'
+												+'<p><button onclick=Search('+JSON.stringify(array['data'])+')>Search</button></p>'
+											+'</div>'
+										+'</div>'
+									// +'</div>'
+								+"</li>";
+								
+						});
+						$("#list ul").append(li);
+					},
+					complete:function(){ //生成分页条
+						getPageBar();
+					},
+					error:function(){
+						alert("Data Load Failure!");
+					}
+				});
+			}
+			
+			//获取分页条
+			function getPageBar(){
+				//页码大于最大页数
+				if(curPage>totalPage) curPage=totalPage;
+				//页码小于1
+				if(curPage<1) curPage=1;
+				pageStr = "<span>Total: "+total+"</span><span>"+curPage+"/"+totalPage+"</span>";
+				
+				//如果是第一页
+				if(curPage==1){
+					pageStr += "<span>First</span><span>Pre</span>";
+				}else{
+					pageStr += "<span><a href='javascript:void(0)' rel='1'>First</a></span><span><a href='javascript:void(0)' rel='"+(curPage-1)+"'>Pre</a></span>";
+				}
+				
+				//如果是最后页
+				if(curPage>=totalPage){
+					pageStr += "<span>Next</span><span>Last</span>";
+				}else{
+					pageStr += "<span><a href='javascript:void(0)' rel='"+(parseInt(curPage)+1)+"'>Next</a></span><span><a href='javascript:void(0)' rel='"+totalPage+"'>Last</a></span>";
+				}
+					
+				$("#pagecount").html(pageStr);
+			}
+			$(document).ready(function(){
+			// $(function(){
+				getData(1);
+				$("#pagecount span a").live('click',function(){
+					var rel = $(this).attr("rel");
+					if(rel){
+						getData(rel);
+					}
+				});
+			});
+
 		</script>
+		
 			
 			
 		<div id="FScontainer">
@@ -105,7 +203,11 @@
 		  <div id="FSmenu" style="overflow-x: scroll;">
 		  </div>
 		  <div id="FSmainContent">
-		    <div id="FSsidebar" style="overflow-y: scroll;">
+		    <div id="FSsidebar" style="overflow: scroll;">
+		    	<div id="list">
+		    		<ul></ul>
+			    </div>
+			   	<div id="pagecount"></div>
 	    	</div>
 		    <div id="FScontent" style="overflow: scroll;">
 		    </div>
@@ -134,7 +236,6 @@
 		{
 			// alert(data);
 			var my_data = val;
-			// var my_data1 = val1;
 			$(function(){
 				$.ajax({
 					url: "adFISFaceSearchLoadSimImg.php",
