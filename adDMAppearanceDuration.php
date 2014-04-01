@@ -8,12 +8,21 @@ try{
  	$dbh ->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	//echo 'PDO Connection  OK!','';
 	$dbh -> beginTransaction();
-	$sth = $dbh -> prepare('SELECT * FROM vica_cntv_facetracking');
+	// $personid = '0000';
+	// $personid = '0004';
+	// $personid = '0007';
+	// $personid = '0008';
+	// $personid = '0009';
+	$personid = '0006';
+	$sql = "SELECT * FROM vica_cntv_facetracking WHERE personID='".$personid."'";
+	// echo $sql;
+	$sth = $dbh -> prepare($sql);
 	$sth -> execute();
 	//for JSON output
 	$resultsArr = array();
 	$result = $sth -> fetchAll();
-	//printf(count($result));
+	
+	// print_r($result);
 	$count = count($result);
 	//customize results assembling.
 	for ($i = 0; $i < $count; $i++) {
@@ -50,7 +59,7 @@ for($i=0;$i<$count;$i++)
 	$start_time[$i]=ceil($start_frame[$i]/$fps);
 }
 
-$tsv_file = 'data/adDMAppearanceDuration.tsv';
+$tsv_file = 'data/adDMAppearanceDuration6.tsv';
 $file = fopen($tsv_file,"w");
 $title_line = "idvica_facetracking	personID	apperanceDuration	start_time	start_frame	end_frame";
 // $title_line = "letter	frequency";
@@ -64,6 +73,7 @@ for($i=0;$i<$count;$i++)
 	$content=$content.$tmp."\n";
 }
 echo $content."</br>";
+// print_r($personID);
 // $json_string = json_encode($res);
 // 
 // echo "getData($json_string)";

@@ -51,6 +51,7 @@
 
 #right_a1 { float:right; width:500px; } 
 
+
 .changed div::selection {
   background:#FF0057;
   color: red;
