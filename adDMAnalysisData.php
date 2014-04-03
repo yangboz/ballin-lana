@@ -22,10 +22,18 @@ try {
 	//printf(count($result));
 	$count = count($result);
 	//customize results assembling.
+	$thres = 0.6;
 	for ($i = 0; $i < $count; $i++) {
 		// print_r($result[$i]);
 		$resultsArr[$i]["idvica_facetracking"] = $result[$i]["idvica_facetracking"];
-		$resultsArr[$i]["personID"] = $result[$i]["personID"];
+		if($result[$i]["score"]<$thres)
+		{
+			$personID = get_personID($result[$i]["idvica_facetracking"], 4);
+			$resultsArr[$i]["personID"] = $personID;
+		}else{
+			$resultsArr[$i]["personID"] = $result[$i]["personID"];
+		}
+		
 		$resultsArr[$i]["start_frame"] = $result[$i]["start_frame"];
 		$resultsArr[$i]["end_frame"] = $result[$i]["end_frame"];
 		$resultsArr[$i]["face_path"] = $result[$i]["face_path"];
@@ -41,4 +49,21 @@ try {
 	$dsn = null;
 
 }
+
+function get_personID($num,$len)
+	{
+		$dir_num = '';
+		for($i=0;$i<$len;++$i)
+		{
+			if(($tmp = $num%10)!=0)
+			{
+				$dir_num = $dir_num.$tmp;
+				$num = floor($num/10);
+			}else{
+				$dir_num = $dir_num.'0';
+				$num = floor($num/10);
+			}
+		}
+		return strrev($dir_num);
+	}
 ?>
