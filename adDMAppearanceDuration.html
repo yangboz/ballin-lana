@@ -143,6 +143,14 @@
 					  			</div>
 					  		</td>
 				  		</tr>
+				  		<tr data-row-key="0000" id="3">
+					  		<td> <img src="data\ExtractedFaces\CNTVXjpDemo\Person3.jpg" width="120" height="120"></td>
+					  		<td>
+					  			<div id="chartbar3">
+					  				
+					  			</div>
+					  		</td>
+				  		</tr>
 				  		<tr data-row-key="0000" id="4">
 					  		<td> <img src="data\ExtractedFaces\CNTVXjpDemo\Person4.jpg" width="120" height="120"></td>
 					  		<td>
@@ -199,7 +207,7 @@
 
 <script>
 var margin = {top: 40, right: 20, bottom: 30, left: 100},
-    width = 600 - margin.left - margin.right,
+    width = 700 - margin.left - margin.right,
     height = 200 - margin.top - margin.bottom;
 
 
@@ -240,7 +248,7 @@ var svg = d3.select("#chartbar0").append("svg")
 svg.call(tip);
 
 
-d3.tsv("data/adDMAppearanceDuration0.tsv", type, function(error, data) {
+d3.tsv("data/adDMAppearanceDuration00.tsv", type, function(error, data) {
   x.domain(data.map(function(d) { return d.start_time; }));
   y.domain([0, d3.max(data, function(d) { return d.apperanceDuration; })]);
 
@@ -264,7 +272,7 @@ svg.selectAll(".bar")
       .data(data)
     .enter().append("rect")
       .attr("class", "bar")
-      .attr("x", function(d) { return x(d.start_time)+46; })
+      .attr("x", function(d) { return x(d.start_time)+16; })
       // .attr("width", x.rangeBand())
       .attr("width", "12")
       .attr("y", function(d) { return y(d.apperanceDuration); })
@@ -283,9 +291,98 @@ function type(d) {
 }
 </script>
 
+
 <script>
 var margin = {top: 40, right: 20, bottom: 30, left: 100},
-    width = 600 - margin.left - margin.right,
+    width = 700 - margin.left - margin.right,
+    height = 200 - margin.top - margin.bottom;
+
+
+var formatPercent = d3.format(".0%");
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    // .tickFormat(formatPercent);
+    .tickFormat(d3.format("d"));
+
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+    return "<strong>PersonID:</strong> <span style='color:red'>" + d.personID +
+    "</span></br><strong>Start Time:</strong> <span style='color:red'>" + d.start_time + 
+    "</span></br><strong>Appearance Duration:</strong> <span style='color:red'>" + d.apperanceDuration + "s" + 
+    "</span></br> <p><strong>you can double click the bar to view the person</strong></p>";
+  })
+
+var svg3= d3.select("#chartbar3").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg3.call(tip);
+
+
+d3.tsv("data/adDMAppearanceDuration33.tsv", type, function(error, data) {
+  x.domain(data.map(function(d) { return d.start_time; }));
+  y.domain([0, d3.max(data, function(d) { return d.apperanceDuration; })]);
+
+  svg3.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+
+  svg3.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("apperanceDuration");
+
+svg3.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.start_time)+17; })
+      // .attr("width", x.rangeBand())
+      .attr("width", "12")
+      .attr("y", function(d) { return y(d.apperanceDuration); })
+      .attr("height", function(d) { return height - y(d.apperanceDuration); })
+      .on('dblclick', function(d) {
+  		playClip(d.start_frame,d.end_frame)
+		})
+      .on('mouseover', tip.show)
+      .on('mouseout',tip.hide);
+});
+
+
+function type(d) {
+  d.apperanceDuration = +d.apperanceDuration;
+  return d;
+}
+</script>
+
+
+
+<script>
+var margin = {top: 40, right: 20, bottom: 30, left: 100},
+    width = 700 - margin.left - margin.right,
     height = 200 - margin.top - margin.bottom;
 
 
@@ -326,7 +423,7 @@ var svg4 = d3.select("#chartbar4").append("svg")
 svg4.call(tip);
 
 
-d3.tsv("data/adDMAppearanceDuration4.tsv", type, function(error, data) {
+d3.tsv("data/adDMAppearanceDuration44.tsv", type, function(error, data) {
   x.domain(data.map(function(d) { return d.start_time; }));
   y.domain([0, d3.max(data, function(d) { return d.apperanceDuration; })]);
 
@@ -350,7 +447,7 @@ svg4.selectAll(".bar")
       .data(data)
     .enter().append("rect")
       .attr("class", "bar")
-      .attr("x", function(d) { return x(d.start_time)+46; })
+      .attr("x", function(d) { return x(d.start_time)+18; })
       // .attr("width", x.rangeBand())
       .attr("width", "12")
       .attr("y", function(d) { return y(d.apperanceDuration); })
@@ -372,7 +469,7 @@ function type(d) {
 
 <script>
 var margin = {top: 40, right: 20, bottom: 30, left: 100},
-    width = 600 - margin.left - margin.right,
+    width = 700 - margin.left - margin.right,
     height = 200 - margin.top - margin.bottom;
 
 
@@ -413,7 +510,7 @@ var svg7 = d3.select("#chartbar7").append("svg")
 svg7.call(tip);
 
 
-d3.tsv("data/adDMAppearanceDuration7.tsv", type, function(error, data) {
+d3.tsv("data/adDMAppearanceDuration77.tsv", type, function(error, data) {
   x.domain(data.map(function(d) { return d.start_time; }));
   y.domain([0, d3.max(data, function(d) { return d.apperanceDuration; })]);
 
@@ -437,7 +534,7 @@ svg7.selectAll(".bar")
       .data(data)
     .enter().append("rect")
       .attr("class", "bar")
-      .attr("x", function(d) { return x(d.start_time)+190; })
+      .attr("x", function(d) { return x(d.start_time)+16; })
       // .attr("width", x.rangeBand())
       .attr("width", "12")
       .attr("y", function(d) { return y(d.apperanceDuration); })
@@ -458,7 +555,7 @@ function type(d) {
 
 <script>
 var margin = {top: 40, right: 20, bottom: 30, left: 100},
-    width = 600 - margin.left - margin.right,
+    width = 700 - margin.left - margin.right,
     height = 200 - margin.top - margin.bottom;
 
 
@@ -499,7 +596,7 @@ var svg8 = d3.select("#chartbar8").append("svg")
 svg8.call(tip);
 
 
-d3.tsv("data/adDMAppearanceDuration8.tsv", type, function(error, data) {
+d3.tsv("data/adDMAppearanceDuration88.tsv", type, function(error, data) {
   x.domain(data.map(function(d) { return d.start_time; }));
   y.domain([0, d3.max(data, function(d) { return d.apperanceDuration; })]);
 
@@ -523,7 +620,7 @@ svg8.selectAll(".bar")
       .data(data)
     .enter().append("rect")
       .attr("class", "bar")
-      .attr("x", function(d) { return x(d.start_time)+190; })
+      .attr("x", function(d) { return x(d.start_time)+16; })
       // .attr("width", x.rangeBand())
       .attr("width", "12")
       .attr("y", function(d) { return y(d.apperanceDuration); })
@@ -545,7 +642,7 @@ function type(d) {
 
 <script>
 var margin = {top: 40, right: 20, bottom: 30, left: 100},
-    width = 600 - margin.left - margin.right,
+    width = 700 - margin.left - margin.right,
     height = 200 - margin.top - margin.bottom;
 
 
@@ -586,7 +683,7 @@ var svg9 = d3.select("#chartbar9").append("svg")
 svg9.call(tip);
 
 
-d3.tsv("data/adDMAppearanceDuration9.tsv", type, function(error, data) {
+d3.tsv("data/adDMAppearanceDuration99.tsv", type, function(error, data) {
   x.domain(data.map(function(d) { return d.start_time; }));
   y.domain([0, d3.max(data, function(d) { return d.apperanceDuration; })]);
 
@@ -610,7 +707,7 @@ svg9.selectAll(".bar")
       .data(data)
     .enter().append("rect")
       .attr("class", "bar")
-      .attr("x", function(d) { return x(d.start_time)+190; })
+      .attr("x", function(d) { return x(d.start_time)+16; })
       // .attr("width", x.rangeBand())
       .attr("width", "12")
       .attr("y", function(d) { return y(d.apperanceDuration); })
