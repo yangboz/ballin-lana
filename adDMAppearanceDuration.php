@@ -9,10 +9,11 @@ try{
 	//echo 'PDO Connection  OK!','';
 	$dbh -> beginTransaction();
 	// $personid = '0000';
-	// $personid = '0004';
+	// $personid = '0003';
+	$personid = '0004';
 	// $personid = '0007';
 	// $personid = '0008';
-	$personid = '0009';
+	// $personid = '0009';
 	// $personid = '0006';
 	$sql = "SELECT * FROM vica_cntv_facetracking WHERE personID='".$personid."'";
 	// echo $sql;
@@ -59,24 +60,66 @@ for($i=0;$i<$count;$i++)
 	$start_time[$i]=ceil($start_frame[$i]/$fps);
 }
 
-$tsv_file = 'data/adDMAppearanceDuration9.tsv';
+$tsv_file = 'data/adDMAppearanceDuration44.tsv';
 $file = fopen($tsv_file,"w");
 $title_line = "idvica_facetracking	personID	apperanceDuration	start_time	start_frame	end_frame";
 // $title_line = "letter	frequency";
 $content = $title_line."\n";
 
-for($i=0;$i<$count;$i++)
+
+$total_seconds = 226;
+$interval_time = 20;
+$interval = ceil($total_seconds/$interval_time);
+$t_count = $interval+$count;
+$s_second = 0;
+$e_second = 20;
+$e_second1 = 20;
+$s_idx = 0;
+$flag = array();
+for($k=0;$k<$count;++$k)
 {
-	$tmp = $idvica_facetracking[$i]."\t".$personID[$i]."\t".$apperanceDuration[$i]."\t".date('H:i:s',$start_time[$i])."\t".$start_frame[$i]."\t".$end_frame[$i];
-	// $tmp = $personID[$i]."\t".$apperanceDuration[$i];
-	
-	$content=$content.$tmp."\n";
+	$flag[$k]=1;
 }
-echo $content."</br>";
-// print_r($personID);
-// $json_string = json_encode($res);
-// 
-// echo "getData($json_string)";
+
+$i=0;
+while($i<$interval)
+{
+	
+	
+	for($j=0;$j<$count;++$j)
+	{
+		if($flag[$j]>0)
+		{
+			if(($s_second<=$start_time[$j])&&($start_time[$j]<=$e_second))
+			{
+				$tmp = $idvica_facetracking[$j]."\t".$personID[$j]."\t".$apperanceDuration[$j]."\t".date('H:i:s',$start_time[$j])."\t".$start_frame[$j]."\t".$end_frame[$j];
+					
+				$content=$content.$tmp."\n";
+				$flag[$j]=0;
+				$i++;
+				$e_second1+=$interval_time;
+				// echo $e_second1."</br>";
+			}
+		}
+		
+	}
+	$tmp = $idvica_facetracking[0]."\t".$personID[0]."\t".'0'."\t".date('H:i:s',$e_second1)."\t".'0'."\t".'0';
+				
+	$content=$content.$tmp."\n";
+	
+	$s_second+=$interval_time;
+	$e_second+=$interval_time;
+	$e_second1+=$interval_time;
+	$i++;
+	// echo $i."</br>";
+}
+
+
+
+// echo $content."</br>";
+
+
+
 fwrite($file, $content);
 fclose($file);
 echo "ok";

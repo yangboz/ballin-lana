@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>数字媒体管理</title>
+		<title>Digital Media Management</title>
 		<script src="js/Chart.js"></script>
 		<script type="text/javascript">
 		function checkLogin()
@@ -102,22 +102,22 @@
 		<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 		
 		<ol class="breadcrumb">
-		  <li><a href="DMIndexchi.html">主页</a></li>
-		  <li class="active">滞留侦测</li>
+		  <li><a href="DMIndex.html">Main Page</a></li>
+		  <li class="active">Appearance Frequency and Duration</li>
 		</ol>
 		
 		<div class="panel panel-primary">
-		  <div class="panel-heading">滞留侦测</div>
+		  <div class="panel-heading">Appearance Frequency and Duration</div>
 		  <div class="panel-body">
 		    <div id="warp" class="media">
 		    	<div id="left_a">
 		    		<a class="pull-left" href="#">
 				    <div class="videoUiWrapper thumbnail"style="position:fixed; left:0; width:320;">
 				    	<button type="button" class="btn btn-default btn-lg" onclick="playPause()">
-						  		<span id="play/pause" class="glyphicon glyphicon-play"></span>播放/暂停
+						  		<span id="play/pause" class="glyphicon glyphicon-play"></span>Play/Pause
 					  	  	</button>
 						  	<button type="button" class="btn btn-default btn-lg" onclick="stop()">
-						  		<span id="stop" class="glyphicon glyphicon-stop"></span>停止
+						  		<span id="stop" class="glyphicon glyphicon-stop"></span>Stop
 						  	</button>
 						  	<br /> 
 					  <video width="300" height="214" id="demo1" controls>
@@ -135,6 +135,15 @@
 			  	<table  id="tabel_adFaceCounting" class="table table-striped table-condensed">
 			          
 			          <tbody>
+			          	<tr data-row-key="0000" id="all">
+			          		<td width="120" height="120"> </td>
+					  		<td>
+					  			<div id="chartbar_frequency">
+		  			
+		  						</div>	
+					  		</td>
+				  		</tr>
+			          	
 			          	<tr data-row-key="0000" id="0">
 					  		<td> <img src="data\ExtractedFaces\CNTVXjpDemo\Person0.jpg" width="120" height="120"></td>
 					  		<td>
@@ -159,16 +168,26 @@
 					  			</div>
 					  		</td>
 				  		</tr>
+				  		<!-- <tr data-row-key="0000" id="7">
+					  		<td> <img src="data\ExtractedFaces\CNTVXjpDemo\Person7.jpg" width="120" height="120"></td>
+					  		<td>
+					  			<div id="chartbar7"  style="width:400px" align="left">
+					  				
+					  			</div>
+					  		</td>
+				  		</tr> -->
+				  		
 				  		<tr data-row-key="0000" id="7">
 					  		<td> <img src="data\ExtractedFaces\CNTVXjpDemo\Person7.jpg" width="120" height="120"></td>
 					  		<td>
-					  			<div id="chartbar7">
+					  			<!-- <div id="chartbar0" style="float:left"> -->
+					  			<div id="chartbar7">	
 					  				
 					  			</div>
 					  		</td>
 				  		</tr>
 				  		<tr data-row-key="0000" id="8">
-					  		<td> <img src="data\ExtractedFaces\CNTVXjpDemo\Person8.jpg" width="120" height="120"></td>
+					  		<td style="width:120px"> <img src="data\ExtractedFaces\CNTVXjpDemo\Person8.jpg" width="120" height="120"></td>
 					  		<td>
 					  			<div id="chartbar8">
 					  				
@@ -178,19 +197,11 @@
 				  		<tr data-row-key="0000" id="9">
 					  		<td> <img src="data\ExtractedFaces\CNTVXjpDemo\Person9.jpg" width="120" height="120"></td>
 					  		<td>
-					  			<div id="chartbar9">
+					  			<div id="chartbar9" align="left">
 					  				
 					  			</div>
 					  		</td>
 				  		</tr>
-				  		<!-- <tr data-row-key="0000" id="6">
-					  		<td> <img src="data\ExtractedFaces\CNTVXjpDemo\Person10.jpg" width="120" height="120"></td>
-					  		<td>
-					  			<div id="chartbar6">
-					  				
-					  			</div>
-					  		</td>
-				  		</tr> -->
 			          </tbody>
 			        </table>
 			  	
@@ -199,8 +210,115 @@
 			 	</div>   	
 			</div>
 		  </div>
-		  <div class="panel-footer">CNTV视频</div>
+		  <div class="panel-footer">CNTV video</div>
 		</div>
+
+
+
+<script>
+
+var margin = {top: 40, right: 20, bottom: 30, left: 100},
+    width = 700 - margin.left - margin.right,
+    height = 200 - margin.top - margin.bottom;
+
+var formatPercent = d3.format(".0%");
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    // .tickFormat(formatPercent);
+    .tickFormat(d3.format("d"));
+
+var tip1 = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d1) {
+    return "<strong>The person: </strong> <span style='color:red'>" + d1.personID +
+    "</span><strong> repeat </strong> <span style='color:red'>" + d1.num + "</span> times in the video."+
+    "</br><p><img src="+d1.face_path+" width=100 height=100></p>";
+  })
+
+var svg_f = d3.select("#chartbar_frequency").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg_f.call(tip1);
+
+d3.tsv("data/adDMAppearanceFrequency.tsv", type1, function(error, data) {
+  x.domain(data.map(function(d1) { return d1.personID; }));
+  y.domain([0, d3.max(data, function(d1) { return d1.num; })]);
+
+  svg_f.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  svg_f.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("times");
+
+  svg_f.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.personID)+37; })
+      // .attr("width", x.rangeBand())
+      .attr("width", "12")
+      .attr("y", function(d) { return y(d.num); })
+      .attr("height", function(d) { return height - y(d.num); })
+      .on('dblclick', function(d) {
+  		
+  		var vals = d.start_end_frame.split("_");
+  	 	var len = vals.length;
+  	 	var fps=20;
+  	 	var start_time=Math.floor(vals[0]/fps);
+  	 	var end_time=Math.floor(vals[1]/fps);
+  	 	var interval=(end_time-start_time+1)*1000;
+	  	playClip(vals[0],vals[1]);
+ 	 	var idx=2;
+		  function run()
+		  {
+		  	playClip(vals[idx],vals[idx+1]);
+		  	start_time=Math.floor(vals[idx]/fps);
+			end_time=Math.floor(vals[idx+1]/fps);
+			interval=(end_time-start_time+1)*1000;
+		  	idx+=2;
+		  	if(idx<len)
+		  	{
+		  		setTimeout(run,interval);
+		  	}
+		  	
+		  }
+		  setTimeout(run,interval);
+		})
+      .on('mouseover', tip1.show)
+      .on('mouseout',tip1.hide);
+});
+
+
+function type1(d1) {
+  d1.num = +d1.num;
+  return d1;
+}
+</script>
 
 <script>
 var margin = {top: 40, right: 20, bottom: 30, left: 100},
@@ -230,10 +348,10 @@ var tip = d3.tip()
   .attr('class', 'd3-tip')
   .offset([-10, 0])
   .html(function(d) {
-  	  return "<strong>ID:</strong> <span style='color:red'>" + d.personID +
-    "</span></br><strong>出现时间:</strong> <span style='color:red'>" + d.start_time + "s" + 
-    "</span></br><strong>持续时间:</strong> <span style='color:red'>" + d.apperanceDuration + "s" + 
-    "</span></br> <p><strong>你可以通过双击查看这个人出现的原视频</strong></p>";
+    return "<strong>PersonID:</strong> <span style='color:red'>" + d.personID +
+    "</span></br><strong>Start Time:</strong> <span style='color:red'>" + d.start_time + 
+    "</span></br><strong>Appearance Duration:</strong> <span style='color:red'>" + d.apperanceDuration + "s" + 
+    "</span></br> <p><strong>you can double click the bar to view the person</strong></p>";
   })
 
 var svg = d3.select("#chartbar0").append("svg")
@@ -263,7 +381,7 @@ d3.tsv("data/adDMAppearanceDuration00.tsv", type, function(error, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("出现时长");
+      .text("apperanceDuration");
 
 svg.selectAll(".bar")
       .data(data)
@@ -317,10 +435,10 @@ var tip = d3.tip()
   .attr('class', 'd3-tip')
   .offset([-10, 0])
   .html(function(d) {
-      return "<strong>ID:</strong> <span style='color:red'>" + d.personID +
-    "</span></br><strong>出现时间:</strong> <span style='color:red'>" + d.start_time +
-    "</span></br><strong>持续时间:</strong> <span style='color:red'>" + d.apperanceDuration + "s" + 
-    "</span></br> <p><strong>你可以通过双击查看这个人出现的原视频</strong></p>";
+    return "<strong>PersonID:</strong> <span style='color:red'>" + d.personID +
+    "</span></br><strong>Start Time:</strong> <span style='color:red'>" + d.start_time + 
+    "</span></br><strong>Appearance Duration:</strong> <span style='color:red'>" + d.apperanceDuration + "s" + 
+    "</span></br> <p><strong>you can double click the bar to view the person</strong></p>";
   })
 
 var svg3= d3.select("#chartbar3").append("svg")
@@ -350,7 +468,7 @@ d3.tsv("data/adDMAppearanceDuration33.tsv", type, function(error, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("出现时长");
+      .text("apperanceDuration");
 
 svg3.selectAll(".bar")
       .data(data)
@@ -405,10 +523,10 @@ var tip = d3.tip()
   .attr('class', 'd3-tip')
   .offset([-10, 0])
   .html(function(d) {
-      return "<strong>ID:</strong> <span style='color:red'>" + d.personID +
-    "</span></br><strong>出现时间:</strong> <span style='color:red'>" + d.start_time +
-    "</span></br><strong>持续时间:</strong> <span style='color:red'>" + d.apperanceDuration + "s" + 
-    "</span></br> <p><strong>你可以通过双击查看这个人出现的原视频</strong></p>";
+    return "<strong>PersonID:</strong> <span style='color:red'>" + d.personID +
+    "</span></br><strong>Start Time:</strong> <span style='color:red'>" + d.start_time + 
+    "</span></br><strong>Appearance Duration:</strong> <span style='color:red'>" + d.apperanceDuration + "s" + 
+    "</span></br> <p><strong>you can double click the bar to view the person</strong></p>";
   })
 
 var svg4 = d3.select("#chartbar4").append("svg")
@@ -438,7 +556,7 @@ d3.tsv("data/adDMAppearanceDuration44.tsv", type, function(error, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("出现时长");
+      .text("apperanceDuration");
 
 svg4.selectAll(".bar")
       .data(data)
@@ -492,10 +610,10 @@ var tip = d3.tip()
   .attr('class', 'd3-tip')
   .offset([-10, 0])
   .html(function(d) {
-     return "<strong>ID:</strong> <span style='color:red'>" + d.personID +
-    "</span></br><strong>出现时间:</strong> <span style='color:red'>" + d.start_time +
-    "</span></br><strong>持续时间:</strong> <span style='color:red'>" + d.apperanceDuration + "s" + 
-    "</span></br> <p><strong>你可以通过双击查看这个人出现的原视频</strong></p>";
+    return "<strong>PersonID:</strong> <span style='color:red'>" + d.personID +
+    "</span></br><strong>Start Time:</strong> <span style='color:red'>" + d.start_time + 
+    "</span></br><strong>Appearance Duration:</strong> <span style='color:red'>" + d.apperanceDuration + "s" + 
+    "</span></br> <p><strong>you can double click the bar to view the person</strong></p>";
   })
 
 var svg7 = d3.select("#chartbar7").append("svg")
@@ -525,7 +643,7 @@ d3.tsv("data/adDMAppearanceDuration77.tsv", type, function(error, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("出现时长");
+      .text("apperanceDuration");
 
 svg7.selectAll(".bar")
       .data(data)
@@ -578,10 +696,10 @@ var tip = d3.tip()
   .attr('class', 'd3-tip')
   .offset([-10, 0])
   .html(function(d) {
-     return "<strong>ID:</strong> <span style='color:red'>" + d.personID +
-    "</span></br><strong>出现时间:</strong> <span style='color:red'>" + d.start_time +
-    "</span></br><strong>持续时间:</strong> <span style='color:red'>" + d.apperanceDuration + "s" + 
-    "</span></br> <p><strong>你可以通过双击查看这个人出现的原视频</strong></p>";
+    return "<strong>PersonID:</strong> <span style='color:red'>" + d.personID +
+    "</span></br><strong>Start Time:</strong> <span style='color:red'>" + d.start_time + 
+    "</span></br><strong>Appearance Duration:</strong> <span style='color:red'>" + d.apperanceDuration + "s" + 
+    "</span></br> <p><strong>you can double click the bar to view the person</strong></p>";
   })
 
 var svg8 = d3.select("#chartbar8").append("svg")
@@ -611,7 +729,7 @@ d3.tsv("data/adDMAppearanceDuration88.tsv", type, function(error, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("出现时长");
+      .text("apperanceDuration");
 
 svg8.selectAll(".bar")
       .data(data)
@@ -665,10 +783,10 @@ var tip = d3.tip()
   .attr('class', 'd3-tip')
   .offset([-10, 0])
   .html(function(d) {
-      return "<strong>ID:</strong> <span style='color:red'>" + d.personID +
-    "</span></br><strong>出现时间:</strong> <span style='color:red'>" + d.start_time + 
-    "</span></br><strong>持续时间:</strong> <span style='color:red'>" + d.apperanceDuration + "s" + 
-    "</span></br> <p><strong>你可以通过双击查看这个人出现的原视频</strong></p>";
+    return "<strong>PersonID:</strong> <span style='color:red'>" + d.personID +
+    "</span></br><strong>Start Time:</strong> <span style='color:red'>" + d.start_time + 
+    "</span></br><strong>Appearance Duration:</strong> <span style='color:red'>" + d.apperanceDuration + "s" + 
+    "</span></br> <p><strong>you can double click the bar to view the person</strong></p>";
   })
 
 var svg9 = d3.select("#chartbar9").append("svg")
@@ -698,7 +816,7 @@ d3.tsv("data/adDMAppearanceDuration99.tsv", type, function(error, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("出现时长");
+      .text("apperanceDuration");
 
 svg9.selectAll(".bar")
       .data(data)
@@ -722,8 +840,8 @@ function type(d) {
   return d;
 }
 </script>
-<script>
 
+<script>
 
 var myVideo=document.getElementById("demo1");
 var mySpan=document.getElementById("play/pause");
@@ -765,6 +883,26 @@ function playPause(){
 					
 				}
 		  	 }
+		  	 
+		  	 function latetimeout(sec)
+     {
+            var d1 = new Date();
+            var s1 = d1.getTime();
+            var d2 = new Date();
+            var s2 = d2.getTime();
+            
+            var st = 0;
+
+            while(st<sec)
+            {
+             d2 = new Date();
+             s2 = d2.getTime();
+             st = (s2-s1)/1000;             
+             
+            }
+    }
+			
+			
 			function stop()
 			{
 				myVideo.currentTime = 0;
