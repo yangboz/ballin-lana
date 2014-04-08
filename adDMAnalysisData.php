@@ -1,10 +1,4 @@
 <?php
-// //TimeZone setting.
-// date_default_timezone_set('UTC');
-// // Connect to an ODBC database using driver invocation
-// $dsn = 'sqlite:Uploads/vica_dev.db';
-// $user = null;
-// $password = null;
 include("settings.php");
  header("Access-Control-Allow-Origin: *");
 //
