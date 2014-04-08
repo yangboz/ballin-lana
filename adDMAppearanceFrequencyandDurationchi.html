@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>数字媒体管理</title>
+		<script src="js/Chart.js"></script>
+		<script type="text/javascript">
+		function checkLogin()
+		{
+			$(function(){
+				$.ajax({
+					url: "my.php",
+					type: "POST",
+				error: function(){  
+	            alert('Error loading XML document');  
+		        },  
+		        success: function(data,status){//如果调用php成功    
+		        var data = $.parseJSON(data);
+				if(data['state']=="true")
+				{
+				}else
+				{
+					self.location='login.html';
+				}
+		        }
+				});
+			});
+		}
+		window.onload=checkLogin;
+	</script>
+		<meta charset="utf-8">
+		<style>
+			canvas{
+			}
+			.x {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.bar {
+  fill: steelblue;
+}
+
+.bar:hover {
+  fill: brown ;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+		</style>
+	</head>
+
+	<body>
+		<!-- <script src="js/myInclude.js"></script> -->
+		<script type="text/javascript" src="js/environment.js"></script>
+		<script type="text/javascript" src="js/utils.js"></script>
+		<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="js/jquery.video-ui.js"></script>		
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="css/layout.css"/>
+		<script src="http://d3js.org/d3.v3.min.js"></script>
+		<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+		
+		<ol class="breadcrumb">
+		  <li><a href="DMIndexchi.html">主页</a></li>
+		  <li class="active">出现频次和滞留侦测</li>
+		</ol>
+		
+		<div class="panel panel-primary">
+		  <div class="panel-heading">出现频次和滞留侦测</div>
+		  <div class="panel-body">
+		    <div id="warp" class="media">
+		    	<div id="left_a">
+		    		<a class="pull-left" href="#">
+				    <div class="videoUiWrapper thumbnail"style="position:fixed; left:0; width:320;">
+				    	<button type="button" class="btn btn-default btn-lg" onclick="playPause()">
+						  		<span id="play/pause" class="glyphicon glyphicon-play"></span>播放/暂停
+					  	  	</button>
+						  	<button type="button" class="btn btn-default btn-lg" onclick="stop()">
+						  		<span id="stop" class="glyphicon glyphicon-stop"></span>停止
+						  	</button>
+						  	<br /> 
+					  <video width="300" height="214" id="demo1" controls>
+					  	
+					    <source src="data/xjp.ogg" type="video/ogg">
+					    Your browser does not support the video tag.
+					  </video>
+					</div>
+				  </a>
+	    		</div>
+			  
+			  <div id="right_a" class="media-body">
+			  	
+			  	
+			  	<table  id="tabel_adFaceCounting" class="table table-striped table-condensed">
+			          
+			          <tbody>
+			          	 <tbody>
+			          	<tr data-row-key="0000" id="all">
+			          		<td width="120" height="120"> </td>
+					  		<td>
+					  			<div id="chartbar_frequency">
+		  			
+		  						</div>	
+					  		</td>
+				  		</tr>
+			          	<tr data-row-key="0000" id="0">
+					  		<td> <img src="data\ExtractedFaces\CNTVXjpDemo\Person0.jpg" width="120" height="120"></td>
+					  		<td>
+					  			<div id="chartbar0">
+					  				
+					  			</div>
+					  		</td>
+				  		</tr>
+				  		<tr data-row-key="0000" id="3">
+					  		<td> <img src="data\ExtractedFaces\CNTVXjpDemo\Person3.jpg" width="120" height="120"></td>
+					  		<td>
+					  			<div id="chartbar3">
+					  				
+					  			</div>
+					  		</td>
+				  		</tr>
+				  		<tr data-row-key="0000" id="4">
+					  		<td> <img src="data\ExtractedFaces\CNTVXjpDemo\Person4.jpg" width="120" height="120"></td>
+					  		<td>
+					  			<div id="chartbar4">
+					  				
+					  			</div>
+					  		</td>
+				  		</tr>
+				  		<tr data-row-key="0000" id="7">
+					  		<td> <img src="data\ExtractedFaces\CNTVXjpDemo\Person7.jpg" width="120" height="120"></td>
+					  		<td>
+					  			<div id="chartbar7">
+					  				
+					  			</div>
+					  		</td>
+				  		</tr>
+				  		<tr data-row-key="0000" id="8">
+					  		<td> <img src="data\ExtractedFaces\CNTVXjpDemo\Person8.jpg" width="120" height="120"></td>
+					  		<td>
+					  			<div id="chartbar8">
+					  				
+					  			</div>
+					  		</td>
+				  		</tr>
+				  		<tr data-row-key="0000" id="9">
+					  		<td> <img src="data\ExtractedFaces\CNTVXjpDemo\Person9.jpg" width="120" height="120"></td>
+					  		<td>
+					  			<div id="chartbar9">
+					  				
+					  			</div>
+					  		</td>
+				  		</tr>
+				  		<!-- <tr data-row-key="0000" id="6">
+					  		<td> <img src="data\ExtractedFaces\CNTVXjpDemo\Person10.jpg" width="120" height="120"></td>
+					  		<td>
+					  			<div id="chartbar6">
+					  				
+					  			</div>
+					  		</td>
+				  		</tr> -->
+			          </tbody>
+			        </table>
+			  	
+		  		<div class="clear">
+			 	
+			 	</div>   	
+			</div>
+		  </div>
+		  <div class="panel-footer">CNTV视频</div>
+		</div>
+<script>
+
+var margin = {top: 40, right: 20, bottom: 30, left: 100},
+    width = 700 - margin.left - margin.right,
+    height = 200 - margin.top - margin.bottom;
+
+var formatPercent = d3.format(".0%");
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    // .tickFormat(formatPercent);
+    .tickFormat(d3.format("d"));
+
+var tip1 = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d1) {
+  	 return "<strong>人物：  </strong> <span style='color:red'>" + d1.personID +
+    "</span><strong> 在监控视频中重复出现了  </strong> <span style='color:red'>" + d1.num +
+    "</span><strong> 次 </strong></br><p><img src="+d1.face_path+" width=100 height=100></p>";
+  })
+
+var svg_f = d3.select("#chartbar_frequency").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg_f.call(tip1);
+
+d3.tsv("data/adDMAppearanceFrequency.tsv", type1, function(error, data) {
+  x.domain(data.map(function(d1) { return d1.personID; }));
+  y.domain([0, d3.max(data, function(d1) { return d1.num; })]);
+
+  svg_f.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  svg_f.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("出现频次");
+
+  svg_f.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.personID)+37; })
+      // .attr("width", x.rangeBand())
+      .attr("width", "12")
+      .attr("y", function(d) { return y(d.num); })
+      .attr("height", function(d) { return height - y(d.num); })
+      .on('dblclick', function(d) {
+  		
+  		var vals = d.start_end_frame.split("_");
+  	 	var len = vals.length;
+  	 	var fps=20;
+  	 	var start_time=Math.floor(vals[0]/fps);
+  	 	var end_time=Math.floor(vals[1]/fps);
+  	 	var interval=(end_time-start_time+1)*1000;
+	  	playClip(vals[0],vals[1]);
+ 	 	var idx=2;
+		  function run()
+		  {
+		  	playClip(vals[idx],vals[idx+1]);
+		  	start_time=Math.floor(vals[idx]/fps);
+			end_time=Math.floor(vals[idx+1]/fps);
+			interval=(end_time-start_time+1)*1000;
+		  	idx+=2;
+		  	if(idx<len)
+		  	{
+		  		setTimeout(run,interval);
+		  	}
+		  	
+		  }
+		  setTimeout(run,interval);
+		})
+      .on('mouseover', tip1.show)
+      .on('mouseout',tip1.hide);
+});
+
+
+function type1(d1) {
+  d1.num = +d1.num;
+  return d1;
+}
+</script>
+<script>
+var margin = {top: 40, right: 20, bottom: 30, left: 100},
+    width = 700 - margin.left - margin.right,
+    height = 200 - margin.top - margin.bottom;
+
+
+var formatPercent = d3.format(".0%");
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    // .tickFormat(formatPercent);
+    .tickFormat(d3.format("d"));
+
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+  	  return "<strong>ID:</strong> <span style='color:red'>" + d.personID +
+    "</span></br><strong>出现时间:</strong> <span style='color:red'>" + d.start_time + "s" + 
+    "</span></br><strong>持续时间:</strong> <span style='color:red'>" + d.apperanceDuration + "s" + 
+    "</span></br> <p><strong>你可以通过双击查看这个人出现的原视频</strong></p>";
+  })
+
+var svg = d3.select("#chartbar0").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg.call(tip);
+
+
+d3.tsv("data/adDMAppearanceDuration00.tsv", type, function(error, data) {
+  x.domain(data.map(function(d) { return d.start_time; }));
+  y.domain([0, d3.max(data, function(d) { return d.apperanceDuration; })]);
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("出现时长");
+
+svg.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.start_time)+16; })
+      // .attr("width", x.rangeBand())
+      .attr("width", "12")
+      .attr("y", function(d) { return y(d.apperanceDuration); })
+      .attr("height", function(d) { return height - y(d.apperanceDuration); })
+      .on('dblclick', function(d) {
+  		playClip(d.start_frame,d.end_frame)
+		})
+      .on('mouseover', tip.show)
+      .on('mouseout',tip.hide);
+});
+
+
+function type(d) {
+  d.apperanceDuration = +d.apperanceDuration;
+  return d;
+}
+</script>
+
+
+<script>
+var margin = {top: 40, right: 20, bottom: 30, left: 100},
+    width = 700 - margin.left - margin.right,
+    height = 200 - margin.top - margin.bottom;
+
+
+var formatPercent = d3.format(".0%");
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    // .tickFormat(formatPercent);
+    .tickFormat(d3.format("d"));
+
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+      return "<strong>ID:</strong> <span style='color:red'>" + d.personID +
+    "</span></br><strong>出现时间:</strong> <span style='color:red'>" + d.start_time +
+    "</span></br><strong>持续时间:</strong> <span style='color:red'>" + d.apperanceDuration + "s" + 
+    "</span></br> <p><strong>你可以通过双击查看这个人出现的原视频</strong></p>";
+  })
+
+var svg3= d3.select("#chartbar3").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg3.call(tip);
+
+
+d3.tsv("data/adDMAppearanceDuration33.tsv", type, function(error, data) {
+  x.domain(data.map(function(d) { return d.start_time; }));
+  y.domain([0, d3.max(data, function(d) { return d.apperanceDuration; })]);
+
+  svg3.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+
+  svg3.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("出现时长");
+
+svg3.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.start_time)+17; })
+      // .attr("width", x.rangeBand())
+      .attr("width", "12")
+      .attr("y", function(d) { return y(d.apperanceDuration); })
+      .attr("height", function(d) { return height - y(d.apperanceDuration); })
+      .on('dblclick', function(d) {
+  		playClip(d.start_frame,d.end_frame)
+		})
+      .on('mouseover', tip.show)
+      .on('mouseout',tip.hide);
+});
+
+
+function type(d) {
+  d.apperanceDuration = +d.apperanceDuration;
+  return d;
+}
+</script>
+
+
+
+<script>
+var margin = {top: 40, right: 20, bottom: 30, left: 100},
+    width = 700 - margin.left - margin.right,
+    height = 200 - margin.top - margin.bottom;
+
+
+var formatPercent = d3.format(".0%");
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    // .tickFormat(formatPercent);
+    .tickFormat(d3.format("d"));
+
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+      return "<strong>ID:</strong> <span style='color:red'>" + d.personID +
+    "</span></br><strong>出现时间:</strong> <span style='color:red'>" + d.start_time +
+    "</span></br><strong>持续时间:</strong> <span style='color:red'>" + d.apperanceDuration + "s" + 
+    "</span></br> <p><strong>你可以通过双击查看这个人出现的原视频</strong></p>";
+  })
+
+var svg4 = d3.select("#chartbar4").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg4.call(tip);
+
+
+d3.tsv("data/adDMAppearanceDuration44.tsv", type, function(error, data) {
+  x.domain(data.map(function(d) { return d.start_time; }));
+  y.domain([0, d3.max(data, function(d) { return d.apperanceDuration; })]);
+
+  svg4.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+
+  svg4.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("出现时长");
+
+svg4.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.start_time)+18; })
+      // .attr("width", x.rangeBand())
+      .attr("width", "12")
+      .attr("y", function(d) { return y(d.apperanceDuration); })
+      .attr("height", function(d) { return height - y(d.apperanceDuration); })
+      .on('dblclick', function(d) {
+  		playClip(d.start_frame,d.end_frame)
+		})
+      .on('mouseover', tip.show)
+      .on('mouseout',tip.hide);
+});
+
+
+function type(d) {
+  d.apperanceDuration = +d.apperanceDuration;
+  return d;
+}
+</script>
+
+
+<script>
+var margin = {top: 40, right: 20, bottom: 30, left: 100},
+    width = 700 - margin.left - margin.right,
+    height = 200 - margin.top - margin.bottom;
+
+
+var formatPercent = d3.format(".0%");
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    // .tickFormat(formatPercent);
+    .tickFormat(d3.format("d"));
+
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+     return "<strong>ID:</strong> <span style='color:red'>" + d.personID +
+    "</span></br><strong>出现时间:</strong> <span style='color:red'>" + d.start_time +
+    "</span></br><strong>持续时间:</strong> <span style='color:red'>" + d.apperanceDuration + "s" + 
+    "</span></br> <p><strong>你可以通过双击查看这个人出现的原视频</strong></p>";
+  })
+
+var svg7 = d3.select("#chartbar7").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg7.call(tip);
+
+
+d3.tsv("data/adDMAppearanceDuration77.tsv", type, function(error, data) {
+  x.domain(data.map(function(d) { return d.start_time; }));
+  y.domain([0, d3.max(data, function(d) { return d.apperanceDuration; })]);
+
+  svg7.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+
+  svg7.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("出现时长");
+
+svg7.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.start_time)+16; })
+      // .attr("width", x.rangeBand())
+      .attr("width", "12")
+      .attr("y", function(d) { return y(d.apperanceDuration); })
+      .attr("height", function(d) { return height - y(d.apperanceDuration); })
+      .on('dblclick', function(d) {
+  		playClip(d.start_frame,d.end_frame)
+		})
+      .on('mouseover', tip.show)
+      .on('mouseout',tip.hide);
+});
+
+
+function type(d) {
+  d.apperanceDuration = +d.apperanceDuration;
+  return d;
+}
+</script>
+
+<script>
+var margin = {top: 40, right: 20, bottom: 30, left: 100},
+    width = 700 - margin.left - margin.right,
+    height = 200 - margin.top - margin.bottom;
+
+
+var formatPercent = d3.format(".0%");
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    // .tickFormat(formatPercent);
+    .tickFormat(d3.format("d"));
+
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+     return "<strong>ID:</strong> <span style='color:red'>" + d.personID +
+    "</span></br><strong>出现时间:</strong> <span style='color:red'>" + d.start_time +
+    "</span></br><strong>持续时间:</strong> <span style='color:red'>" + d.apperanceDuration + "s" + 
+    "</span></br> <p><strong>你可以通过双击查看这个人出现的原视频</strong></p>";
+  })
+
+var svg8 = d3.select("#chartbar8").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg8.call(tip);
+
+
+d3.tsv("data/adDMAppearanceDuration88.tsv", type, function(error, data) {
+  x.domain(data.map(function(d) { return d.start_time; }));
+  y.domain([0, d3.max(data, function(d) { return d.apperanceDuration; })]);
+
+  svg8.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+
+  svg8.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("出现时长");
+
+svg8.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.start_time)+16; })
+      // .attr("width", x.rangeBand())
+      .attr("width", "12")
+      .attr("y", function(d) { return y(d.apperanceDuration); })
+      .attr("height", function(d) { return height - y(d.apperanceDuration); })
+      .on('dblclick', function(d) {
+  		playClip(d.start_frame,d.end_frame)
+		})
+      .on('mouseover', tip.show)
+      .on('mouseout',tip.hide);
+});
+
+
+function type(d) {
+  d.apperanceDuration = +d.apperanceDuration;
+  return d;
+}
+</script>
+
+
+<script>
+var margin = {top: 40, right: 20, bottom: 30, left: 100},
+    width = 700 - margin.left - margin.right,
+    height = 200 - margin.top - margin.bottom;
+
+
+var formatPercent = d3.format(".0%");
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    // .tickFormat(formatPercent);
+    .tickFormat(d3.format("d"));
+
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+      return "<strong>ID:</strong> <span style='color:red'>" + d.personID +
+    "</span></br><strong>出现时间:</strong> <span style='color:red'>" + d.start_time + 
+    "</span></br><strong>持续时间:</strong> <span style='color:red'>" + d.apperanceDuration + "s" + 
+    "</span></br> <p><strong>你可以通过双击查看这个人出现的原视频</strong></p>";
+  })
+
+var svg9 = d3.select("#chartbar9").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg9.call(tip);
+
+
+d3.tsv("data/adDMAppearanceDuration99.tsv", type, function(error, data) {
+  x.domain(data.map(function(d) { return d.start_time; }));
+  y.domain([0, d3.max(data, function(d) { return d.apperanceDuration; })]);
+
+  svg9.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+
+  svg9.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("出现时长");
+
+svg9.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.start_time)+16; })
+      // .attr("width", x.rangeBand())
+      .attr("width", "12")
+      .attr("y", function(d) { return y(d.apperanceDuration); })
+      .attr("height", function(d) { return height - y(d.apperanceDuration); })
+      .on('dblclick', function(d) {
+  		playClip(d.start_frame,d.end_frame);
+		})
+      .on('mouseover', tip.show)
+      .on('mouseout',tip.hide);
+});
+
+
+function type(d) {
+  d.apperanceDuration = +d.apperanceDuration;
+  return d;
+}
+</script>
+<script>
+
+
+var myVideo=document.getElementById("demo1");
+var mySpan=document.getElementById("play/pause");
+function playPause(){
+				if(myVideo.paused){
+					myVideo.play();
+					mySpan.className="glyphicon glyphicon-pause";
+				}
+				else{
+					myVideo.pause();
+					mySpan.className="glyphicon glyphicon-play";
+				}
+			}
+			
+			
+			function playClip(s_f,e_f)
+		  	 {
+		  	 	var fps=20;
+		  	 	var start_time=Math.floor(s_f/fps);
+		  	 	var end_time=Math.floor(e_f/fps);
+		  	 	var interval=(end_time-start_time+1)*1000;
+		  	 	
+				if(myVideo.paused)
+				{
+					stop();
+					myVideo.currentTime+=start_time;
+					myVideo.play();
+					sysButton();
+					setTimeout("myVideo.pause()",interval);
+					
+				}else
+				{
+					stop();
+					myVideo.pause();
+					myVideo.currentTime+=start_time;
+					myVideo.play();
+					sysButton();
+					setTimeout("myVideo.pause()",interval);
+					
+				}
+		  	 }
+		  	 function latetimeout(sec)
+     {
+            var d1 = new Date();
+            var s1 = d1.getTime();
+            var d2 = new Date();
+            var s2 = d2.getTime();
+            
+            var st = 0;
+
+            while(st<sec)
+            {
+             d2 = new Date();
+             s2 = d2.getTime();
+             st = (s2-s1)/1000;             
+             
+            }
+    }
+			function stop()
+			{
+				myVideo.currentTime = 0;
+				myVideo.pause();
+				mySpan.className="glyphicon glyphicon-play";
+			}
+			
+			function sysButton()
+			{
+				if(myVideo.paused)
+				{
+					mySpan.className="glyphicon glyphicon-pause";
+				}
+				else
+				{
+					mySpan.className="glyphicon glyphicon-play";				
+				}
+		}
+</script>
+
+	</body>
+	
+</html>
