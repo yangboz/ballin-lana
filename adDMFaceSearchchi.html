@@ -1,8 +1,14 @@
- <!DOCTYPE html>
+  <!DOCTYPE html>
 <html>
 	<head>
 		<title>数字媒体管理</title>
 		<meta charset="utf-8">
+		<style type="text/css">
+			#list{width:200px; height:450px; position:relative}
+			#list ul li{ float:left;width:180px; height:240px; margin:2px;list-style:none;}
+			#list ul li img{width:180px; height:180px}
+			#list ul li p{line-height:22px}
+		</style>
 		<script type="text/javascript">
 		function checkLogin()
 		{
@@ -52,7 +58,8 @@
 		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-		<link rel="stylesheet" href="css/layout.css"/>
+		<!-- <link rel="stylesheet" href="css/layout.css"/> -->
+		<link rel="stylesheet" href="css/DMLayout.css"/>
 		<script src="http://code.jquery.com/jquery-1.7.2.js"></script>
 	    <script type="text/javascript">
 	    $( document ).ready( function(){
@@ -72,21 +79,21 @@
 				    // alert( "success" );
 				    var data = $.parseJSON(data);
 				    console.log("Extracted Face Counting data:",data);
-				    $.each(data, function(i,item){
-	                	// var myJsonString = JSON.stringify(item['data'][0]);
-	                	 // var Data = JSON.stringify({ Name: 'name', Age: 'age', Email: 'email', City: 'city' });
-	                	 // var arr = new Array;
-	                	 // arr = [1,2,3];
-	                	$('#left_a1').append('<div class="step_box" thumb>'
-	                		+'<div class="thumbnail" href="#">'
-	                			+'<img class="img-responsive" src='+item['face_path']+' width="100" height="80">'
-	                			+'<div class="caption">'
-	                			+'<p><button onclick="playClip('+item['start_frame']+','+item['end_frame']+')">查看</button></p>'
-								+'<p><button onclick=Search('+JSON.stringify(item['data'])+')>检索</button></p>'
-                				+'</div>'
-                			+'</div>'
-            			+'</div>');
+				    var li = "";
+				    $.each(data, function(i,item){           			
+            			li += "<li>"
+									// +'<div class="col-lg-4 col-md-4 col-xs-6" thumb>'
+										+'<div class="thumbnail" href="#">'
+											+"<img src='"+item['face_path']+"'>"
+											+'<div class="caption">'
+												// +'<p>'+array['sim_count']+'</p>'
+												+'<p><button onclick="playClip('+item['start_frame']+','+item['end_frame']+')">查看</button><span>     </span><button onclick=Search('+JSON.stringify(item['data'])+')>检索</button></p>'
+											+'</div>'
+										+'</div>'
+									// +'</div>'
+								+"</li>";
 	        		});
+	        		$("#list ul").append(li);
 				  })
 				  .fail(function() {
 				    //alert( "error" );
@@ -96,49 +103,45 @@
 				  });
 			});
 		</script>
-			
-		<ol class="breadcrumb">
-		  <li><a href="DMIndexchi.html">主页</a></li>
-		  <li class="active">人脸检索</li>
-		</ol>
 	
-		<div class="panel panel-primary">
-		  <div class="panel-heading">人脸检索</div>
-		  <div class="panel-body">
-		  	
-		  	<div id="wrap" class="media">
-		  		<div id="left_a">
-		  			<a class="pull-left" href="#">
-			            <div class="videoUiWrapper thumbnail" style="position:fixed; left:0; width:200;">
-			            	<button type="button" class="btn btn-default btn-lg" onclick="playPause()">
-					  		<span id="play/pause" class="glyphicon glyphicon-play"></span>播放/暂停
-				  	  	</button>
-					  	<button type="button" class="btn btn-default btn-lg" onclick="stop()">
-					  		<span id="stop" class="glyphicon glyphicon-stop"></span>停止
-					  	</button>
-					 
-					  	<br /> 
-			                  <video width="300" height="214" id="demo3" controls>
-			                     <source src="data/xjp.ogg" type="video/ogg">
-			                    Your browser does not support the video tag.
-			                  </video>
-			            </div>
-			        </a>
-		  		</div>
-		  		<div id="right_a">
-		  			<div class="media-body">
-		            <!-- Row -->
-		          		<div id="left_a1" class="step_wrapper" style="overflow-y: scroll; height:400px;"></div>
-		          		<div id="right_a1" style="overflow: scroll; width:450px; height:400px;"></div>
-		            </div>
-		  		</div>
-		  		<div class="clear">
-		  			
-		  		</div>
-		  	</div>
-		  	</div>
-		  <div class="panel-footer">CNTV视频</div>
+		<div id="FScontainer">
+		  <div id="FSheader">
+		  	<ol class="breadcrumb">
+			  <li><a href="DMIndexchi.html">主页</a></li>
+			  <li class="active">人脸检索</li>
+			  <h2>人脸检索</h2>
+			</ol>
 		  </div>
+		  <div id="FSmenu" style="overflow-x: scroll;">
+		  </div>
+		  <div id="FSmainContent">
+		    <div id="FSsidebar" style="overflow: scroll;">
+		    	<div id="list">
+		    		<ul></ul>
+			    </div>
+			   	<!-- <div id="pagecount"></div> -->
+	    	</div>
+		    <div id="FScontent" style="overflow: scroll;">
+		    	<a>
+		            <div class="videoUiWrapper thumbnail">
+		            	<button type="button" class="btn btn-default btn-lg" onclick="playPause()">
+				  		<span id="play/pause" class="glyphicon glyphicon-play"></span>播放/暂停
+			  	  	</button>
+				  	<button type="button" class="btn btn-default btn-lg" onclick="stop()">
+				  		<span id="stop" class="glyphicon glyphicon-stop"></span>停止
+				  	</button>
+				 
+				  	<br /> 
+		                  <video width="300" height="214" id="demo3" controls>
+		                     <source src="data/xjp.ogg" type="video/ogg">
+		                    Your browser does not support the video tag.
+		                  </video>
+		                  <div class="panel-footer">CNTV视频</div>
+		            </div>
+		        </a>
+		    </div>
+		   </div>
+		</div>
 		 
 			<script type="text/javascript">
 		var myVideo=document.getElementById("demo3");
@@ -203,19 +206,19 @@
 		function Search(data)
 		{
 			var count = data.length;
-			$('#right_a1').empty();
+			$('#FSmenu').empty();
 			for(var i=0;i<count;++i)
 			{
-				$('#right_a1').append('<div thumb>'
-            		+'<div class="thumbnail" style="width:200px" href="#">'
+				$('#FSmenu').append('<div class="FSdiv-inline" thumb>'
+            		+'<div class="thumbnail" href="#">'
             			+'<img class="img-responsive" src='+data[i]['face_path']+' width="100" height="80">'
-            			+'<div class="caption">'
-								+'<p><button onclick="playClip('+data[i]['start_frame']+','+data[i]['end_frame']+')">查看</button></p>'
+						+'<div class="caption">'
+						+'<p>'+data[i]['sim']+'</p>'
+						+'<p><button onclick="playClip('+data[i]['start_frame']+','+data[i]['end_frame']+')">View</button></p>'
         				+'</div>'
         			+'</div>'
     			+'</div>');
 			}
-			
 		}
 		
 			</script>
