@@ -67,23 +67,63 @@ for($i=0;$i<$count;$i++)
 	}
 }
 
-$tsv_file = 'data/adDMAppearanceFrequency.tsv';
-$file = fopen($tsv_file,"w");
-$title_line = "personID	start_end_frame	face_path	num";
-// $title_line = "letter	frequency";
-$content = $title_line."\n";
-// print_r($data);
-foreach ($data as $key => $row) {
+
+
+
+
+
+$data = array_sort($data, 'num');
+function array_sort($arr,$keys,$type='desc')
+{
+
+	$keysvalue = $new_array = array();
+	foreach ($arr as $k=>$v)
+	{
+		$keysvalue[$k] = $v[$keys];
+	}
 	
-	$tmp = $data[$key]['personID']."\t".$data[$key]['s_e_frame']."\t".$data[$key]['face_path']."\t".$data[$key]['num'];
-	// echo $data[$key]['personID']."--".$data[$key]['s_e_frame']."--".$data[$key]['face_path']."--".$data[$k]['num']."</br>";
-	$content=$content.$tmp."\n";
+	$temp = array();
+	$i = 0;
+	foreach ($keysvalue as $key => $value) {
+	  $temp[] = array($i, $key, $value);
+	  $i++;
+	}
+	// print_r($temp);
+	uasort($temp, function($a, $b) {
+	 return $a[2] == $b[2] ? ($a[0] > $b[0]) : ($a[2] < $b[2] ? 1 : -1);
+	});
+	
+	$array = array();
+foreach ($temp as $val) {
+  $array[$val[1]] = $val[2];
 }
 
-echo $content."</br>";
-fwrite($file, $content);
-fclose($file);
-echo "ok";
+	foreach ($array as $k=>$v)
+	{
+		$new_array[$k] = $arr[$k];
+	}
+	return $new_array;
+}
+
+// print_r($data);
+
+// $tsv_file = 'data/adDMAppearanceFrequency.tsv';
+// $file = fopen($tsv_file,"w");
+// $title_line = "personID	start_end_frame	face_path	num";
+// // $title_line = "letter	frequency";
+// $content = $title_line."\n";
+// // print_r($data);
+// foreach ($data as $key => $row) {
+// 	
+	// $tmp = $data[$key]['personID']."\t".$data[$key]['s_e_frame']."\t".$data[$key]['face_path']."\t".$data[$key]['num'];
+	// // echo $data[$key]['personID']."--".$data[$key]['s_e_frame']."--".$data[$key]['face_path']."--".$data[$k]['num']."</br>";
+	// $content=$content.$tmp."\n";
+// }
+// 
+// echo $content."</br>";
+// fwrite($file, $content);
+// fclose($file);
+// echo "ok";
 
 ?>
 
